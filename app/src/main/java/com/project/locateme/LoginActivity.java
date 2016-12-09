@@ -37,4 +37,9 @@ public class LoginActivity extends AppCompatActivity implements ProviderLoginFra
         dataFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.activity_login, dataFragment).commit();
     }
+
+    @Override
+    public void startLoading() {
+        getFragmentManager().beginTransaction().replace(R.id.activity_login, new LoadingFragment()).commit();
+    }
 }

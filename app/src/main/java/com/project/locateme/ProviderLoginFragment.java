@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -24,9 +25,10 @@ import com.project.locateme.DateHolder.Profile;
 
 import org.json.JSONObject;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static java.util.Arrays.asList;
-import static java.util.Arrays.fill;
 
 /**
  * Created by Andrew on 12/9/2016.
@@ -34,14 +36,16 @@ import static java.util.Arrays.fill;
 
 public class ProviderLoginFragment extends Fragment {
     private View view;
-    private LoginButton loginButton;
     private CallbackManager callbackManager;
     private Profile profile;
     private Account account;
     private FillUserData fillUserData;
 
+    @BindView(R.id.login_button) LoginButton loginButton;
+
     public interface FillUserData{
         void fill(Account account);
+        void startLoading();
     }
 
     @Override
@@ -68,8 +72,7 @@ public class ProviderLoginFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         view = inflater.inflate(R.layout.fragment_provider_login, container, false);
-
-        loginButton = (LoginButton) view.findViewById(R.id.login_button);
+        ButterKnife.bind(this, view);
         facebookSetupAndLogin();
         return view;
     }
@@ -83,11 +86,13 @@ public class ProviderLoginFragment extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
+                fillUserData.startLoading();
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject data, GraphResponse response) {
+
                                 profile = new Profile();
                                 account = new Account();
                                 try{
