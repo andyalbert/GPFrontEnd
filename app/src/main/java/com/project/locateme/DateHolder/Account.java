@@ -1,12 +1,14 @@
 package com.project.locateme.DateHolder;
 
+import java.io.Serializable;
+
 /**
  * @author Andrew Albert
  * @version 1.0
  * @since 12/9/2016
  */
 
-public class Account {
+public class Account implements Serializable {
     private String password;
     private String id;
     private String type;

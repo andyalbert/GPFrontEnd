@@ -2,6 +2,7 @@ package com.project.locateme.DateHolder;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -11,7 +12,7 @@ import java.util.GregorianCalendar;
  * @since 12/9/2016
  */
 
-public class Profile {
+public class Profile implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
