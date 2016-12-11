@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class FillUserDataFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_fill_user_details, container, false);
         account = (Account) getArguments().getSerializable("account");
         profile = account.getProfile();
+        //Log.i("profile" , profile.getEmail()+profile.getFirstName()+profile.getHomeTown()+profile.getPictureURL());
 
         return view;
     }

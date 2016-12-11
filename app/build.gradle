@@ -1,5 +1,14 @@
-apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
 
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.1"
@@ -20,6 +29,7 @@ android {
 }
 repositories {
     mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -34,4 +44,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile('com.twitter.sdk.android:twitter:2.3.0@aar') {
+        transitive = true;
+    }
 }

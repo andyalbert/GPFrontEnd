@@ -36,8 +36,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name="com.twitter.sdk.android.core.identity.OAuthActivity" />
         <!-- the meta data needed for facebook integration-->
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="fe81ddb79003fa1a477deb9964609132a4c306bd" />
     </application>
 
 </manifest>
