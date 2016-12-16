@@ -158,6 +158,7 @@ public class ProviderLoginFragment extends Fragment {
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
+                fillUserData.startLoading();
                 TwitterSession session = result.data;
                 Twitter twitter = Twitter.getInstance();
                 TwitterApiClient apiClient = twitter.core.getApiClient(session);
@@ -167,8 +168,8 @@ public class ProviderLoginFragment extends Fragment {
                     @Override
                     public void success(Result<User> result) {
                         twitterLoginButton.setVisibility(View.GONE);
-                        fillUserData.startLoading();
-                        Toast.makeText(getActivity(), "Successfuly logged in !", Toast.LENGTH_SHORT).show();
+                        //// TODO: 12/11/2016 khaled, i had to comment this cuz it break the app with the loading logo running
+//                        Toast.makeText(getActivity(), "Successfully logged in !", Toast.LENGTH_SHORT).show();
                         profile = new Profile();
                         account = new Account();
                         account.setId(result.data.idStr);
@@ -182,8 +183,6 @@ public class ProviderLoginFragment extends Fragment {
                         profile.setPictureURL(result.data.profileImageUrl);
                         account.setProfile(profile);
                         fillUserData.fill(account);
-
-
                     }
 
                     @Override
@@ -210,7 +209,6 @@ public class ProviderLoginFragment extends Fragment {
 
     public interface FillUserData {
         void fill(Account account);
-
         void startLoading();
     }
 

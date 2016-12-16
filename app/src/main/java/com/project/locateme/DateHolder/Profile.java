@@ -65,6 +65,12 @@ public class Profile implements Serializable {
         return birthday;
     }
 
+//    public String getBirthday(){
+//        String value;
+//        value = birthday.get(Calendar.DAY_OF_MONTH) + "/" + birthday.get(Calendar.MONTH) + "/" + birthday.get(Calendar.YEAR);
+//        return value;
+//    }
+
     /**
      * this a setter that uses a string date in the format day/month/year and parse it into the calender date
      * @param birthday

@@ -2,4 +2,6 @@
     <string name="app_name">LocateMe</string>
     <string name="facebook_app_id">1331684650215020</string>
     <string name="fb_login_protocol_scheme">fb1331684650215020</string>
+    <string name="twitter_secret">KlopfY41uRZaMU5a1b025qS4W8qoVjCokkMcbUkyew2UHld2Oe</string>
+    <string name="twitter_key">Qcwv4vyvEMZTjwWQSjpLhJsGU</string>
 </resources>
