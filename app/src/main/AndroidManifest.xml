@@ -12,14 +12,17 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".MainActivity">
+            <!--this is the main and launcher, just kept like this now -->
+        </activity>
+        <activity android:name=".LoginActivity" android:theme="@style/LoginActivityAppTheme"/>
+        <activity android:name=".ImagePickerActivity" android:theme="@style/PopUp"/>
+        <activity android:name=".MainViews.MainUserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:theme="@style/LoginActivityAppTheme"/>
-        <activity android:name=".ImagePickerActivity" android:theme="@style/PopUp"/>
 
 
         <activity android:name="com.facebook.FacebookActivity"
