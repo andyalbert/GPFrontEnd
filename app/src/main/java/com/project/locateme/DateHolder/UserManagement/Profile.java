@@ -1,4 +1,4 @@
-package com.project.locateme.DateHolder;
+package com.project.locateme.DateHolder.UserManagement;
 
 import android.graphics.Bitmap;
 

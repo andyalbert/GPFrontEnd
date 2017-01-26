@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.project.locateme.Utilities.FragmentsFactory;
+
 /**
  * Created by Andrew on 1/25/2017.
  */
@@ -17,7 +19,7 @@ public class MainViewsAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentsFactory.getFragment(position);
+        return FragmentsFactory.getFragmentForTabs(position);
     }
 
     @Override
