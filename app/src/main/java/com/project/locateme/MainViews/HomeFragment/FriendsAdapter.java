@@ -2,6 +2,7 @@ package com.project.locateme.mainViews.homeFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.project.locateme.HolderActivity;
 import com.project.locateme.dateHolder.userManagement.Profile;
 import com.project.locateme.R;
+import com.project.locateme.utilities.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Andrew on 1/26/2017.
@@ -60,7 +64,10 @@ public class FriendsAdapter extends ArrayAdapter<Profile> {
             holder.seeMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //// TODO: 1/26/2017 this should link to the activity containing all the friends of the user
+                    Intent intent = new Intent(getContext(), HolderActivity.class);
+                    intent.putExtra(getContext().getString(R.string.fragment_name), Constants.ALL_FRIENDS_FRAGMENT);
+                    intent.putExtra(Constants.HASHMAP, new HashMap<String, Object>());
+                    getContext().startActivity(intent);
                 }
             });
         } else{

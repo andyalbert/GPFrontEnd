@@ -19,9 +19,18 @@ import com.project.locateme.utilities.FragmentsFactory;
 
 public class HolderActivity extends AppCompatActivity {
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_holder);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         String fragmentName = getIntent().getExtras().getString(getResources().getString(R.string.fragment_name));
         Fragment fragment = FragmentsFactory.getFragmentForActivityHolder(fragmentName);
         Bundle bundle = new Bundle();

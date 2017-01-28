@@ -1,5 +1,7 @@
 package com.project.locateme.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,10 +11,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.facebook.TestUserManager;
 import com.project.locateme.dateHolder.userManagement.Profile;
 import com.project.locateme.mainViews.homeFragment.FriendsAdapter;
 import com.project.locateme.R;
 import com.project.locateme.utilities.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +42,7 @@ public class AllFriendsFragment extends Fragment {
     private View view;
     private ArrayList<Profile> profiles;
     private ArrayAdapter<Profile> profileArrayAdapter;
-    private HashMap<String, Object> parameters;
+    private RequestQueue requestQueue;
     @BindView(R.id.fragment_all_friends_list)
     ListView friendsListView;
 
@@ -41,11 +53,43 @@ public class AllFriendsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_all_friends, container);
         ButterKnife.bind(this, view);
-        parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
-        //// TODO: 1/26/2017 add an option here to connect to web using bundle and get profile id and password
+        //parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);, not needed any more
+        loadFriendsProfiles();
 
-        setFriendsListView();
         return view;
+    }
+
+    private void loadFriendsProfiles() {
+        JSONObject json = new JSONObject();
+        SharedPreferences pref = getContext().getSharedPreferences((getString(R.string.shared_preferences_name)), Context.MODE_PRIVATE);
+        try {
+            json.put("id", pref.getString(getString(R.string.user_id), ""));
+            json.put("pass", pref.getString(getString(R.string.user_password), ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_ALL_FRIENDS, json, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //todo deal with data, careful as it's json object not array
+                setFriendsListView();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        jsonObjectRequest.setTag("all_friends");
+        requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(requestQueue != null)
+            requestQueue.cancelAll("all_friends");
     }
 
     private void setFriendsListView() {

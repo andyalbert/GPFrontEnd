@@ -12,4 +12,5 @@ public class Constants {
     public static final String ALL_FRIENDS_FRAGMENT = "allFriends"; //used for all friends activity
     public static final String HASHMAP = "hashmap"; //used for getting the hashmap from sender to receiver activity
     public static final String UPDATE_LOCATION_URL = ""; //// TODO: 1/28/2017 this from backend
+    public static final String GET_ALL_FRIENDS = ""; //// TODO: 1/28/2017 get from backend team
 }
