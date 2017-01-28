@@ -1,14 +1,17 @@
-package com.project.locateme.MainViews;
+package com.project.locateme.mainViews;
 
+import android.content.ComponentName;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.project.locateme.R;
+import com.project.locateme.updatingUserLocation.GPSAndInternetStateChangeReceiver;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,5 +74,21 @@ public class MainUserActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // TODO: 1/27/2017 remove this from here and insert it in the after login activity so it got fixed every time
+        // this is used to set the not enabled broadcast receiver of the updating user location into true
+        PackageManager pm  = MainUserActivity.this.getPackageManager();
+        ComponentName componentName = new ComponentName(MainUserActivity.this, GPSAndInternetStateChangeReceiver.class);
+        pm.setComponentEnabledSetting(componentName,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+
+        //// TODO: 1/28/2017 transfer this to login
+        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
+        preferences.edit().putString(getString(R.string.user_id), "1");//// TODO: 1/28/2017 this id is static for testing
+        preferences.edit().putString(getString(R.string.user_password), "00000000").apply(); //// TODO: 1/28/2017 also static, must be changed
     }
 }

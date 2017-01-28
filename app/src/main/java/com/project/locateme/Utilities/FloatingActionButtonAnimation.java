@@ -1,4 +1,4 @@
-package com.project.locateme.Utilities;
+package com.project.locateme.utilities;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

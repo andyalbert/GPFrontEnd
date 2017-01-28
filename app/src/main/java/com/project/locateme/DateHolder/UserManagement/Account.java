@@ -1,6 +1,4 @@
-package com.project.locateme.DateHolder.UserManagement;
-
-import com.project.locateme.DateHolder.UserManagement.Profile;
+package com.project.locateme.dateHolder.userManagement;
 
 import java.io.Serializable;
 

@@ -1,14 +1,15 @@
-package com.project.locateme.Utilities;
+package com.project.locateme.utilities;
 
 
 
-import android.app.Fragment;
 
-import com.project.locateme.Fragments.AllFriendsFragment;
-import com.project.locateme.MainViews.HomeFragment.HomeFragment;
-import com.project.locateme.MainViews.MessageFragment;
-import com.project.locateme.MainViews.NotificationFragment;
-import com.project.locateme.MainViews.SettingsFragment;
+import android.support.v4.app.Fragment;
+
+import com.project.locateme.fragments.AllFriendsFragment;
+import com.project.locateme.mainViews.homeFragment.HomeFragment;
+import com.project.locateme.mainViews.MessageFragment;
+import com.project.locateme.mainViews.NotificationFragment;
+import com.project.locateme.mainViews.SettingsFragment;
 
 /**
  * @author Andrew

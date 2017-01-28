@@ -1,15 +1,14 @@
-package com.project.locateme.MainViews;
+package com.project.locateme.mainViews;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.project.locateme.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**

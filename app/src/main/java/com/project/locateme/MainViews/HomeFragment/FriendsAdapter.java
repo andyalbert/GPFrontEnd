@@ -1,4 +1,4 @@
-package com.project.locateme.MainViews.HomeFragment;
+package com.project.locateme.mainViews.homeFragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.project.locateme.DateHolder.UserManagement.Profile;
+import com.project.locateme.dateHolder.userManagement.Profile;
 import com.project.locateme.R;
 
 import java.util.ArrayList;

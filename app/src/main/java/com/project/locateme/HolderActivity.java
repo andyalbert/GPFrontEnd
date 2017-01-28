@@ -1,16 +1,12 @@
 package com.project.locateme;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
-import android.view.View;
 
-import com.project.locateme.Utilities.Constants;
-import com.project.locateme.Utilities.FragmentsFactory;
+import com.project.locateme.utilities.Constants;
+import com.project.locateme.utilities.FragmentsFactory;
 
 /**
  * @author Andrew
@@ -33,6 +29,6 @@ public class HolderActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
 
         if(savedInstanceState == null)
-            getFragmentManager().beginTransaction().replace(R.id.activity_holder_main_view, fragment);
+            getSupportFragmentManager().beginTransaction().replace(R.id.activity_holder_main_view, fragment);
     }
 }

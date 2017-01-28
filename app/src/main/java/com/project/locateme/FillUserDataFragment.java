@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.project.locateme.DateHolder.UserManagement.Account;
-import com.project.locateme.DateHolder.UserManagement.Profile;
+import com.project.locateme.dateHolder.userManagement.Account;
+import com.project.locateme.dateHolder.userManagement.Profile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

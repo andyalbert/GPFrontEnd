@@ -1,10 +1,10 @@
-package com.project.locateme.MainViews;
+package com.project.locateme.mainViews;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.project.locateme.Utilities.FragmentsFactory;
+import com.project.locateme.utilities.FragmentsFactory;
 
 /**
  * Created by Andrew on 1/25/2017.

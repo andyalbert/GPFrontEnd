@@ -1,9 +1,8 @@
-package com.project.locateme.MainViews.HomeFragment;
+package com.project.locateme.mainViews.homeFragment;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -11,14 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.project.locateme.DateHolder.EventsManager.Event;
+import com.project.locateme.dateHolder.eventsManager.Event;
 import com.project.locateme.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
-import butterknife.ButterKnife;
 
 /**
  * @author Andrew

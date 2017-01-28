@@ -1,9 +1,9 @@
-package com.project.locateme.MainViews.HomeFragment;
+package com.project.locateme.mainViews.homeFragment;
 
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.project.locateme.DateHolder.EventsManager.Event;
-import com.project.locateme.DateHolder.LocationManager.Location;
-import com.project.locateme.DateHolder.UserManagement.Profile;
+import com.project.locateme.dateHolder.eventsManager.Event;
+import com.project.locateme.dateHolder.locationManager.Location;
+import com.project.locateme.dateHolder.userManagement.Profile;
 import com.project.locateme.R;
 
 import java.sql.Timestamp;

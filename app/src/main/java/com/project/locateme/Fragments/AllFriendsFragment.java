@@ -1,18 +1,18 @@
-package com.project.locateme.Fragments;
+package com.project.locateme.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.project.locateme.DateHolder.UserManagement.Profile;
-import com.project.locateme.MainViews.HomeFragment.FriendsAdapter;
+import com.project.locateme.dateHolder.userManagement.Profile;
+import com.project.locateme.mainViews.homeFragment.FriendsAdapter;
 import com.project.locateme.R;
-import com.project.locateme.Utilities.Constants;
+import com.project.locateme.utilities.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
