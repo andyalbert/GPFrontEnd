@@ -10,25 +10,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.project.locateme.DateHolder.Account;
-import com.project.locateme.DateHolder.Profile;
+import com.project.locateme.dateHolder.userManagement.Account;
+import com.project.locateme.dateHolder.userManagement.Profile;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
@@ -37,17 +33,16 @@ import com.twitter.sdk.android.core.services.AccountService;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 
 import static java.util.Arrays.asList;
 
 /**
- * Created by Andrew on 12/9/2016.
+ * @author Andrew
+ * @since 12/9/2017
+ * @version 1.0
  */
 
 public class ProviderLoginFragment extends Fragment {

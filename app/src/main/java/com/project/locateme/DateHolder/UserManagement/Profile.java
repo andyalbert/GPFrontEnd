@@ -1,6 +1,4 @@
-package com.project.locateme.DateHolder;
-
-import android.graphics.Bitmap;
+package com.project.locateme.dateHolder.userManagement;
 
 import java.io.Serializable;
 import java.util.Calendar;

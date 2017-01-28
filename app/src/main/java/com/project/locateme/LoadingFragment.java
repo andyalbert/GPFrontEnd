@@ -14,7 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Andrew on 12/9/2016.
+ * @author Andrew
+ * @since 9/12/2016
+ * @version 1.0
  */
 
 public class LoadingFragment extends Fragment {

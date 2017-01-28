@@ -1,4 +1,4 @@
-package com.project.locateme.MainViews;
+package com.project.locateme.mainViews;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 
 import com.project.locateme.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Andrew on 1/25/2017.
+ * @author Andrew
+ * @since 25/1/2017
+ * @version 1.0
  */
 public class NotificationFragment extends Fragment {
     private View view;

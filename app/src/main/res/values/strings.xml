@@ -4,4 +4,10 @@
     <string name="fb_login_protocol_scheme">fb1331684650215020</string>
     <string name="twitter_secret">KlopfY41uRZaMU5a1b025qS4W8qoVjCokkMcbUkyew2UHld2Oe</string>
     <string name="twitter_key">Qcwv4vyvEMZTjwWQSjpLhJsGU</string>
+    <string name="last_updated">last updated</string>
+    <string name="see_more"><u>see more</u></string>
+    <string name="fragment_name">fragment name</string>
+    <string name="shared_preferences_name">locateMePref</string>
+    <string name="user_id">user id</string>
+    <string name="user_password">user pass</string>
 </resources>

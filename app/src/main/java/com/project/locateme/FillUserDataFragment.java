@@ -11,15 +11,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.project.locateme.DateHolder.Account;
-import com.project.locateme.DateHolder.Profile;
-import com.project.locateme.Utilities.General;
+import com.project.locateme.dateHolder.userManagement.Account;
+import com.project.locateme.dateHolder.userManagement.Profile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Andrew on 12/9/2016.
+ * @author Andrew
+ * @since 12/12/2017
+ * @version 1.0
  */
 
 public class FillUserDataFragment extends Fragment {

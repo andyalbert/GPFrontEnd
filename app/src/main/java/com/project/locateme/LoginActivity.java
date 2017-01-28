@@ -1,7 +1,6 @@
 package com.project.locateme;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,16 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
-import com.project.locateme.DateHolder.Account;
-import com.project.locateme.DateHolder.Profile;
+import com.project.locateme.dateHolder.userManagement.Account;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import io.fabric.sdk.android.Fabric;
 
 /**
- * Created by Andrew on 12/8/2016.
+ * @author Andrew
+ * @since 8/12/2017
+ * @version 1.0
  */
 
 public class LoginActivity extends AppCompatActivity implements ProviderLoginFragment.FillUserData {

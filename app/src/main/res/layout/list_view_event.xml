@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"  android:gravity="center_vertical"
+    >
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/list_view_event_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/ic_event"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="0dp"
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_view_event_name"
+        android:text="Event name"
+        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_weight="2"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content" android:layout_gravity="bottom"
+        android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_view_event_location"
+            android:text="giza"
+            android:layout_gravity="right"
+            android:textSize="@dimen/text_size_small"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_view_event_time"
+            android:text="15-11-2016"
+            android:textSize="@dimen/text_size_small"
+            android:layout_gravity="right"
+            />
+    </LinearLayout>
+</LinearLayout>

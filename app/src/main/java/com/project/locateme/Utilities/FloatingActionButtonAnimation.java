@@ -1,4 +1,4 @@
-package com.project.locateme.Utilities;
+package com.project.locateme.utilities;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -8,7 +8,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by Andrew on 12/16/2016.
+ * @author Andrew
+ * @since 16/12/2017
+ * @version 1.0
  */
 
 public class FloatingActionButtonAnimation extends CoordinatorLayout.Behavior<FloatingActionButton> {
