@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
 /**
- * Created by Andrew on 12/16/2016.
+ * @author Andrew
+ * @since 16/12/2016
+ * @version 1.0
  */
 
 public class ImagePickerActivity extends AppCompatActivity {

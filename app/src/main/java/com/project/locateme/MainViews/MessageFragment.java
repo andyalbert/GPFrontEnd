@@ -12,7 +12,9 @@ import com.project.locateme.R;
 import butterknife.ButterKnife;
 
 /**
- * Created by Andrew on 1/25/2017.
+ * @author Andrew
+ * @since 25/1/2017
+ * @version 1.0
  */
 public class MessageFragment extends Fragment {
     private View view;

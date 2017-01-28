@@ -15,7 +15,9 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
 
 /**
- * Created by Andrew on 12/8/2016.
+ * @author Andrew
+ * @since 8/12/2017
+ * @version 1.0
  */
 
 public class LoginActivity extends AppCompatActivity implements ProviderLoginFragment.FillUserData {

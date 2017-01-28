@@ -40,7 +40,9 @@ import retrofit2.Call;
 import static java.util.Arrays.asList;
 
 /**
- * Created by Andrew on 12/9/2016.
+ * @author Andrew
+ * @since 12/9/2017
+ * @version 1.0
  */
 
 public class ProviderLoginFragment extends Fragment {

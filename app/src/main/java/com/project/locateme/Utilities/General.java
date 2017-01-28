@@ -7,7 +7,9 @@ import android.net.NetworkInfo;
 import java.util.Calendar;
 
 /**
- * Created by Andrew on 12/11/2016.
+ * @author Andrew
+ * @since 12/11/2017
+ * @version 1.0
  */
 
 public class General {

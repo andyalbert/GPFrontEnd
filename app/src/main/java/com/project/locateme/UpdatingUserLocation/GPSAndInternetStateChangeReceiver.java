@@ -10,7 +10,9 @@ import android.location.LocationManager;
 import com.project.locateme.utilities.General;
 
 /**
- * Created by Andrew on 1/27/2017.
+ * @author Andrew
+ * @since 27/1/2017
+ * @version 1.0
  */
 
 public class GPSAndInternetStateChangeReceiver extends BroadcastReceiver {

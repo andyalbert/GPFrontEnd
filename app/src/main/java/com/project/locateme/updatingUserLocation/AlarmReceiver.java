@@ -16,7 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Andrew on 1/27/2017.
+ * @author Andrew
+ * @since 27/1/2017
+ * @version 1.1
  */
 
 public class AlarmReceiver extends BroadcastReceiver {

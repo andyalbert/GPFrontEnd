@@ -18,7 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Andrew on 12/9/2016.
+ * @author Andrew
+ * @since 12/12/2017
+ * @version 1.0
  */
 
 public class FillUserDataFragment extends Fragment {

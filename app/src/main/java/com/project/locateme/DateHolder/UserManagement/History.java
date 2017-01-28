@@ -6,7 +6,9 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 /**
- * Created by Andrew on 1/26/2017.
+ * @author Andrew
+ * @since 26/1/2017
+ * @version 1.0
  */
 
 public class History {

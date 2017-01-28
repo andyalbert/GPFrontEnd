@@ -9,6 +9,13 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import io.fabric.sdk.android.Fabric;
 
+/**
+ * @author Andrew
+ * @since 9/12/2016
+ * @version 1.0
+ */
+
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TWITTER_KEY = "Qcwv4vyvEMZTjwWQSjpLhJsGU";
