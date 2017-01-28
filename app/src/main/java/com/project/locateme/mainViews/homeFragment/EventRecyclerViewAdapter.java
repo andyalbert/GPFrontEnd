@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.project.locateme.R;
-import com.project.locateme.dateHolder.eventsManager.Event;
+import com.project.locateme.dataHolder.eventsManager.Event;
 
 import java.util.ArrayList;
 

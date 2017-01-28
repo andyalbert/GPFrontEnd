@@ -1,4 +1,4 @@
-package com.project.locateme.MainViews;
+package com.project.locateme.mainViews;
 
 
 import android.content.Intent;

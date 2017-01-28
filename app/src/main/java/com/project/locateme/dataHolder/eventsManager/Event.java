@@ -1,7 +1,7 @@
-package com.project.locateme.dateHolder.eventsManager;
+package com.project.locateme.dataHolder.eventsManager;
 
-import com.project.locateme.dateHolder.locationManager.Location;
-import com.project.locateme.dateHolder.userManagement.Profile;
+import com.project.locateme.dataHolder.locationManager.Location;
+import com.project.locateme.dataHolder.userManagement.Profile;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

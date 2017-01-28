@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
-import com.project.locateme.dateHolder.userManagement.Account;
+import com.project.locateme.dataHolder.userManagement.Account;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 

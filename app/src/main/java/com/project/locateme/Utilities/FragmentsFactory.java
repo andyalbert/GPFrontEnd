@@ -1,11 +1,8 @@
 package com.project.locateme.utilities;
-
-
-
-
 import android.support.v4.app.Fragment;
 
 import com.project.locateme.fragments.AllFriendsFragment;
+import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.mainViews.MessageFragment;
 import com.project.locateme.mainViews.NotificationFragment;
@@ -13,7 +10,7 @@ import com.project.locateme.mainViews.SettingsFragment;
 
 /**
  * @author Andrew
- * @version 1.1
+ * @version 1.2
  * @since 25/1/2017
  */
 
@@ -24,7 +21,7 @@ public class FragmentsFactory {
             fragment = new HomeFragment();
         else if(position == 1)
             fragment = new MessageFragment();
-        else if(position == 1)
+        else if(position == 2)
             fragment = new NotificationFragment();
         else
             fragment = new SettingsFragment();
@@ -34,6 +31,8 @@ public class FragmentsFactory {
         Fragment fragment = null;
         if(name.equals(Constants.ALL_FRIENDS_FRAGMENT))
             fragment = new AllFriendsFragment();
+        else if(name.equals(Constants.EVENT_FRAGMENT))
+            fragment = new EventFragment();
         //add more as we go ahead in the application
         return fragment;
     }

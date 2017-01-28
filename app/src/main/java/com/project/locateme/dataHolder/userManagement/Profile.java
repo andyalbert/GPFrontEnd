@@ -1,4 +1,4 @@
-package com.project.locateme.dateHolder.userManagement;
+package com.project.locateme.dataHolder.userManagement;
 
 import java.io.Serializable;
 import java.util.Calendar;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.project.locateme.HolderActivity;
-import com.project.locateme.dateHolder.userManagement.Profile;
+import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.R;
 import com.project.locateme.utilities.Constants;
 

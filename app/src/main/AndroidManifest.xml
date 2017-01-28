@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.locateme">
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission-sdk-23 android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
@@ -67,8 +64,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="fe81ddb79003fa1a477deb9964609132a4c306bd" />
-
-        <activity android:name=".MainViews.EventActivity"></activity>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.project.locateme.utilities.Constants;
 import com.project.locateme.utilities.FragmentsFactory;
@@ -18,11 +19,6 @@ import com.project.locateme.utilities.FragmentsFactory;
  */
 
 public class HolderActivity extends AppCompatActivity {
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        this.finish();
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +34,16 @@ public class HolderActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
 
         if(savedInstanceState == null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.activity_holder_main_view, fragment);
+            getSupportFragmentManager().beginTransaction().replace(R.id.activity_holder_main_view, fragment).commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                break;
+        }
+        return false;
     }
 }

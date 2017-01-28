@@ -1,4 +1,4 @@
-package com.project.locateme.dateHolder.locationManager;
+package com.project.locateme.dataHolder.locationManager;
 
 /**
  * @author Andrew

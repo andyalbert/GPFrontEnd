@@ -1,6 +1,6 @@
-package com.project.locateme.dateHolder.userManagement;
+package com.project.locateme.dataHolder.userManagement;
 
-import com.project.locateme.dateHolder.locationManager.Location;
+import com.project.locateme.dataHolder.locationManager.Location;
 
 import java.sql.Timestamp;
 import java.util.HashMap;

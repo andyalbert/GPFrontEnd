@@ -17,8 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.TestUserManager;
-import com.project.locateme.dateHolder.userManagement.Profile;
+import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.mainViews.homeFragment.FriendsAdapter;
 import com.project.locateme.R;
 import com.project.locateme.utilities.Constants;
@@ -27,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,17 +49,17 @@ public class AllFriendsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_all_friends, container);
+        view = inflater.inflate(R.layout.fragment_all_friends, container, false);
         ButterKnife.bind(this, view);
         //parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);, not needed any more
-        loadFriendsProfiles();
+        //loadFriendsProfiles();
 
         return view;
     }
 
     private void loadFriendsProfiles() {
         JSONObject json = new JSONObject();
-        SharedPreferences pref = getContext().getSharedPreferences((getString(R.string.shared_preferences_name)), Context.MODE_PRIVATE);
+        SharedPreferences pref = getActivity().getSharedPreferences((getString(R.string.shared_preferences_name)), Context.MODE_PRIVATE);
         try {
             json.put("id", pref.getString(getString(R.string.user_id), ""));
             json.put("pass", pref.getString(getString(R.string.user_password), ""));
