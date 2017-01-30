@@ -11,7 +11,6 @@ import android.widget.Button;
 
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
-import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.utilities.Constants;
 
 import java.util.HashMap;
