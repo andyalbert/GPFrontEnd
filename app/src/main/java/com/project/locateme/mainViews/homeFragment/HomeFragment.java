@@ -14,20 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.dataHolder.locationManager.Location;
 import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.R;
-import com.project.locateme.utilities.Constants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
