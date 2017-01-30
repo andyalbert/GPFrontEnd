@@ -42,13 +42,13 @@ public class EventsAdapter extends ArrayAdapter<Event> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null){
-            convertView = ((Activity)context).getLayoutInflater().inflate(R.layout.list_view_event, null);
+            convertView = ((Activity)context).getLayoutInflater().inflate(R.layout.list_item_event, null);
             holder = new ViewHolder();
 
-            holder.date = (TextView)convertView.findViewById(R.id.list_view_event_time);
-            holder.location = (TextView)convertView.findViewById(R.id.list_view_event_location);
-            holder.name = (TextView)convertView.findViewById(R.id.list_view_event_name);
-            holder.image = (ImageView)convertView.findViewById(R.id.list_view_event_image);
+            holder.date = (TextView)convertView.findViewById(R.id.list_item_event_time);
+            holder.location = (TextView)convertView.findViewById(R.id.list_item_event_location);
+            holder.name = (TextView)convertView.findViewById(R.id.list_item_event_name);
+            holder.image = (ImageView)convertView.findViewById(R.id.list_item_event_image);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();

@@ -1,6 +1,8 @@
 package com.project.locateme.mainViews.homeFragment;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,10 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.dataHolder.locationManager.Location;
 import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.R;
+import com.project.locateme.utilities.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -38,6 +50,10 @@ public class HomeFragment extends Fragment {
     private ArrayAdapter<Profile> friendsArrayAdapter;
     private ArrayList<Profile> profiles;
     private View view;
+    private JsonObjectRequest friendObjectRequest;
+    private JsonObjectRequest eventObjectRequest;
+    private RequestQueue requestQueue;
+    private SharedPreferences sharedPreferences;
     @BindView(R.id.fragment_home_events_list)
     //RecyclerView eventRecyclerView;
      ListView eventsListView;
@@ -55,6 +71,8 @@ public class HomeFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+        sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        requestQueue = Volley.newRequestQueue(getActivity());
         setEventListViewItems();
         setFriendsListViewItems();
 
@@ -65,6 +83,30 @@ public class HomeFragment extends Fragment {
         //dummy data for testing
         friendsArrayAdapter = new FriendsAdapter(getActivity(), R.id.fragment_home_friends_list, new ArrayList<Profile>(), FriendsAdapter.usage.SMALL_LIST);
         friendsListView.setAdapter(friendsArrayAdapter);
+
+        //// TODO: 1/29/2017 uncomment these
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
+//            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
+//            //// TODO: 1/29/2017 insert the location into the request, here abdo :D
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        friendObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_CLOSEST_FRIENDS, jsonObject, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                //// TODO: 1/29/2017 fill here the friend list
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                error.printStackTrace();
+//            }
+//        });
+//        requestQueue.add(friendObjectRequest);
+
+
         //friendAdapter = new FriendsRecyclerAdapter(getContext(), new ArrayList<Profile>(), FriendsRecyclerAdapter.usage.SMALL_LIST);
         //RecyclerView.LayoutManager friendLayoutManager = new LinearLayoutManager(getContext());
         //friendRecyclerView.setLayoutManager(friendLayoutManager);
@@ -87,10 +129,39 @@ public class HomeFragment extends Fragment {
         events.addAll(Arrays.asList(e, e, e1, e1, e1, e1, e1, e1, e1, e1, e1, e1));
         eventArrayAdapter = new EventsAdapter(getContext(), R.id.fragment_home_events_list, events);
         eventsListView.setAdapter(eventArrayAdapter);
+        //// TODO: 1/29/2017 uncomment these
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
+//            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
+//        } catch (JSONException exception) {
+//            exception.printStackTrace();
+//        }
+//        eventObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_UPCOMING_EVENTS, jsonObject, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                //// TODO: 1/29/2017 fill here the event list
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                error.printStackTrace();
+//            }
+//        });
+//        requestQueue.add(eventObjectRequest);
+
+
+
         //eventAdapter = new EventRecyclerViewAdapter(getContext(), events);
         //RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(getContext());
         //eventRecyclerView.setLayoutManager(eventLayoutManager);
         //eventRecyclerView.setAdapter(eventAdapter);
     }
 
+    @Override
+    public void onDestroyView() {
+        if(requestQueue != null)
+            requestQueue.stop();
+        super.onDestroyView();
+    }
 }

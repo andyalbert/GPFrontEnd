@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content" android:gravity="center_vertical">
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/list_view_friend_image"
+        android:id="@+id/list_item_friend_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@mipmap/ic_profile_original"
@@ -13,11 +13,9 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/list_view_friend_name"
+        android:id="@+id/list_item_friend_name"
         android:text="Friend name"
-        android:paddingLeft="5dp"
-        android:paddingStart="5dp"
-        android:fontFamily="sans-serif-condensed"
+        android:layout_marginStart="@dimen/margin"
         android:layout_weight="2"
         />
     <LinearLayout
@@ -28,14 +26,16 @@
             android:layout_height="wrap_content"
             android:text="@string/last_updated"
             android:layout_gravity="right"
+            android:layout_marginEnd="@dimen/margin"
             android:textSize="@dimen/text_size_small"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/list_view_friend_last_update_time"
+            android:id="@+id/list_item_friend_last_update_time"
             android:text="15-11-2016"
             android:textSize="@dimen/text_size_small"
+            android:layout_marginEnd="@dimen/margin"
             android:layout_gravity="right"
             />
     </LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:gravity="center_vertical">
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/list_item_friend_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/ic_profile_original"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="0dp"
+        android:layout_marginStart="@dimen/margin"
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_item_friend_name"
+        android:text="Friend name"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_weight="2"
+        />
+    <Button
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="Remove Friend"
+        android:textSize="10sp"
+        android:textAppearance="?textAppearanceListItem"
+        android:textColor="@color/white"
+        android:background="@drawable/warning_button"
+        android:layout_marginEnd="@dimen/margin"
+        />
+</LinearLayout>

@@ -9,6 +9,6 @@
     android:textColor="@color/link_color"
     android:layout_gravity="end"
     android:textSize="@dimen/text_size_small"
-    android:id="@+id/list_view_see_more_text"
+    android:id="@+id/list_item_see_more_text"
     />
 </LinearLayout>

@@ -57,9 +57,9 @@ public class FriendsAdapter extends ArrayAdapter<Profile> {
         if(position == profiles.size() && use == usage.SMALL_LIST){
             EmptyViewHolder holder;
             if(convertView == null){
-                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_view_see_more, null);
+                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_see_more, null);
                 holder = new EmptyViewHolder();
-                holder.seeMore = (TextView) convertView.findViewById(R.id.list_view_see_more_text);
+                holder.seeMore = (TextView) convertView.findViewById(R.id.list_item_see_more_text);
                 convertView.setTag(holder);
             } else
                 holder = (EmptyViewHolder) convertView.getTag();
@@ -76,10 +76,10 @@ public class FriendsAdapter extends ArrayAdapter<Profile> {
             ProfileViewHolder holder;
             if(convertView == null){
                 holder = new ProfileViewHolder();
-                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_view_friend, null);
-                holder.name = (TextView) convertView.findViewById(R.id.list_view_friend_name);
-                holder.time = (TextView) convertView.findViewById(R.id.list_view_friend_last_update_time);
-                holder.image = (ImageView) convertView.findViewById(R.id.list_view_friend_image);
+                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_friend, null);
+                holder.name = (TextView) convertView.findViewById(R.id.list_item_friend_name);
+                holder.time = (TextView) convertView.findViewById(R.id.list_item_friend_last_update_time);
+                holder.image = (ImageView) convertView.findViewById(R.id.list_item_friend_image);
                 convertView.setTag(holder);
             }
             else

@@ -43,11 +43,11 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType){
             case FRIEND:
-                View view = inflater.inflate(R.layout.list_view_friend, null); //can be parent, but cause error as it already has a parent ?!
+                View view = inflater.inflate(R.layout.list_item_friend, null); //can be parent, but cause error as it already has a parent ?!
                 holder = new ProfileViewHolder(view);
                 break;
             default:
-                view = inflater.inflate(R.layout.list_view_see_more, null);//same here
+                view = inflater.inflate(R.layout.list_item_see_more, null);//same here
                 holder = new EmptyViewHolder(view);
         }
         return holder;
@@ -97,9 +97,9 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public ProfileViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.list_view_friend_name);
-            time = (TextView) itemView.findViewById(R.id.list_view_friend_last_update_time);
-            image = (ImageView) itemView.findViewById(R.id.list_view_friend_image);
+            name = (TextView) itemView.findViewById(R.id.list_item_friend_name);
+            time = (TextView) itemView.findViewById(R.id.list_item_friend_last_update_time);
+            image = (ImageView) itemView.findViewById(R.id.list_item_friend_image);
         }
     }
     class EmptyViewHolder extends RecyclerView.ViewHolder{
@@ -107,7 +107,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
-            seeMore = (TextView) itemView.findViewById(R.id.list_view_see_more_text);
+            seeMore = (TextView) itemView.findViewById(R.id.list_item_see_more_text);
         }
     }
 }

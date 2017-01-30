@@ -6,11 +6,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="settings"/>
+        android:text="settings"
+        android:fontFamily="sans-serif"
+        />
 
     <Button
         android:text="Test event page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/test3"
         android:id="@+id/button2" />
 </LinearLayout>

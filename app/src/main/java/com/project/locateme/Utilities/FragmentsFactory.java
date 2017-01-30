@@ -1,7 +1,7 @@
 package com.project.locateme.utilities;
 import android.support.v4.app.Fragment;
 
-import com.project.locateme.fragments.AllFriendsFragment;
+import com.project.locateme.fragments.allFriendsFragment.AllFriendsFragment;
 import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.mainViews.MessageFragment;
