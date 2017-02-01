@@ -5,14 +5,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <fragment
+        <com.google.android.gms.maps.MapView
             xmlns:map="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/fragment_add_zone_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.project.locateme.googleMap.AddZoneActivity" />
+            tools:context="com.project.locateme.googleMap.AddZoneFragment" />
         <android.support.design.widget.FloatingActionButton
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:src="@mipmap/ic_done"

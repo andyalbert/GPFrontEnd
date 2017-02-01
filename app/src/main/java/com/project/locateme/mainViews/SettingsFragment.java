@@ -11,8 +11,7 @@ import android.widget.Button;
 
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
-import com.project.locateme.googleMap.AddZoneActivity;
-import com.project.locateme.googleMap.UserLocation;
+import com.project.locateme.googleMap.AddZoneFragment;
 import com.project.locateme.utilities.Constants;
 
 import java.util.HashMap;
@@ -50,14 +49,21 @@ public class SettingsFragment extends Fragment {
             b1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), UserLocation.class);
+                    Intent intent = new Intent(getActivity(), HolderActivity.class);
+                    intent.putExtra(getString(R.string.fragment_name), Constants.USER_LOCATION_FRAGMENT);
+                    HashMap<String, Object> parameters = new HashMap<>();
+                    parameters.put("lat", 29.6);
+                    parameters.put("lon", 33.95);
+                    parameters.put("name", "andrew");
+                    intent.putExtra(Constants.HASHMAP, parameters);
                     startActivity(intent);
                 }
             });
             ((Button) view.findViewById(R.id.map_button)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getActivity(), AddZoneActivity.class));
+
+                    startActivity(new Intent(getActivity(), HolderActivity.class).putExtra(getString(R.string.fragment_name), Constants.SELECT_ZONE_FRAGMENT));
                 }
             });
         }

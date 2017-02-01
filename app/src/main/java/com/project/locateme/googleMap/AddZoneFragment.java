@@ -3,45 +3,46 @@ package com.project.locateme.googleMap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
-import android.os.PersistableBundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.project.locateme.R;
+import com.project.locateme.utilities.Constants;
 
-public class AddZoneActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapClickListener, View.OnClickListener {
+import java.util.HashMap;
 
+public class AddZoneFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapClickListener, View.OnClickListener {
+
+    private View view;
+    private MapView mapView;
     private GoogleMap mMap;
     private DraggableCircle draggableCircle;
     private Circle circle;
+
+    private HashMap<String, Object> parameters;
 
     public final String CENTER_MARKER = "centerMarker";
     public final String RADIUS_MARKER = "radiusMarker";
 
     public static final double RADIUS_OF_EARTH_METERS = 6371009;
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(draggableCircle.getCenterMarker() != null){
-            outState.putParcelable(CENTER_MARKER, draggableCircle.getCenterMarker().getPosition());
-            outState.putParcelable(RADIUS_MARKER, draggableCircle.getRadiusMarker().getPosition());
-        }
-    }
 
     private class DraggableCircle {
         private Marker centerMarker;
@@ -73,10 +74,10 @@ public class AddZoneActivity extends FragmentActivity implements OnMapReadyCallb
                 drawRadiusMarker(latLng);
                 radius = toRadiusMeters(centerMarker.getPosition(), radiusMarker.getPosition());
                 drawCircle();
-                findViewById(R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
-                findViewById(R.id.activity_add_zone_ok).setOnClickListener(AddZoneActivity.this);
+                view.findViewById(R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.activity_add_zone_ok).setOnClickListener(AddZoneFragment.this);
             } else
-                Toast.makeText(getApplicationContext(), "you only need 2 markers to create a circle", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "you only need 2 markers to create a circle", Toast.LENGTH_LONG).show();
         }
         public void updateCircle(Marker marker){
             if(marker.equals(centerMarker)){
@@ -120,7 +121,7 @@ public class AddZoneActivity extends FragmentActivity implements OnMapReadyCallb
             if(radiusPosition != null && centerPosition != null){
                 radius = toRadiusMeters(centerPosition, radiusPosition);
                 drawCircle();
-                findViewById(R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
             }
         }
     }
@@ -146,32 +147,39 @@ public class AddZoneActivity extends FragmentActivity implements OnMapReadyCallb
                 Math.cos(Math.toRadians(center.latitude));
         return new LatLng(center.latitude, center.longitude + radiusAngle);
     }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_zone);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        view = inflater.inflate(R.layout.fragment_add_zone, container, false);
+        MapsInitializer.initialize(getActivity());
+
+        //this won't be used here, but to be sent to the following fragment/activity
+        parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
+
+        mapView = (MapView) view.findViewById(R.id.fragment_add_zone_map);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
 
         draggableCircle = new DraggableCircle();
 
-        if(getPreferences(MODE_PRIVATE).getString("checked", "").equals("") && savedInstanceState == null){
-            ((CheckBox)findViewById(R.id.activity_add_zone_check_box)).setChecked(true);
-            findViewById(R.id.activity_add_zone_upper_layer).setVisibility(View.VISIBLE);
+        if(getActivity().getPreferences(getActivity().MODE_PRIVATE).getString("checked", "").equals("") && savedInstanceState == null){
+            ((CheckBox) view.findViewById(R.id.activity_add_zone_check_box)).setChecked(true);
+            view.findViewById(R.id.activity_add_zone_upper_layer).setVisibility(View.VISIBLE);
 
             //custom font, better user experience
-            Typeface type = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
-            ((TextView)findViewById(R.id.activity_add_zone_welcome)).setTypeface(type);
+            Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lobster-Regular.ttf");
+            ((TextView) view.findViewById(R.id.activity_add_zone_welcome)).setTypeface(type);
 
             //check if the check box is active or not
-            findViewById(R.id.activity_add_zone_exit).setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.activity_add_zone_exit).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    CheckBox box = (CheckBox)findViewById(R.id.activity_add_zone_check_box);
+                public void onClick(View view1) {
+                    CheckBox box = (CheckBox) view.findViewById(R.id.activity_add_zone_check_box);
                     if(box.isChecked())
-                        getPreferences(MODE_PRIVATE).edit().putString("checked", "1").apply();
-                    findViewById(R.id.activity_add_zone_upper_layer).setVisibility(View.GONE);
+                        getActivity().getPreferences(getActivity().MODE_PRIVATE).edit().putString("checked", "1").apply();
+                    view.findViewById(R.id.activity_add_zone_upper_layer).setVisibility(View.GONE);
                 }
             });
         } else if(savedInstanceState != null){
@@ -179,18 +187,30 @@ public class AddZoneActivity extends FragmentActivity implements OnMapReadyCallb
             draggableCircle.setRadiusPosition((LatLng) savedInstanceState.getParcelable(RADIUS_MARKER));
         }
 
+        return view;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        draggableCircle.drawIfPossible();
+
+        draggableCircle.drawIfPossible(); //draw the circle, used for orientation change
+
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerDragListener(this);
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+        if(draggableCircle.getCenterMarker() != null){
+            outState.putParcelable(CENTER_MARKER, draggableCircle.getCenterMarker().getPosition());
+            outState.putParcelable(RADIUS_MARKER, draggableCircle.getRadiusMarker().getPosition());
+        }
     }
 
     @Override
@@ -226,5 +246,42 @@ public class AddZoneActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onClick(View view) {
         //copy radius, and center to the next fragment/activity
+        
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 }

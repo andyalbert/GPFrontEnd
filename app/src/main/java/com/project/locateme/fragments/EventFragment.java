@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Andrew on 1/28/2017.
+ * Created by khaled on 1/28/2017.
  */
 
 public class EventFragment extends Fragment {
