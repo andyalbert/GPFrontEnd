@@ -1,0 +1,107 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.project.locateme.googleMap.AddZoneActivity" />
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:src="@mipmap/ic_done"
+            app:fabSize="normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/button_not_pressed"
+            android:layout_gravity="bottom|center_horizontal"
+            app:layout_anchorGravity="bottom|end"
+            android:layout_margin="16dp"
+            android:elevation="6dp"
+            app:borderWidth="0dp"
+            android:clickable="true"
+            android:translationZ="12dp"
+            android:visibility="invisible"
+            android:id="@+id/activity_add_zone_ok"
+            />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/transparent_layout"
+        android:clickable="true"
+        android:id="@+id/activity_add_zone_upper_layer"
+        android:visibility="gone"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin"
+            android:background="@drawable/white_layout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to place picker"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:id="@+id/activity_add_zone_welcome"
+                />
+            <TextView
+                android:layout_marginTop="@dimen/margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tips:"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_below="@id/activity_add_zone_welcome"
+                android:id="@+id/activity_add_zone_tips"
+                />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_below="@id/activity_add_zone_tips"
+                android:text="1) Make a long click to place a marker, the first as centre, the second as the radius limit.\n\n2) Make a long click on any marker to drag it, then leave it to drop on a new place."
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical"
+                android:gravity="right"
+                >
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Don't show again on start"
+                    android:checked="true"
+                    android:layout_marginRight="@dimen/margin"
+                    android:layout_marginBottom="8dp"
+                    android:id="@+id/activity_add_zone_check_box"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin"
+                    android:layout_marginBottom="@dimen/margin"
+                    android:textColor="@color/link_color"
+                    android:text="@string/place_welcome_exit"
+                    android:id="@+id/activity_add_zone_exit"
+                    android:clickable="true"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</FrameLayout>
+

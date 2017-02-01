@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
+import com.project.locateme.googleMap.AddZoneActivity;
+import com.project.locateme.googleMap.UserLocation;
 import com.project.locateme.utilities.Constants;
 
 import java.util.HashMap;
@@ -42,6 +44,20 @@ public class SettingsFragment extends Fragment {
                     intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
                     intent.putExtra(Constants.HASHMAP, new HashMap<>());
                     startActivity(intent);
+                }
+            });
+            Button b1 = (Button) view.findViewById(R.id.mapbutton);
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), UserLocation.class);
+                    startActivity(intent);
+                }
+            });
+            ((Button) view.findViewById(R.id.map_button)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getActivity(), AddZoneActivity.class));
                 }
             });
         }

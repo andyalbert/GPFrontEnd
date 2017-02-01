@@ -16,4 +16,16 @@
         android:layout_height="wrap_content"
         android:background="@drawable/test3"
         android:id="@+id/button2" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test map"
+        android:id="@+id/mapbutton"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test adding zone"
+        android:id="@+id/map_button"
+        />
 </LinearLayout>
