@@ -18,7 +18,6 @@ import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
 import com.project.locateme.customViews.testActivity;
 import com.project.locateme.googleMap.AddZoneFragment;
-import com.project.locateme.googleMap.ViewZoneFragment;
 import com.project.locateme.updatingUserLocation.GPSAndInternetStateChangeReceiver;
 import com.project.locateme.utilities.Constants;
 
