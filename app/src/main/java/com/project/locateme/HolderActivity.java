@@ -41,9 +41,15 @@ public class HolderActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                this.finish();
+                this.onBackPressed();
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.enter_back_pressed, R.anim.exit_back_pressed);
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,10 +30,15 @@ import com.project.locateme.utilities.Constants;
 
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class AddZoneFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapClickListener, View.OnClickListener {
 
+    public static final int STROKE_COLOR = Color.BLACK;
+    public static final int STROKE_WIDTH = 5;
+    public static final int FILL_COLOR = 0X553F51B5;
     private View view;
-    private MapView mapView;
     private GoogleMap mMap;
     private DraggableCircle draggableCircle;
     private Circle circle;
@@ -43,6 +49,9 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     public final String RADIUS_MARKER = "radiusMarker";
 
     public static final double RADIUS_OF_EARTH_METERS = 6371009;
+
+    @BindView(R.id.fragment_add_zone_map)
+    MapView mapView;
 
     private class DraggableCircle {
         private Marker centerMarker;
@@ -74,8 +83,8 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
                 drawRadiusMarker(latLng);
                 radius = toRadiusMeters(centerMarker.getPosition(), radiusMarker.getPosition());
                 drawCircle();
-                view.findViewById(R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.activity_add_zone_ok).setOnClickListener(AddZoneFragment.this);
+                ButterKnife.findById(view, R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
+                ButterKnife.findById(view, R.id.activity_add_zone_ok).setOnClickListener(AddZoneFragment.this);
             } else
                 Toast.makeText(getActivity(), "you only need 2 markers to create a circle", Toast.LENGTH_LONG).show();
         }
@@ -107,9 +116,9 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
         private void drawCircle(){
             circle = mMap.addCircle(new CircleOptions()
                     .center(centerMarker.getPosition())
-                    .strokeColor(Color.BLACK)
-                    .strokeWidth(5)
-                    .fillColor(0X553F51B5)
+                    .strokeColor(STROKE_COLOR)
+                    .strokeWidth(STROKE_WIDTH)
+                    .fillColor(FILL_COLOR)
                     .radius(radius));
         }
 
@@ -121,7 +130,7 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
             if(radiusPosition != null && centerPosition != null){
                 radius = toRadiusMeters(centerPosition, radiusPosition);
                 drawCircle();
-                view.findViewById(R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
+                ButterKnife.findById(view, R.id.activity_add_zone_ok).setVisibility(View.VISIBLE);
             }
         }
     }
@@ -153,33 +162,33 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_add_zone, container, false);
+        ButterKnife.bind(this, view);
         MapsInitializer.initialize(getActivity());
 
         //this won't be used here, but to be sent to the following fragment/activity
         parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
 
-        mapView = (MapView) view.findViewById(R.id.fragment_add_zone_map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
         draggableCircle = new DraggableCircle();
 
         if(getActivity().getPreferences(getActivity().MODE_PRIVATE).getString("checked", "").equals("") && savedInstanceState == null){
-            ((CheckBox) view.findViewById(R.id.activity_add_zone_check_box)).setChecked(true);
-            view.findViewById(R.id.activity_add_zone_upper_layer).setVisibility(View.VISIBLE);
+            ((CheckBox)ButterKnife.findById(view, R.id.activity_add_zone_check_box)).setChecked(true);
+            ButterKnife.findById(view, R.id.activity_add_zone_upper_layer).setVisibility(View.VISIBLE);
 
             //custom font, better user experience
             Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lobster-Regular.ttf");
-            ((TextView) view.findViewById(R.id.activity_add_zone_welcome)).setTypeface(type);
+            ((TextView)ButterKnife.findById(view, R.id.activity_add_zone_welcome)).setTypeface(type);
 
             //check if the check box is active or not
-            view.findViewById(R.id.activity_add_zone_exit).setOnClickListener(new View.OnClickListener() {
+            ButterKnife.findById(view, R.id.activity_add_zone_exit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view1) {
-                    CheckBox box = (CheckBox) view.findViewById(R.id.activity_add_zone_check_box);
+                    CheckBox box = (CheckBox) ButterKnife.findById(view, R.id.activity_add_zone_check_box);
                     if(box.isChecked())
                         getActivity().getPreferences(getActivity().MODE_PRIVATE).edit().putString("checked", "1").apply();
-                    view.findViewById(R.id.activity_add_zone_upper_layer).setVisibility(View.GONE);
+                    ButterKnife.findById(view, R.id.activity_add_zone_upper_layer).setVisibility(View.GONE);
                 }
             });
         } else if(savedInstanceState != null){
@@ -246,7 +255,7 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onClick(View view) {
         //copy radius, and center to the next fragment/activity
-        
+
     }
 
     @Override

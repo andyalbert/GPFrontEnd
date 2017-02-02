@@ -22,6 +22,9 @@ import com.project.locateme.utilities.General;
 
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author Andrew
  * @version 1.1
@@ -32,17 +35,20 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
 
     private View view;
     private GoogleMap mMap;
-    private MapView mapView;
     private double lat;
     private double lon;
     private String name;
     private String imgUrl;
+
+    @BindView(R.id.fragment_user_location_map)
+    MapView mapView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_user_location, container, false);
+        ButterKnife.bind(this, view);
 
         HashMap<String, Object> parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
         lat = (double) parameters.get("lat");
@@ -51,7 +57,6 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
         imgUrl = (String) parameters.get("url");
 
         MapsInitializer.initialize(this.getActivity());
-        mapView = (MapView) view.findViewById(R.id.fragment_user_location_map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         //// TODO: 31/01/17 remove that silly status bar !

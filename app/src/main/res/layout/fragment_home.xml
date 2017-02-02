@@ -105,6 +105,9 @@
             android:layout_below="@id/fragment_home_event_text"
             android:id="@+id/fragment_home_events_list"
             android:scrollbars="none"
+            android:dividerHeight="3dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             />
         <!--
         <android.support.v7.widget.RecyclerView

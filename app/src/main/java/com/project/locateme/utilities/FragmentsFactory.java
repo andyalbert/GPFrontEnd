@@ -5,6 +5,7 @@ import com.project.locateme.fragments.allFriendsFragment.AllFriendsFragment;
 import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.googleMap.AddZoneFragment;
 import com.project.locateme.googleMap.UserLocationFragment;
+import com.project.locateme.googleMap.ViewZoneFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.mainViews.MessageFragment;
 import com.project.locateme.mainViews.NotificationFragment;
@@ -39,6 +40,8 @@ public class FragmentsFactory {
             fragment = new UserLocationFragment();
         else if(name.equals(Constants.SELECT_ZONE_FRAGMENT))
             fragment = new AddZoneFragment();
+        else if(name.equals(Constants.VIEW_ZONE_FRAGMENT))
+            fragment = new ViewZoneFragment();
         //add more as we go ahead in the application
         return fragment;
     }

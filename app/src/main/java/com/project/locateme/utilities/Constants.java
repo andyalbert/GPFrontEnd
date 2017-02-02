@@ -13,6 +13,7 @@ public class Constants {
     public static final String EVENT_FRAGMENT = "eventFragment";//used for the event fragment
     public static final String USER_LOCATION_FRAGMENT = "locationFragment";
     public static final String SELECT_ZONE_FRAGMENT = "selectZoneFragment";
+    public static final String VIEW_ZONE_FRAGMENT = "viewZoneFragment";
 
     public static final String HASHMAP = "hashmap"; //used for getting the hashmap from sender to receiver activity
 
