@@ -246,7 +246,7 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onClick(View view) {
         //copy radius, and center to the next fragment/activity
-        
+
     }
 
     @Override

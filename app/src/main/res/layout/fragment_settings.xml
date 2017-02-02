@@ -28,4 +28,16 @@
         android:text="test adding zone"
         android:id="@+id/map_button"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test anim"
+        android:id="@+id/test_anim"/>
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incognito mode"
+        android:id="@+id/fragment_settings_switch_incognito"
+        />
+
 </LinearLayout>
