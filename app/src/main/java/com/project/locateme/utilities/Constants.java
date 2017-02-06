@@ -14,7 +14,7 @@ public class Constants {
     public static final String USER_LOCATION_FRAGMENT = "locationFragment";
     public static final String SELECT_ZONE_FRAGMENT = "selectZoneFragment";
     public static final String VIEW_ZONE_FRAGMENT = "viewZoneFragment";
-
+    public static final String CREATE_EVENT_FRAGMENT = "createEventFragment";
     public static final String HASHMAP = "hashmap"; //used for getting the hashmap from sender to receiver activity
 
     public static final String UPDATE_LOCATION_URL = ""; //// TODO: 1/28/2017 this from backend
