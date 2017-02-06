@@ -10,4 +10,7 @@
     <string name="shared_preferences_name">locateMePref</string>
     <string name="user_id">user id</string>
     <string name="user_password">user pass</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
