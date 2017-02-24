@@ -55,14 +55,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 //useless if condition , but don't erase it , by abdo
             }
-        Location l1 = mLocationManager.getLastKnownLocation("passive");
-        Location l2 = mLocationManager.getLastKnownLocation("network");
-        if(l1.getAccuracy() >= l2.getAccuracy()) {
-            return l1;
+        if(mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            return mLocationManager.getLastKnownLocation("gps");
         }
         else{
-            return l2;
+            return mLocationManager.getLastKnownLocation("passive");
         }
-
     }
 }
