@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/list_item_zone_image"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="zone name"
+        android:textColor="#d5000000"
+        android:id="@+id/list_item_zone_name"
+        android:layout_marginLeft="@dimen/margin"
+        />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="1" android:gravity="end"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="assigned users: "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="5"
+            android:textStyle="bold"
+            android:id="@+id/list_item_zone_assigned_number"
+            />
+    </LinearLayout>
+
+</LinearLayout>

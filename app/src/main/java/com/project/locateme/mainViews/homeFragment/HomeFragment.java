@@ -1,30 +1,52 @@
 package com.project.locateme.mainViews.homeFragment;
 
-
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.project.locateme.dataHolder.eventsManager.Event;
-import com.project.locateme.dataHolder.locationManager.Location;
-import com.project.locateme.dataHolder.userManagement.Profile;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.project.locateme.R;
+import com.project.locateme.utilities.Constants;
+import com.project.locateme.utilities.General;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,31 +54,17 @@ import butterknife.ButterKnife;
 /**
  * @author Andrew
  * @since 25/1/2017
- * @version 1.0
+ * @version 2.0
  */
 
-public class HomeFragment extends Fragment {
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> friendAdapter;
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> eventAdapter;
-    private ArrayAdapter<Event> eventArrayAdapter;
-    private ArrayList<Event> events;
-    private ArrayAdapter<Profile> friendsArrayAdapter;
-    private ArrayList<Profile> profiles;
+public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnCameraIdleListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMarkerClickListener {
     private View view;
-    private JsonObjectRequest friendObjectRequest;
-    private JsonObjectRequest eventObjectRequest;
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
-    @BindView(R.id.fragment_home_events_list)
-    //RecyclerView eventRecyclerView;
-     ListView eventsListView;
-    @BindView(R.id.fragment_home_event_text)
-    TextView eventText; //hidden by default, should be set to visible later
-    @BindView(R.id.fragment_home_friends_list)
-    //RecyclerView friendRecyclerView;
-    ListView friendsListView;
-
-
+    private GoogleMap map;
+    private final int LOCATION_UPDATE_REQUEST = 1;
+    @BindView(R.id.map)
+    MapView mapView;
 
     @Nullable
     @Override
@@ -64,97 +72,219 @@ public class HomeFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+        MapsInitializer.initialize(getActivity());
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
-        setEventListViewItems();
-        setFriendsListViewItems();
+
 
         return view;
     }
 
-    private void setFriendsListViewItems() {
-        //dummy data for testing
-        friendsArrayAdapter = new FriendsAdapter(getActivity(), R.id.fragment_home_friends_list, new ArrayList<Profile>(), FriendsAdapter.usage.SMALL_LIST);
-        friendsListView.setAdapter(friendsArrayAdapter);
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
 
-        //// TODO: 1/29/2017 uncomment these
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
-//            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
-//            //// TODO: 1/29/2017 insert the location into the request, here abdo :D
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        friendObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_CLOSEST_FRIENDS, jsonObject, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                //// TODO: 1/29/2017 fill here the friend list
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        });
-//        requestQueue.add(friendObjectRequest);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            map.setMyLocationEnabled(true);
+            }
+
+        //used on the app launch, to update to user location
+        Location location = getLocation();
+        if(location != null)
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.0f));
+        else
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(sharedPreferences.getFloat("lat", 30.045915f), sharedPreferences.getFloat("long", 31.2220958f)), 16.0f)); // get the last, default is cairo tower
+        //// TODO: 24/02/17 ask the user when signing in to get his position
 
 
-        //friendAdapter = new FriendsRecyclerAdapter(getContext(), new ArrayList<Profile>(), FriendsRecyclerAdapter.usage.SMALL_LIST);
-        //RecyclerView.LayoutManager friendLayoutManager = new LinearLayoutManager(getContext());
-        //friendRecyclerView.setLayoutManager(friendLayoutManager);
-        //friendRecyclerView.setAdapter(friendAdapter);
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setRotateGesturesEnabled(false); //// TODO: 24/02/17 to be removed if the backend succeeded in writing the equation for triangle rotation
+        googleMap.getUiSettings().setTiltGesturesEnabled(false);
+        googleMap.setOnCameraIdleListener(this);
+        googleMap.setOnMyLocationButtonClickListener(this);
+        googleMap.setOnMarkerClickListener(this);
     }
 
-    private void setEventListViewItems() {
-        //dummy data for events
-        eventText.setVisibility(View.VISIBLE);
-        //eventRecyclerView.setVisibility(View.VISIBLE);
-        eventsListView.setVisibility(View.VISIBLE);
-        Event e = new Event(), e1 = new Event();
-        e1.setName("Test 2");
-        e1.setDateOfEvent(new Timestamp(156465789));
-        e1.setLocation(new Location(132.13, 45.33, "NY"));
-        e.setName("Test 1");
-        e.setDateOfEvent(new Timestamp(156465789));
-        e.setLocation(new Location(32.2265, 21.55556, "Giza"));
-        events = new ArrayList<>();
-        events.addAll(Arrays.asList(e, e, e1, e1, e1, e1, e1, e1, e1, e1, e1, e1));
-        eventArrayAdapter = new EventsAdapter(getContext(), R.id.fragment_home_events_list, events);
-        eventsListView.setAdapter(eventArrayAdapter);
-        //// TODO: 1/29/2017 uncomment these
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
-//            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
-//        } catch (JSONException exception) {
-//            exception.printStackTrace();
-//        }
-//        eventObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_UPCOMING_EVENTS, jsonObject, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                //// TODO: 1/29/2017 fill here the event list
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        });
-//        requestQueue.add(eventObjectRequest);
 
 
+    @Override
+    public boolean onMyLocationButtonClick() {
+        final LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE );
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        return false;
+    }
 
-        //eventAdapter = new EventRecyclerViewAdapter(getContext(), events);
-        //RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(getContext());
-        //eventRecyclerView.setLayoutManager(eventLayoutManager);
-        //eventRecyclerView.setAdapter(eventAdapter);
+
+    @Override
+    public void onCameraIdle() {
+      //  updateMarkers();
+       // Log.e("test", map.getProjection().getVisibleRegion().toString());
+        Toast.makeText(getActivity(), map.getProjection().getVisibleRegion().farLeft.latitude + "  " +
+        map.getProjection().getVisibleRegion().farRight.latitude, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "changed", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateMarkers() {
+        //// TODO: 24/02/17 an error may occur if a previous volley request is still running, need to check
+        VisibleRegion region = map.getProjection().getVisibleRegion();
+        JSONObject jsonObject = new JSONObject();
+
+        try{
+            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
+            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
+
+            jsonObject.put("farLeftLat", region.farLeft.latitude);
+            jsonObject.put("farLeftLong", region.farLeft.longitude);
+            jsonObject.put("farRightLat", region.farRight.latitude);
+            jsonObject.put("farRightLong", region.farRight.longitude);
+
+            jsonObject.put("nearLeftLat", region.nearLeft.latitude);
+            jsonObject.put("nearLeftLong", region.nearLeft.longitude);
+            jsonObject.put("nearRightLat", region.nearRight.latitude);
+            jsonObject.put("nearRightLong", region.nearRight.longitude);
+
+            //this doesn't support rotation
+//            double latMin, latMax, longMin, longMax;
+//            latMax = region.farRight.latitude;
+//            latMin = region.nearRight.latitude;
+//            longMax = region.farRight.longitude;
+//            longMin = region.nearLeft.longitude;
+           // jsonObject.put("min")
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.GET_USERS_ON_MAP_REGION, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                map.clear();
+                JSONArray array = null;
+                JSONObject object;
+                Bitmap bitmap;
+                try {
+                    array = response.getJSONArray("array");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
+                for (int i = 0;array != null && i < array.length(); i++) {
+                    try {
+                        object = array.getJSONObject(i);
+
+                        Glide.with(getActivity().getApplicationContext())
+                        .load(object.getString(""))
+                        .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
+
+                        bitmap = General.loadBitmapFromView(myView);
+                        map.addMarker(new MarkerOptions()
+                                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                                        .position(new LatLng(object.getDouble("lat"), object.getDouble("long"))))
+                                .setTag(object.getString("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "an error has occurred during update, please try again", Toast.LENGTH_SHORT).show();
+            }
+        });
+        requestQueue.add(request);
     }
 
     @Override
-    public void onDestroyView() {
-        if(requestQueue != null)
-            requestQueue.stop();
-        super.onDestroyView();
+    public boolean onMarkerClick(Marker marker) {
+        //// TODO: 25/02/17 uncomment when the account is done
+//        String id = (String) marker.getTag();
+//        Intent intent = new Intent(getActivity(), UserProfile.class);
+//        intent.putExtra(getString(R.string.fragment_name, Constants.));
+//        HashMap<String, Object> params = new HashMap<>();
+//        params.put("id", id);
+//        intent.putExtra(Constants.HASHMAP, params);
+//        startActivity(intent);
+        return false;
     }
+
+    private Location getLocation() {
+        LocationManager mLocationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            if(mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER))
+                return mLocationManager.getLastKnownLocation("gps");
+        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_DENIED)
+            if(mLocationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER))
+                return mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_UPDATE_REQUEST);
+        return null;//// TODO: 24/02/17 change
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_UPDATE_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                }
+            }
+        }
+    } //todo this is useless tell now
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
 }

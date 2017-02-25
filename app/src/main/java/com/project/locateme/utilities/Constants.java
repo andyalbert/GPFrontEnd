@@ -20,5 +20,6 @@ public class Constants {
     public static final String UPDATE_LOCATION_URL = ""; //// TODO: 1/28/2017 this from backend
     public static final String GET_ALL_FRIENDS = ""; //// TODO: 1/28/2017 get from backend team
     public static final String GET_CLOSEST_FRIENDS = "";//// TODO: 1/29/2017 same
-    public static final String GET_UPCOMING_EVENTS = ""; //// TODO: 1/29/2017 same 
+    public static final String GET_UPCOMING_EVENTS = ""; //// TODO: 1/29/2017 same
+    public static final String GET_USERS_ON_MAP_REGION = ""; //// TODO: 23/02/17 update this
 }

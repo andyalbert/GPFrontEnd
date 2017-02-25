@@ -40,7 +40,7 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.date.setText(events.get(position).getDateOfEvent().toString());
         viewHolder.name.setText(events.get(position).getName());
-        viewHolder.location.setText(events.get(position).getLocation().getName());
+     //   viewHolder.location.setText(events.get(position).getLocation().getName());
         if(events.get(position).getImageURL() != null) //first, check if it exists
             Glide.with(context).load(events.get(position).getImageURL()).into(viewHolder.image);
     }

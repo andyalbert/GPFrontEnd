@@ -41,6 +41,7 @@ public class MainUserActivity extends AppCompatActivity {
     private void setViewPagerTabs() {
         MainViewsAdapter mainViewsAdapter = new MainViewsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mainViewsAdapter);
+        viewPager.setOffscreenPageLimit(3);
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.mipmap.ic_home);
