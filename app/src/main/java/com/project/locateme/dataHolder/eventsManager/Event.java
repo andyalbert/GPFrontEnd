@@ -16,12 +16,12 @@ import java.util.ArrayList;
 public class Event {
     private String name;
     private String description;
-    private String imageURL;
     private Area area;
     private Timestamp dateOfEvent;
     private Timestamp deadline; //what is this ??
     private boolean state;
     private Suggestion suggestion;
+    private String id;
 
     public String getName() {
         return name;
@@ -37,14 +37,6 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
     }
 
     public Area getArea() {

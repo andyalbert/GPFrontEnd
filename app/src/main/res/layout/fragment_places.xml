@@ -7,107 +7,107 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fragment_place_user_name"
-            android:textSize="@dimen/title_size"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:text="Andrew"/>
+            android:orientation="vertical"
+            android:id="@+id/fragment_places_zone_linear_layout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My zones"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginTop="5dp"
+                android:id="@+id/fragment_places_zones_text"
+                android:layout_marginBottom="30dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You don't have any yet !"
+                android:layout_gravity="center_horizontal"
+                android:textColor="?colorPrimary"
+                android:textSize="@dimen/text_size_small"
+                android:id="@+id/fragment_places_no_zones"
+                android:layout_below="@id/fragment_places_zones_text"
+                />
+            <com.project.locateme.customViews.NestedListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_places_zones_list"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                />
+            <!--<ListView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="5dp"
+           android:id="@+id/fragment_places_friends_list"
+           android:layout_below="@id/fragment_places_friends_text"/>
+       -->
+
+            <!--
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/fragment_places_friends_list"
+                android:layout_below="@id/fragment_places_friends_text"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"
+                />
+                -->
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:layout_marginTop="1dp"
-            android:background="@color/colorPrimary"
-            android:layout_below="@id/fragment_place_user_name"
-            android:id="@+id/fragment_place_line"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My zones"
-            android:layout_marginLeft="@dimen/margin"
+            android:layout_height="1dp"
             android:layout_marginTop="5dp"
-            android:layout_below="@id/fragment_place_line"
-            android:id="@+id/fragment_place_zones_text"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:background="?colorPrimary"
+            android:layout_below="@id/fragment_places_zone_linear_layout"
+            android:id="@+id/fragment_places_separator"
             />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="You don't have any yet !"
-            android:layout_marginEnd="@dimen/margin"
-            android:textColor="?colorPrimary"
-            android:textSize="@dimen/text_size_small"
-            android:layout_alignParentRight="true"
-            android:id="@+id/fragment_place_no_zones"
-            android:layout_below="@id/fragment_place_zones_text"
-            />
-        <!--<ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:id="@+id/fragment_place_friends_list"
-            android:layout_below="@id/fragment_place_friends_text"/>
-        -->
-        <com.project.locateme.customViews.NestedListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:id="@+id/fragment_place_zones_list"
-            android:layout_below="@id/fragment_place_zones_text"
-            />
-        <!--
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:id="@+id/fragment_place_friends_list"
-            android:layout_below="@id/fragment_place_friends_text"
-            android:scrollbars="vertical"
-            android:nestedScrollingEnabled="false"
-            />
-            -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Upcoming events"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="@dimen/margin"
-            android:layout_below="@id/fragment_place_zones_list"
-            android:id="@+id/fragment_place_event_text"
+            android:layout_below="@id/fragment_places_separator"
+            android:id="@+id/fragment_places_event_text"
+            android:layout_marginBottom="30dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             android:textColor="?colorPrimary"
             android:text="No close events"
             android:textSize="@dimen/text_size_small"
-            android:layout_below="@+id/fragment_place_event_text"
-            android:layout_marginEnd="@dimen/margin"
+            android:layout_below="@+id/fragment_places_event_text"
             />
 
         <!--  <ListView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="5dp"
-              android:layout_below="@id/fragment_place_event_text"
-              android:id="@+id/fragment_place_events_list"
+              android:layout_below="@id/fragment_places_event_text"
+              android:id="@+id/fragment_places_events_list"
               />-->
         <com.project.locateme.customViews.NestedListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/fragment_place_event_text"
-            android:id="@+id/fragment_place_events_list"
+            android:layout_below="@id/fragment_places_event_text"
+            android:id="@+id/fragment_places_events_list"
             android:scrollbars="none"
             android:dividerHeight="3dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
             />
         <!--
         <android.support.v7.widget.RecyclerView
@@ -115,8 +115,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:visibility="invisible"
-            android:layout_below="@id/fragment_place_event_text"
-            android:id="@+id/fragment_place_events_list"
+            android:layout_below="@id/fragment_places_event_text"
+            android:id="@+id/fragment_places_events_list"
             android:scrollbars="vertical"
 
             />

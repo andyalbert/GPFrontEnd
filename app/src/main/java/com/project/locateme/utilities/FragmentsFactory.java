@@ -7,8 +7,8 @@ import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.googleMap.AddZoneFragment;
 import com.project.locateme.googleMap.UserLocationFragment;
 import com.project.locateme.googleMap.ViewZoneFragment;
+import com.project.locateme.mainViews.PlaceFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
-import com.project.locateme.mainViews.MessageFragment;
 import com.project.locateme.mainViews.NotificationFragment;
 import com.project.locateme.mainViews.SettingsFragment;
 
@@ -24,7 +24,7 @@ public class FragmentsFactory {
         if(position == 0)
             fragment = new HomeFragment();
         else if(position == 1)
-            fragment = new MessageFragment();
+            fragment = new PlaceFragment();
         else if(position == 2)
             fragment = new NotificationFragment();
         else

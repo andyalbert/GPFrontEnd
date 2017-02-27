@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -47,6 +48,7 @@ import org.json.JSONObject;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -196,7 +198,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "an error has occurred during update, please try again", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return new HashMap(){{put("Content-Type", "application/x-www-form-urlencoded");}};
+            }
+        };
         requestQueue.add(request);
     }
 
@@ -283,8 +290,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mapView.onDestroy();
+        if(requestQueue != null)
+            requestQueue.stop();
+        super.onDestroy();
     }
 
 }
