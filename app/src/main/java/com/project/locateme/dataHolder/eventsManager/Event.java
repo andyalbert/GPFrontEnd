@@ -3,6 +3,7 @@ package com.project.locateme.dataHolder.eventsManager;
 import com.project.locateme.dataHolder.locationManager.Location;
 import com.project.locateme.dataHolder.userManagement.Profile;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -12,7 +13,8 @@ import java.util.ArrayList;
  * @version 1.0
  */
 
-public class Event {
+public class Event  implements Serializable{
+    int id;
     private String name;
     private String description;
     private String imageURL;
@@ -26,6 +28,8 @@ public class Event {
     public Event(){
         imageURL = null;
     }
+    public int getId(){ return id;}
+    public void setId(int id) { this.id = id;}
     public String getName() {
         return name;
     }

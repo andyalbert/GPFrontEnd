@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:weightSum="10">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/fragment_create_event_name_"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <EditText
             android:id="@+id/fragment_create_event_name"
@@ -23,7 +25,8 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/fragment_event_description_"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <EditText
             android:id="@+id/fragment_create_event_description"
@@ -38,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="5"
+        android:layout_weight="1"
         >
         <TextView
             android:id="@+id/fragment_create_event_date"
@@ -60,26 +63,16 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:src="@mipmap/ic_profile" />
-
-        <Button
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:background="@drawable/button_shape"
-            android:elevation="10dp"
-            android:padding="5dp"
-            android:text="Add Image" />
+            android:id="@+id/fragment_create_event_image"
+            android:src="@mipmap/ic_profile"
+            android:clickable="true"
 
-    </LinearLayout>
+            android:layout_weight="3"/>
 
     <Button
         android:id="@+id/fragment_create_event_location"

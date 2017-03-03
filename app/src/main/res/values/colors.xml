@@ -11,4 +11,7 @@
     <color name="link_color">#0645AD</color>
     <color name="text_color">#7b7e84</color>
     <color name="red">#b71212</color>
+    <color name="primary_text_material_light">#bcaaa4</color>
+    <color name="secondary_text_material_light">#887880</color>
+    <color name="secondary_text_material_dark">#887880</color>
 </resources>

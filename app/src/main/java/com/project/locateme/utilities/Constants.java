@@ -9,6 +9,7 @@ package com.project.locateme.utilities;
  */
 
 public class Constants {
+    //Fragment Names
     public static final String ALL_FRIENDS_FRAGMENT = "allFriends"; //used for all friends activity
     public static final String EVENT_FRAGMENT = "eventFragment";//used for the event fragment
     public static final String USER_LOCATION_FRAGMENT = "locationFragment";
@@ -16,9 +17,16 @@ public class Constants {
     public static final String VIEW_ZONE_FRAGMENT = "viewZoneFragment";
     public static final String CREATE_EVENT_FRAGMENT = "createEventFragment";
     public static final String HASHMAP = "hashmap"; //used for getting the hashmap from sender to receiver activity
+    public static final String Event_CHAT_FRAGMENT = "eventChatFragment";
 
+
+    //URLs
     public static final String UPDATE_LOCATION_URL = ""; //// TODO: 1/28/2017 this from backend
     public static final String GET_ALL_FRIENDS = ""; //// TODO: 1/28/2017 get from backend team
     public static final String GET_CLOSEST_FRIENDS = "";//// TODO: 1/29/2017 same
-    public static final String GET_UPCOMING_EVENTS = ""; //// TODO: 1/29/2017 same 
+    public static final String GET_UPCOMING_EVENTS = ""; //// TODO: 1/29/2017 same
+    public static final String CREATE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createevent";
+    public static final String GET_OWNERS_EVENT = " http://firstapp-fciswpro.rhcloud.com/restapi/rest/getownersevent";
+    public static final String GET_EVENT_USERS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventusers";
+
 }

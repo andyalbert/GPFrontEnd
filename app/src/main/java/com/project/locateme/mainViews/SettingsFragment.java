@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
 import com.project.locateme.customViews.testActivity;
+import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.googleMap.AddZoneFragment;
 import com.project.locateme.updatingUserLocation.GPSAndInternetStateChangeReceiver;
 import com.project.locateme.utilities.Constants;
@@ -27,8 +28,8 @@ import butterknife.ButterKnife;
 
 /**
  * @author Andrew
- * @since 25/1/2017
  * @version 1.0
+ * @since 25/1/2017
  */
 public class SettingsFragment extends Fragment {
     private View view;
@@ -46,9 +47,17 @@ public class SettingsFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Event model = new Event();
+                    model.setId(1);
+                    model.setName("Launch Meeting");
+                    model.setState(true);
+                    model.setImageURL("2.imag");
+                    model.setDescription("greategreategreate");
+                    HashMap<String , Object> params = new HashMap<String, Object>();
+                    params.put("eventModel" , model);
                     Intent intent = new Intent(getActivity(), HolderActivity.class);
-                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.CREATE_EVENT_FRAGMENT);
-                    intent.putExtra(Constants.HASHMAP, new HashMap<>());
+                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
+                    intent.putExtra(Constants.HASHMAP, params);
                     startActivity(intent);
                 }
             });
@@ -78,7 +87,7 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(getActivity(), testActivity.class));
-                  //  getActivity().overridePendingTransition(R.anim.enter_back_pressed, R.anim.exit_back_pressed);
+                    //  getActivity().overridePendingTransition(R.anim.enter_back_pressed, R.anim.exit_back_pressed);
                 }
             });
             view.findViewById(R.id.view_zone_fragment).setOnClickListener(new View.OnClickListener() {
@@ -103,13 +112,13 @@ public class SettingsFragment extends Fragment {
         ((SwitchCompat) view.findViewById(R.id.fragment_settings_switch_incognito)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                PackageManager pm  = getActivity().getPackageManager();
+                PackageManager pm = getActivity().getPackageManager();
                 ComponentName componentName = new ComponentName(getActivity(), GPSAndInternetStateChangeReceiver.class);
-                if(b)
-                    pm.setComponentEnabledSetting(componentName,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP);
+                if (b)
+                    pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP);
                 else
-                    pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,                                 PackageManager.DONT_KILL_APP);
+                    pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
             }
         });
         return view;

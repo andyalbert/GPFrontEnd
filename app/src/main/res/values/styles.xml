@@ -8,8 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textSize">@dimen/text_size</item>
 
-</style>
-    
+    </style>
+    <!--<style name="AppTheme" parent="LocateMeTheme">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:textSize">@dimen/text_size</item>&ndash;&gt;-->
+
+<!--</style>-->
+    <!---->
     <style name="LoginActivityAppTheme" parent="@style/AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -17,6 +25,14 @@
     <style name="PopUp" parent="@style/LoginActivityAppTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="LocateMeTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="android:colorBackground">@color/background_material_dark</item>
+        <item name="android:textColorPrimary">@color/primary_text_material_light</item>
+        <item name="android:textColorSecondary">@color/secondary_text_material_light</item>
+        <item name="android:textColorSecondaryInverse">@color/secondary_text_material_dark</item>
+        <item name="android:colorForeground">@color/foreground_material_light</item>
     </style>
 
 </resources>

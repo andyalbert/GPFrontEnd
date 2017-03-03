@@ -17,7 +17,8 @@
             android:fontFamily="serif"
             android:textSize="@dimen/medium_size"
             android:textColor="@color/black"
-
+            android:clickable="true"
+            android:id="@+id/activity_image_picker_exist_image"
             />
         <TextView
             android:layout_marginTop="10dp"

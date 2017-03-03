@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.project.locateme.R;
 import com.project.locateme.utilities.Constants;
+;
 
 import java.util.HashMap;
 
@@ -255,6 +256,10 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onClick(View view) {
         //copy radius, and center to the next fragment/activity
+//        com.project.locateme.dataHolder.locationManager.Location model = new com.project.locateme.dataHolder.locationManager.Location(draggableCircle.centerPosition.longitude,
+//                draggableCircle.centerPosition.latitude , "");
+
+
 
     }
 

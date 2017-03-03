@@ -21,15 +21,8 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                android:id="@+id/fragment_event_activity_event_image"/>
+                android:id="@+id/fragment_event_image"/>
 
-            <Button
-                android:id="@+id/fragment_event_add_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/tw__transparent"
-                android:text="Add Image"
-                android:layout_gravity="center"/>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/fragment_event_toolbar"
                 android:layout_width="match_parent"
@@ -88,21 +81,48 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/red"
                 android:id="@+id/fragment_event_delete"/>
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Date"
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:textAlignment="gravity"/>
+            <TextView
+                android:layout_weight="3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="gravity"
                 android:gravity="left"
                 android:text="Date Goes Here!"
                 android:padding="20dp"
                 android:id="@+id/fragment_event_date_view"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="5">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Description"/>
             <TextView
+                android:layout_weight="3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:id="@+id/fragment_event_description"
                 android:text="Description Goes Here"/>
+            </LinearLayout>
 
             <com.project.locateme.customViews.NestedListView
                 android:layout_width="wrap_content"
@@ -112,6 +132,13 @@
                 android:layout_below="@id/fragment_event_description">
 
             </com.project.locateme.customViews.NestedListView>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chat"
+                android:id="@+id/fragment_event_chat_button"
+                android:layout_gravity="center|bottom"
+                />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
