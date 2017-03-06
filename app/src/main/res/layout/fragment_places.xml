@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You don't have any yet !"
+                android:text="You don't have any yet"
                 android:layout_gravity="center_horizontal"
                 android:textColor="?colorPrimary"
                 android:textSize="@dimen/text_size_small"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textColor="?colorPrimary"
-            android:text="No close events"
+            android:text="No upcoming events"
             android:textSize="@dimen/text_size_small"
             android:layout_below="@+id/fragment_places_event_text"
             />
