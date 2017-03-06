@@ -1,6 +1,8 @@
 package com.project.locateme.mainViews;
 
+import android.app.SearchManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -8,10 +10,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ExpandableListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.project.locateme.R;
+import com.project.locateme.dataHolder.userManagement.Profile;
+import com.project.locateme.mainViews.SearchView.MyExpandableListViewAdapter;
+import com.project.locateme.mainViews.SearchView.SearchGroup;
 import com.project.locateme.updatingUserLocation.GPSAndInternetStateChangeReceiver;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +32,9 @@ import butterknife.ButterKnife;
  * @version 1.0
  */
 
-public class MainUserActivity extends AppCompatActivity {
+public class MainUserActivity extends AppCompatActivity implements
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener{
+    private SearchView search;
 
     @BindView(R.id.pager)
     ViewPager viewPager;
@@ -33,8 +45,22 @@ public class MainUserActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
-        ButterKnife.bind(this);
 
+        //For SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        search = (SearchView) findViewById(R.id.search);
+        search.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        search.setIconifiedByDefault(false);
+        search.setOnQueryTextListener(this);
+        search.setOnCloseListener(this);
+        search.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        ButterKnife.bind(this);
         setViewPagerTabs();
     }
 
@@ -92,5 +118,21 @@ public class MainUserActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
         preferences.edit().putString(getString(R.string.user_id), "1");//// TODO: 1/28/2017 this id is static for testing
         preferences.edit().putString(getString(R.string.user_password), "00000000").apply(); //// TODO: 1/28/2017 also static, must be changed
+    }
+
+
+    @Override
+    public boolean onClose() {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

@@ -19,6 +19,7 @@ public class MainViewsAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+
     @Override
     public Fragment getItem(int position) {
         return FragmentsFactory.getFragmentForTabs(position);
