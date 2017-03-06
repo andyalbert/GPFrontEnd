@@ -47,7 +47,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
     }
-
     private Location getLocation() {
         LocationManager mLocationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
@@ -58,8 +57,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             return mLocationManager.getLastKnownLocation("gps");
         }
-        else{
-            return mLocationManager.getLastKnownLocation("passive");
+        else {
+            Location passiveLoc = mLocationManager.getLastKnownLocation("passive");
+            Location networkLoc = mLocationManager.getLastKnownLocation("network");
+            if(passiveLoc.getAccuracy() >= networkLoc.getAccuracy())
+                return passiveLoc;
+            else
+                return networkLoc;
         }
     }
 }
