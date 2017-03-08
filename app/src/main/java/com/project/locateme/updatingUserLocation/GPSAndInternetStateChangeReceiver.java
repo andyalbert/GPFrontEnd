@@ -31,7 +31,7 @@ public class GPSAndInternetStateChangeReceiver extends BroadcastReceiver {
                 pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(context, AlarmReceiver.class), 0);
                 alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
                 alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 1, durationBetweenUpdates, pendingIntent);
-            } else{ //gps is turned off
+            } else if(alarmManager != null){ //gps is turned off
                 alarmManager.cancel(pendingIntent);
             }
         }

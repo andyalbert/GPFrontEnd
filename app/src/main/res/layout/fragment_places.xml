@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:id="@+id/places_fragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/fragment_places_zone_linear_layout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My zones"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginTop="5dp"
+                android:id="@+id/fragment_places_zones_text"
+                android:layout_marginBottom="30dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You don't have any yet"
+                android:layout_gravity="center_horizontal"
+                android:textColor="?colorPrimary"
+                android:textSize="@dimen/text_size_small"
+                android:id="@+id/fragment_places_no_zones"
+                android:layout_below="@id/fragment_places_zones_text"
+                />
+            <com.project.locateme.customViews.NestedListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_places_zones_list"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                />
+            <!--<ListView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="5dp"
+           android:id="@+id/fragment_places_friends_list"
+           android:layout_below="@id/fragment_places_friends_text"/>
+       -->
+
+            <!--
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/fragment_places_friends_list"
+                android:layout_below="@id/fragment_places_friends_text"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"
+                />
+                -->
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:background="?colorPrimary"
+            android:layout_below="@id/fragment_places_zone_linear_layout"
+            android:id="@+id/fragment_places_separator"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upcoming events"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_below="@id/fragment_places_separator"
+            android:id="@+id/fragment_places_event_text"
+            android:layout_marginBottom="30dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="?colorPrimary"
+            android:text="No upcoming events"
+            android:textSize="@dimen/text_size_small"
+            android:layout_below="@+id/fragment_places_event_text"
+            />
+
+        <!--  <ListView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:layout_below="@id/fragment_places_event_text"
+              android:id="@+id/fragment_places_events_list"
+              />-->
+        <com.project.locateme.customViews.NestedListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_places_event_text"
+            android:id="@+id/fragment_places_events_list"
+            android:scrollbars="none"
+            android:dividerHeight="3dp"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            />
+        <!--
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:visibility="invisible"
+            android:layout_below="@id/fragment_places_event_text"
+            android:id="@+id/fragment_places_events_list"
+            android:scrollbars="vertical"
+
+            />
+            -->
+    </RelativeLayout>
+</ScrollView>
+
