@@ -54,7 +54,13 @@ public class ZonesAdapter extends ArrayAdapter<Event> {
         holder.zoneName.setText(areas.get(position).getLocation().getName());
         if(areas.get(position).getImageURL() != null)
             Glide.with(context).load(areas.get(position).getImageURL()).into(holder.image);
-        //// TODO: 27/02/17 set the assigned number, note that the class doesn't support this
+        holder.assignedNumber.setText(areas.get(position).getAccounts().size());
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         return convertView;
     }

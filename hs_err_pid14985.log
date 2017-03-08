@@ -24,7 +24,7 @@
 
 ---------------  T H R E A D  ---------------
 
-Current thread (0x00007f4dd4077800):  VMThread [stack: 0x00007f4dc45d5000,0x00007f4dc46d6000] [id=14993]
+Current thread (0x00007f4dd4077800):  VMThread [stack: 0x00007f4dc45d5000,0x00007f4dc46d6000] [userId=14993]
 
 Stack: [0x00007f4dc45d5000,0x00007f4dc46d6000],  sp=0x00007f4dc46d4480,  free space=1021k
 Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
@@ -52,35 +52,35 @@ VM_Operation (0x00007f4d5b9dc000): ParallelGCFailedAllocation, mode: safepoint, 
 ---------------  P R O C E S S  ---------------
 
 Java Threads: ( => current thread )
-  0x00007f4d640b8000 JavaThread "pool-8-thread-4" [_thread_blocked, id=15075, stack(0x00007f4d5b4d9000,0x00007f4d5b5da000)]
-  0x00007f4d640b7000 JavaThread "pool-8-thread-3" [_thread_blocked, id=15074, stack(0x00007f4d5b6db000,0x00007f4d5b7dc000)]
-  0x00007f4d640b5800 JavaThread "pool-8-thread-2" [_thread_blocked, id=15073, stack(0x00007f4d5b8dd000,0x00007f4d5b9de000)]
-  0x00007f4d640b4800 JavaThread "pool-9-thread-1" [_thread_blocked, id=15072, stack(0x00007f4d5b7dc000,0x00007f4d5b8dd000)]
-  0x00007f4d64057000 JavaThread "pool-8-thread-1" [_thread_blocked, id=15071, stack(0x00007f4d5b5da000,0x00007f4d5b6db000)]
-  0x00007f4d6c283800 JavaThread "pool-6-thread-1" [_thread_blocked, id=15070, stack(0x00007f4d8f169000,0x00007f4d8f26a000)]
-  0x00007f4d6d0ca000 JavaThread "pool-4-thread-2" [_thread_blocked, id=15037, stack(0x00007f4d8c0f5000,0x00007f4d8c1f6000)]
-  0x00007f4d6d0c9000 JavaThread "pool-4-thread-1" [_thread_blocked, id=15036, stack(0x00007f4d8c84b000,0x00007f4d8c94c000)]
-  0x00007f4d6cc4d800 JavaThread "File lock request listener" [_thread_in_native, id=15016, stack(0x00007f4d8e7b5000,0x00007f4d8e8b6000)]
-  0x00007f4d6cb5a800 JavaThread "process reaper" daemon [_thread_blocked, id=15015, stack(0x00007f4d8e8b6000,0x00007f4d8e8ef000)]
-  0x00007f4d6c008000 JavaThread "Asynchronous log dispatcher for org.gradle.launcher.daemon.server.DefaultDaemonConnection@2f7a4baf" [_thread_blocked, id=15010, stack(0x00007f4d8f26a000,0x00007f4d8f36b000)]
-  0x00007f4d8000f000 JavaThread "Daemon worker" [_thread_blocked, id=15007, stack(0x00007f4d8f36b000,0x00007f4d8f46c000)]
-  0x00007f4d8000b800 JavaThread "Cancel handler" [_thread_blocked, id=15006, stack(0x00007f4d8f46c000,0x00007f4d8f56d000)]
-  0x00007f4d80005800 JavaThread "Handler for socket connection from /127.0.0.1:38027 to /127.0.0.1:49354" [_thread_in_native, id=15005, stack(0x00007f4d8f56d000,0x00007f4d8f66e000)]
-  0x00007f4d8400b000 JavaThread "Daemon" [_thread_blocked, id=15004, stack(0x00007f4d8f66e000,0x00007f4d8f76f000)]
-  0x00007f4dd4336000 JavaThread "pool-1-thread-1" [_thread_blocked, id=15003, stack(0x00007f4d8f76f000,0x00007f4d8f870000)]
-  0x00007f4dd4b6e000 JavaThread "Incoming local TCP Connector on port 38027" [_thread_in_native, id=15002, stack(0x00007f4d8fa77000,0x00007f4d8fb78000)]
-  0x00007f4dd40c2800 JavaThread "Service Thread" daemon [_thread_blocked, id=15000, stack(0x00007f4dbcafb000,0x00007f4dbcbfc000)]
-  0x00007f4dd40b3000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=14999, stack(0x00007f4dbcbfc000,0x00007f4dbccfd000)]
-  0x00007f4dd40b1800 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=14998, stack(0x00007f4dbccfd000,0x00007f4dbcdfe000)]
-  0x00007f4dd40ae800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=14997, stack(0x00007f4dbcdfe000,0x00007f4dbceff000)]
-  0x00007f4dd40ac800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=14996, stack(0x00007f4dbceff000,0x00007f4dbd000000)]
-  0x00007f4dd4083800 JavaThread "Finalizer" daemon [_thread_blocked, id=14995, stack(0x00007f4dc43d3000,0x00007f4dc44d4000)]
-  0x00007f4dd407f000 JavaThread "Reference Handler" daemon [_thread_blocked, id=14994, stack(0x00007f4dc44d4000,0x00007f4dc45d5000)]
-  0x00007f4dd400a000 JavaThread "main" [_thread_blocked, id=14988, stack(0x00007f4ddd642000,0x00007f4ddd743000)]
+  0x00007f4d640b8000 JavaThread "pool-8-thread-4" [_thread_blocked, userId=15075, stack(0x00007f4d5b4d9000,0x00007f4d5b5da000)]
+  0x00007f4d640b7000 JavaThread "pool-8-thread-3" [_thread_blocked, userId=15074, stack(0x00007f4d5b6db000,0x00007f4d5b7dc000)]
+  0x00007f4d640b5800 JavaThread "pool-8-thread-2" [_thread_blocked, userId=15073, stack(0x00007f4d5b8dd000,0x00007f4d5b9de000)]
+  0x00007f4d640b4800 JavaThread "pool-9-thread-1" [_thread_blocked, userId=15072, stack(0x00007f4d5b7dc000,0x00007f4d5b8dd000)]
+  0x00007f4d64057000 JavaThread "pool-8-thread-1" [_thread_blocked, userId=15071, stack(0x00007f4d5b5da000,0x00007f4d5b6db000)]
+  0x00007f4d6c283800 JavaThread "pool-6-thread-1" [_thread_blocked, userId=15070, stack(0x00007f4d8f169000,0x00007f4d8f26a000)]
+  0x00007f4d6d0ca000 JavaThread "pool-4-thread-2" [_thread_blocked, userId=15037, stack(0x00007f4d8c0f5000,0x00007f4d8c1f6000)]
+  0x00007f4d6d0c9000 JavaThread "pool-4-thread-1" [_thread_blocked, userId=15036, stack(0x00007f4d8c84b000,0x00007f4d8c94c000)]
+  0x00007f4d6cc4d800 JavaThread "File lock request listener" [_thread_in_native, userId=15016, stack(0x00007f4d8e7b5000,0x00007f4d8e8b6000)]
+  0x00007f4d6cb5a800 JavaThread "process reaper" daemon [_thread_blocked, userId=15015, stack(0x00007f4d8e8b6000,0x00007f4d8e8ef000)]
+  0x00007f4d6c008000 JavaThread "Asynchronous log dispatcher for org.gradle.launcher.daemon.server.DefaultDaemonConnection@2f7a4baf" [_thread_blocked, userId=15010, stack(0x00007f4d8f26a000,0x00007f4d8f36b000)]
+  0x00007f4d8000f000 JavaThread "Daemon worker" [_thread_blocked, userId=15007, stack(0x00007f4d8f36b000,0x00007f4d8f46c000)]
+  0x00007f4d8000b800 JavaThread "Cancel handler" [_thread_blocked, userId=15006, stack(0x00007f4d8f46c000,0x00007f4d8f56d000)]
+  0x00007f4d80005800 JavaThread "Handler for socket connection from /127.0.0.1:38027 to /127.0.0.1:49354" [_thread_in_native, userId=15005, stack(0x00007f4d8f56d000,0x00007f4d8f66e000)]
+  0x00007f4d8400b000 JavaThread "Daemon" [_thread_blocked, userId=15004, stack(0x00007f4d8f66e000,0x00007f4d8f76f000)]
+  0x00007f4dd4336000 JavaThread "pool-1-thread-1" [_thread_blocked, userId=15003, stack(0x00007f4d8f76f000,0x00007f4d8f870000)]
+  0x00007f4dd4b6e000 JavaThread "Incoming local TCP Connector on port 38027" [_thread_in_native, userId=15002, stack(0x00007f4d8fa77000,0x00007f4d8fb78000)]
+  0x00007f4dd40c2800 JavaThread "Service Thread" daemon [_thread_blocked, userId=15000, stack(0x00007f4dbcafb000,0x00007f4dbcbfc000)]
+  0x00007f4dd40b3000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, userId=14999, stack(0x00007f4dbcbfc000,0x00007f4dbccfd000)]
+  0x00007f4dd40b1800 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, userId=14998, stack(0x00007f4dbccfd000,0x00007f4dbcdfe000)]
+  0x00007f4dd40ae800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, userId=14997, stack(0x00007f4dbcdfe000,0x00007f4dbceff000)]
+  0x00007f4dd40ac800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, userId=14996, stack(0x00007f4dbceff000,0x00007f4dbd000000)]
+  0x00007f4dd4083800 JavaThread "Finalizer" daemon [_thread_blocked, userId=14995, stack(0x00007f4dc43d3000,0x00007f4dc44d4000)]
+  0x00007f4dd407f000 JavaThread "Reference Handler" daemon [_thread_blocked, userId=14994, stack(0x00007f4dc44d4000,0x00007f4dc45d5000)]
+  0x00007f4dd400a000 JavaThread "main" [_thread_blocked, userId=14988, stack(0x00007f4ddd642000,0x00007f4ddd743000)]
 
 Other Threads:
-=>0x00007f4dd4077800 VMThread [stack: 0x00007f4dc45d5000,0x00007f4dc46d6000] [id=14993]
-  0x00007f4dd40c5000 WatcherThread [stack: 0x00007f4dbc9fa000,0x00007f4dbcafb000] [id=15001]
+=>0x00007f4dd4077800 VMThread [stack: 0x00007f4dc45d5000,0x00007f4dc46d6000] [userId=14993]
+  0x00007f4dd40c5000 WatcherThread [stack: 0x00007f4dbc9fa000,0x00007f4dbcafb000] [userId=15001]
 
 VM state:at safepoint (normal execution)
 
@@ -894,9 +894,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2707.421
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 0
+core userId		: 0
 cpu cores	: 2
 apicid		: 0
 initial apicid	: 0
@@ -921,9 +921,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2675.878
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 0
+core userId		: 0
 cpu cores	: 2
 apicid		: 1
 initial apicid	: 1
@@ -948,9 +948,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2873.535
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 1
+core userId		: 1
 cpu cores	: 2
 apicid		: 2
 initial apicid	: 2
@@ -975,9 +975,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2804.003
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 1
+core userId		: 1
 cpu cores	: 2
 apicid		: 3
 initial apicid	: 3

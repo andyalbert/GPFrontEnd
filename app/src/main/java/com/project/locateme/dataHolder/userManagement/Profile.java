@@ -18,6 +18,20 @@ public class Profile implements Serializable {
     private String name;
     private Calendar birthday;
     private String pictureURL;
+    private History history;
+    private FriendShipState state;
+
+    public enum FriendShipState{
+        FRIEND, NOT_FRIEND, PENDING_REQUEST, ADD_REQUEST
+    }
+
+    public History getHistory() {
+        return history;
+    }
+
+    public void setHistory(History history) {
+        this.history = history;
+    }
 
     public int getUserId() {
         return userId;
@@ -105,5 +119,13 @@ public class Profile implements Serializable {
 
     public void setPictureURL(String pictureURL) {
         this.pictureURL = pictureURL;
+    }
+
+    public FriendShipState getState() {
+        return state;
+    }
+
+    public void setState(FriendShipState state) {
+        this.state = state;
     }
 }

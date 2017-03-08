@@ -10,12 +10,23 @@ public class Location {
     private double longitude;
     private double latitude;
     private String name;
+    private String id;
 
     public Location(double longitude, double latitude, String name){
         this.longitude = longitude;
         this.latitude = latitude;
         this.name = name;
     }
+    public Location(){}
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public String getId(){
+        return id;
+    }
+
     public double getLongitude() {
         return longitude;
     }

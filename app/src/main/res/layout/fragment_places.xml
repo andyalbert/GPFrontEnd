@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/fragment_places_zones_list"
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:layout_marginLeft="@dimen/margin"
                 android:layout_marginRight="@dimen/margin"
                 />
@@ -67,7 +67,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:background="?colorPrimary"
-            android:layout_below="@id/fragment_places_zone_linear_layout"
+            android:layout_below="@+id/fragment_places_zone_linear_layout"
             android:id="@+id/fragment_places_separator"
             />
 
@@ -77,7 +77,7 @@
             android:text="Upcoming events"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="@dimen/margin"
-            android:layout_below="@id/fragment_places_separator"
+            android:layout_below="@+id/fragment_places_separator"
             android:id="@+id/fragment_places_event_text"
             android:layout_marginBottom="30dp"
             />
@@ -101,11 +101,11 @@
         <com.project.locateme.customViews.NestedListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_places_event_text"
+            android:layout_below="@+id/fragment_places_event_text"
             android:id="@+id/fragment_places_events_list"
             android:scrollbars="none"
             android:dividerHeight="3dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
             />

@@ -8,7 +8,7 @@
     <string name="see_more"><u>see more</u></string>
     <string name="fragment_name">fragment name</string>
     <string name="shared_preferences_name">locateMePref</string>
-    <string name="user_id">user id</string>
+    <string name="user_id">user userId</string>
     <string name="user_password">user pass</string>
     <string name="title_activity_user_location">Map</string>
     <string name="title_activity_add_zone">Map</string>

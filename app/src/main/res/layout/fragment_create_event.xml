@@ -57,7 +57,7 @@
             android:id="@+id/fragment_create_event_pick_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_shape_add_friend"
             android:text="Pick Date"
             android:layout_gravity="right"
             android:layout_weight="1"/>
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:background="@drawable/button_shape"
+        android:background="@drawable/button_shape_add_friend"
         android:padding="5dp"
         android:text="add Location" />
 
@@ -91,6 +91,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginTop="16dp"
-        android:background="@drawable/button_shape"
+        android:background="@drawable/button_shape_add_friend"
         android:text="Create" />
 </LinearLayout>

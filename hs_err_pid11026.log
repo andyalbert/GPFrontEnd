@@ -24,7 +24,7 @@
 
 ---------------  T H R E A D  ---------------
 
-Current thread (0x00007ffa94077800):  VMThread [stack: 0x00007ffa7c6f7000,0x00007ffa7c7f8000] [id=11038]
+Current thread (0x00007ffa94077800):  VMThread [stack: 0x00007ffa7c6f7000,0x00007ffa7c7f8000] [userId=11038]
 
 Stack: [0x00007ffa7c6f7000,0x00007ffa7c7f8000],  sp=0x00007ffa7c7f64d0,  free space=1021k
 Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
@@ -51,117 +51,117 @@ VM_Operation (0x00007ff9fcfb1fd0): ParallelGCSystemGC, mode: safepoint, requeste
 ---------------  P R O C E S S  ---------------
 
 Java Threads: ( => current thread )
-  0x00007ffa3c240000 JavaThread "pool-221-thread-4" [_thread_blocked, id=13671, stack(0x00007ff9fb465000,0x00007ff9fb566000)]
-  0x00007ffa3c132800 JavaThread "pool-221-thread-3" [_thread_blocked, id=13670, stack(0x00007ff9fc06f000,0x00007ff9fc170000)]
-  0x00007ffa3c1ed800 JavaThread "pool-221-thread-2" [_thread_blocked, id=13669, stack(0x00007ffa1e28e000,0x00007ffa1e38f000)]
-  0x00007ffa3c057000 JavaThread "pool-222-thread-1" [_thread_blocked, id=13668, stack(0x00007ff9fd3f1000,0x00007ff9fd4f2000)]
-  0x00007ffa3c06c000 JavaThread "pool-221-thread-1" [_thread_blocked, id=13667, stack(0x00007ffa1d78d000,0x00007ffa1d88e000)]
-  0x00007ffa20005000 JavaThread "Stdin handler" [_thread_blocked, id=13583, stack(0x00007ffa1d58b000,0x00007ffa1d68c000)]
-  0x00007ffa20002000 JavaThread "Asynchronous log dispatcher for org.gradle.launcher.daemon.server.DefaultDaemonConnection@13482429" [_thread_blocked, id=13582, stack(0x00007ffa76469000,0x00007ffa7656a000)]
-  0x00007ffa10002000 JavaThread "Cancel handler" [_thread_blocked, id=13579, stack(0x00007ffa7666b000,0x00007ffa7676c000)]
-  0x00007ffa10001800 JavaThread "Handler for socket connection from /127.0.0.1:33010 to /127.0.0.1:59630" [_thread_in_native, id=13578, stack(0x00007ffa7676c000,0x00007ffa7686d000)]
-  0x00007ffa8005e800 JavaThread "process reaper" daemon [_thread_blocked, id=13550, stack(0x00007ff9fd2b7000,0x00007ff9fd2f0000)]
-  0x00007ffa10003800 JavaThread "Daemon worker Thread 10" [_thread_blocked, id=13462, stack(0x00007ffa7656a000,0x00007ffa7666b000)]
-  0x00007ffa40015800 JavaThread "Daemon Thread 10" [_thread_blocked, id=13459, stack(0x00007ffa7686d000,0x00007ffa7696e000)]
-  0x00007ffa2c054000 JavaThread "pool-18-thread-3" [_thread_blocked, id=12846, stack(0x00007ff9fd1b6000,0x00007ff9fd2b7000)]
-  0x00007ffa20004000 JavaThread "pool-18-thread-4" [_thread_blocked, id=12845, stack(0x00007ff9fceb3000,0x00007ff9fcfb4000)]
-  0x00007ffa28004800 JavaThread "pool-18-thread-2" [_thread_blocked, id=12844, stack(0x00007ffa1d68c000,0x00007ffa1d78d000)]
-  0x00007ffa24020800 JavaThread "pool-18-thread-1" [_thread_blocked, id=12843, stack(0x00007ff9fd2f0000,0x00007ff9fd3f1000)]
-  0x00007ffa78002000 JavaThread "stdout" daemon [_thread_in_native, id=12369, stack(0x00007ff9fd4f2000,0x00007ff9fd5f3000)]
-  0x00007ffa78010800 JavaThread "stderr" daemon [_thread_in_native, id=12368, stack(0x00007ff9fd5f3000,0x00007ff9fd6f4000)]
-  0x00007ffa0400b800 JavaThread "stdout" daemon [_thread_in_native, id=12367, stack(0x00007ff9fd6f4000,0x00007ff9fd7f5000)]
-  0x00007ffa6c014800 JavaThread "stdout" daemon [_thread_in_native, id=12366, stack(0x00007ff9fd7f5000,0x00007ff9fd8f6000)]
-  0x00007ffa4c005800 JavaThread "stdout" daemon [_thread_in_native, id=12365, stack(0x00007ff9fd8f6000,0x00007ff9fd9f7000)]
-  0x00007ffa6c012800 JavaThread "stderr" daemon [_thread_in_native, id=12364, stack(0x00007ff9fd9f7000,0x00007ff9fdaf8000)]
-  0x00007ffa04009800 JavaThread "stderr" daemon [_thread_in_native, id=12363, stack(0x00007ff9fdaf8000,0x00007ff9fdbf9000)]
-  0x00007ffa3801c800 JavaThread "stdout" daemon [_thread_in_native, id=12362, stack(0x00007ff9fdbf9000,0x00007ff9fdcfa000)]
-  0x00007ffa38015000 JavaThread "stderr" daemon [_thread_in_native, id=12361, stack(0x00007ff9fdcfa000,0x00007ff9fddfb000)]
-  0x00007ffa6803c800 JavaThread "stdout" daemon [_thread_in_native, id=12360, stack(0x00007ff9fddfb000,0x00007ff9fdefc000)]
-  0x00007ffa6803a800 JavaThread "stderr" daemon [_thread_in_native, id=12359, stack(0x00007ff9fdefc000,0x00007ff9fdffd000)]
-  0x00007ffa80058000 JavaThread "stdout" daemon [_thread_in_native, id=12358, stack(0x00007ff9fdffd000,0x00007ff9fe0fe000)]
-  0x00007ffa80056000 JavaThread "stderr" daemon [_thread_in_native, id=12357, stack(0x00007ff9fe0fe000,0x00007ff9fe1ff000)]
-  0x00007ffa0800b800 JavaThread "stdout" daemon [_thread_in_native, id=12356, stack(0x00007ff9fe1ff000,0x00007ff9fe300000)]
-  0x00007ffa08009800 JavaThread "stderr" daemon [_thread_in_native, id=12355, stack(0x00007ff9fe300000,0x00007ff9fe401000)]
-  0x00007ffa944c4800 JavaThread "stdout" daemon [_thread_in_native, id=12354, stack(0x00007ff9fe401000,0x00007ff9fe502000)]
-  0x00007ffa94310800 JavaThread "stderr" daemon [_thread_in_native, id=12353, stack(0x00007ff9fe502000,0x00007ff9fe603000)]
-  0x00007ffa04007800 JavaThread "stdout" daemon [_thread_in_native, id=12352, stack(0x00007ff9fe603000,0x00007ff9fe704000)]
-  0x00007ffa04005800 JavaThread "stderr" daemon [_thread_in_native, id=12351, stack(0x00007ff9fe704000,0x00007ff9fe805000)]
-  0x00007ffa3c16d800 JavaThread "stdout" daemon [_thread_in_native, id=12350, stack(0x00007ff9fe805000,0x00007ff9fe906000)]
-  0x00007ffa3c16b800 JavaThread "stderr" daemon [_thread_in_native, id=12349, stack(0x00007ff9fe906000,0x00007ff9fea07000)]
-  0x00007ffa0c00c800 JavaThread "stdout" daemon [_thread_in_native, id=12348, stack(0x00007ff9fea07000,0x00007ff9feb08000)]
-  0x00007ffa0c00a800 JavaThread "stderr" daemon [_thread_in_native, id=12347, stack(0x00007ff9feb08000,0x00007ff9fec09000)]
-  0x00007ffa14006800 JavaThread "stdout" daemon [_thread_in_native, id=12346, stack(0x00007ff9fec09000,0x00007ff9fed0a000)]
-  0x00007ffa4c003000 JavaThread "stderr" daemon [_thread_in_native, id=12345, stack(0x00007ff9fed0a000,0x00007ff9fee0b000)]
-  0x00007ffa14004800 JavaThread "stderr" daemon [_thread_in_native, id=12344, stack(0x00007ff9fee0b000,0x00007ff9fef0c000)]
-  0x00000000008f7000 JavaThread "stdout" daemon [_thread_in_native, id=12343, stack(0x00007ff9fef0c000,0x00007ff9ff00d000)]
-  0x00000000008f5800 JavaThread "stderr" daemon [_thread_in_native, id=12342, stack(0x00007ff9ff00d000,0x00007ff9ff10e000)]
-  0x00007ffa44028800 JavaThread "stdout" daemon [_thread_in_native, id=12341, stack(0x00007ff9ff10e000,0x00007ff9ff20f000)]
-  0x00007ffa44026800 JavaThread "stderr" daemon [_thread_in_native, id=12340, stack(0x00007ff9ff20f000,0x00007ff9ff310000)]
-  0x00007ffa08007800 JavaThread "stdout" daemon [_thread_in_native, id=12339, stack(0x00007ff9ff310000,0x00007ff9ff411000)]
-  0x00007ffa08005800 JavaThread "stderr" daemon [_thread_in_native, id=12338, stack(0x00007ff9ff411000,0x00007ff9ff512000)]
-  0x00007ffa0000c000 JavaThread "stdout" daemon [_thread_in_native, id=12337, stack(0x00007ff9ff512000,0x00007ff9ff613000)]
-  0x00007ffa0000a000 JavaThread "stderr" daemon [_thread_in_native, id=12336, stack(0x00007ff9ff613000,0x00007ff9ff714000)]
-  0x00007ffa40060800 JavaThread "stdout" daemon [_thread_in_native, id=12335, stack(0x00007ff9ff714000,0x00007ff9ff815000)]
-  0x00007ffa4003d800 JavaThread "stderr" daemon [_thread_in_native, id=12334, stack(0x00007ff9ff815000,0x00007ff9ff916000)]
-  0x00007ffa0c008800 JavaThread "stdout" daemon [_thread_in_native, id=12333, stack(0x00007ff9ff916000,0x00007ff9ffa17000)]
-  0x00007ffa0c007800 JavaThread "stderr" daemon [_thread_in_native, id=12332, stack(0x00007ff9ffa17000,0x00007ff9ffb18000)]
-  0x00007ffa00008000 JavaThread "stdout" daemon [_thread_in_native, id=12331, stack(0x00007ff9ffb18000,0x00007ff9ffc19000)]
-  0x00007ffa00006800 JavaThread "stderr" daemon [_thread_in_native, id=12330, stack(0x00007ff9ffc19000,0x00007ff9ffd1a000)]
-  0x00007ffa94bd4800 JavaThread "process reaper" daemon [_thread_in_native, id=12329, stack(0x00007ff9ffd1a000,0x00007ff9ffd53000)]
-  0x00007ffa7800e800 JavaThread "process reaper" daemon [_thread_in_native, id=12328, stack(0x00007ff9ffd53000,0x00007ff9ffd8c000)]
-  0x00007ffa68038800 JavaThread "process reaper" daemon [_thread_in_native, id=12327, stack(0x00007ff9ffd8c000,0x00007ff9ffdc5000)]
-  0x00007ffa80054000 JavaThread "process reaper" daemon [_thread_in_native, id=12325, stack(0x00007ff9ffdc5000,0x00007ff9ffdfe000)]
-  0x00007ffa6c001800 JavaThread "process reaper" daemon [_thread_in_native, id=12324, stack(0x00007ffa1c022000,0x00007ffa1c05b000)]
-  0x00007ffa3c169800 JavaThread "png-cruncher_20" daemon [_thread_blocked, id=12322, stack(0x00007ff9ffdfe000,0x00007ff9ffeff000)]
-  0x00007ffa3c166800 JavaThread "png-cruncher_19" daemon [_thread_blocked, id=12319, stack(0x00007ff9ffeff000,0x00007ffa00000000)]
-  0x00007ffa3c164800 JavaThread "png-cruncher_18" daemon [_thread_blocked, id=12317, stack(0x00007ffa1c05b000,0x00007ffa1c15c000)]
-  0x00007ffa3c162800 JavaThread "png-cruncher_17" daemon [_thread_blocked, id=12316, stack(0x00007ffa1c15c000,0x00007ffa1c25d000)]
-  0x00007ffa3c161000 JavaThread "png-cruncher_16" daemon [_thread_blocked, id=12315, stack(0x00007ffa1c25d000,0x00007ffa1c35e000)]
-  0x00007ffa4c001800 JavaThread "process reaper" daemon [_thread_in_native, id=12314, stack(0x00007ffa1c35e000,0x00007ffa1c397000)]
-  0x00007ffa14002800 JavaThread "process reaper" daemon [_thread_in_native, id=12313, stack(0x00007ffa1c397000,0x00007ffa1c3d0000)]
-  0x00007ffa00003800 JavaThread "process reaper" daemon [_thread_in_native, id=12312, stack(0x00007ffa1c3d0000,0x00007ffa1c409000)]
-  0x00007ffa44024000 JavaThread "process reaper" daemon [_thread_in_native, id=12311, stack(0x00007ffa1c409000,0x00007ffa1c442000)]
-  0x00007ffa38012800 JavaThread "process reaper" daemon [_thread_in_native, id=12310, stack(0x00007ffa1c442000,0x00007ffa1c47b000)]
-  0x00007ffa4003c000 JavaThread "process reaper" daemon [_thread_in_native, id=12309, stack(0x00007ffa1c47b000,0x00007ffa1c4b4000)]
-  0x00007ffa3c15f000 JavaThread "process reaper" daemon [_thread_in_native, id=12307, stack(0x00007ffa1c4b4000,0x00007ffa1c4ed000)]
-  0x00007ffa3c15d000 JavaThread "png-cruncher_15" daemon [_thread_blocked, id=12305, stack(0x00007ffa1c4ed000,0x00007ffa1c5ee000)]
-  0x00007ffa3c15b000 JavaThread "png-cruncher_14" daemon [_thread_blocked, id=12303, stack(0x00007ffa1c5ee000,0x00007ffa1c6ef000)]
-  0x00007ffa3c159000 JavaThread "png-cruncher_13" daemon [_thread_blocked, id=12300, stack(0x00007ffa1c6ef000,0x00007ffa1c7f0000)]
-  0x00007ffa3c157000 JavaThread "png-cruncher_12" daemon [_thread_blocked, id=12299, stack(0x00007ffa1c7f0000,0x00007ffa1c8f1000)]
-  0x00007ffa3c155000 JavaThread "png-cruncher_11" daemon [_thread_blocked, id=12298, stack(0x00007ffa1c8f1000,0x00007ffa1c9f2000)]
-  0x00007ffa0c003800 JavaThread "process reaper" daemon [_thread_in_native, id=12297, stack(0x00007ffa1c9f2000,0x00007ffa1ca2b000)]
-  0x00007ffa04003800 JavaThread "process reaper" daemon [_thread_in_native, id=12296, stack(0x00007ffa1ca2b000,0x00007ffa1ca64000)]
-  0x00007ffa08003800 JavaThread "process reaper" daemon [_thread_in_native, id=12295, stack(0x00007ffa1ca64000,0x00007ffa1ca9d000)]
-  0x00007ffa04001800 JavaThread "process reaper" daemon [_thread_in_native, id=12294, stack(0x00007ffa1ca9d000,0x00007ffa1cad6000)]
-  0x00007ffa00001800 JavaThread "process reaper" daemon [_thread_in_native, id=12293, stack(0x00007ffa1cad6000,0x00007ffa1cb0f000)]
-  0x00007ffa08002000 JavaThread "process reaper" daemon [_thread_in_native, id=12292, stack(0x00007ffa1cb0f000,0x00007ffa1cb48000)]
-  0x00000000008f3000 JavaThread "process reaper" daemon [_thread_in_native, id=12291, stack(0x00007ffa1cb48000,0x00007ffa1cb81000)]
-  0x00007ffa0c001800 JavaThread "process reaper" daemon [_thread_in_native, id=12290, stack(0x00007ffa75971000,0x00007ffa759aa000)]
-  0x00007ffa3c153800 JavaThread "png-cruncher_10" daemon [_thread_blocked, id=12287, stack(0x00007ffa1cb81000,0x00007ffa1cc82000)]
-  0x00007ffa3c152000 JavaThread "png-cruncher_9" daemon [_thread_blocked, id=12285, stack(0x00007ffa1cc82000,0x00007ffa1cd83000)]
-  0x00007ffa3c150000 JavaThread "png-cruncher_8" daemon [_thread_blocked, id=12282, stack(0x00007ffa1cd83000,0x00007ffa1ce84000)]
-  0x00007ffa3c09d800 JavaThread "png-cruncher_7" daemon [_thread_blocked, id=12281, stack(0x00007ffa1ce84000,0x00007ffa1cf85000)]
-  0x00007ffa3c09c800 JavaThread "png-cruncher_6" daemon [_thread_blocked, id=12280, stack(0x00007ffa1cf85000,0x00007ffa1d086000)]
-  0x00007ffa3c099000 JavaThread "png-cruncher_5" daemon [_thread_blocked, id=12274, stack(0x00007ffa1d086000,0x00007ffa1d187000)]
-  0x00007ffa3c097800 JavaThread "png-cruncher_4" daemon [_thread_blocked, id=12273, stack(0x00007ffa1d187000,0x00007ffa1d288000)]
-  0x00007ffa3c096000 JavaThread "png-cruncher_3" daemon [_thread_blocked, id=12272, stack(0x00007ffa1d288000,0x00007ffa1d389000)]
-  0x00007ffa3c094000 JavaThread "png-cruncher_2" daemon [_thread_blocked, id=12271, stack(0x00007ffa1d389000,0x00007ffa1d48a000)]
-  0x00007ffa3c080800 JavaThread "png-cruncher_1" daemon [_thread_blocked, id=12270, stack(0x00007ffa1d48a000,0x00007ffa1d58b000)]
-  0x00007ffa34411000 JavaThread "File lock request listener" [_thread_in_native, id=11059, stack(0x00007ffa75bee000,0x00007ffa75cef000)]
-  0x00007ffa9430f800 JavaThread "pool-1-thread-1" [_thread_blocked, id=11050, stack(0x00007ffa7696e000,0x00007ffa76a6f000)]
-  0x00007ffa94b75000 JavaThread "Incoming local TCP Connector on port 33010" [_thread_in_native, id=11049, stack(0x00007ffa76c76000,0x00007ffa76d77000)]
-  0x00007ffa940ba000 JavaThread "Service Thread" daemon [_thread_blocked, id=11045, stack(0x00007ffa77cfd000,0x00007ffa77dfe000)]
-  0x00007ffa940b3000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=11044, stack(0x00007ffa77dfe000,0x00007ffa77eff000)]
-  0x00007ffa940b1800 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=11043, stack(0x00007ffa77eff000,0x00007ffa78000000)]
-  0x00007ffa940ae800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=11042, stack(0x00007ffa7c01a000,0x00007ffa7c11b000)]
-  0x00007ffa940ac800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=11041, stack(0x00007ffa7c11b000,0x00007ffa7c21c000)]
-  0x00007ffa94083800 JavaThread "Finalizer" daemon [_thread_blocked, id=11040, stack(0x00007ffa7c4f5000,0x00007ffa7c5f6000)]
-  0x00007ffa9407f000 JavaThread "Reference Handler" daemon [_thread_blocked, id=11039, stack(0x00007ffa7c5f6000,0x00007ffa7c6f7000)]
-  0x00007ffa9400a000 JavaThread "main" [_thread_blocked, id=11030, stack(0x00007ffa9c844000,0x00007ffa9c945000)]
+  0x00007ffa3c240000 JavaThread "pool-221-thread-4" [_thread_blocked, userId=13671, stack(0x00007ff9fb465000,0x00007ff9fb566000)]
+  0x00007ffa3c132800 JavaThread "pool-221-thread-3" [_thread_blocked, userId=13670, stack(0x00007ff9fc06f000,0x00007ff9fc170000)]
+  0x00007ffa3c1ed800 JavaThread "pool-221-thread-2" [_thread_blocked, userId=13669, stack(0x00007ffa1e28e000,0x00007ffa1e38f000)]
+  0x00007ffa3c057000 JavaThread "pool-222-thread-1" [_thread_blocked, userId=13668, stack(0x00007ff9fd3f1000,0x00007ff9fd4f2000)]
+  0x00007ffa3c06c000 JavaThread "pool-221-thread-1" [_thread_blocked, userId=13667, stack(0x00007ffa1d78d000,0x00007ffa1d88e000)]
+  0x00007ffa20005000 JavaThread "Stdin handler" [_thread_blocked, userId=13583, stack(0x00007ffa1d58b000,0x00007ffa1d68c000)]
+  0x00007ffa20002000 JavaThread "Asynchronous log dispatcher for org.gradle.launcher.daemon.server.DefaultDaemonConnection@13482429" [_thread_blocked, userId=13582, stack(0x00007ffa76469000,0x00007ffa7656a000)]
+  0x00007ffa10002000 JavaThread "Cancel handler" [_thread_blocked, userId=13579, stack(0x00007ffa7666b000,0x00007ffa7676c000)]
+  0x00007ffa10001800 JavaThread "Handler for socket connection from /127.0.0.1:33010 to /127.0.0.1:59630" [_thread_in_native, userId=13578, stack(0x00007ffa7676c000,0x00007ffa7686d000)]
+  0x00007ffa8005e800 JavaThread "process reaper" daemon [_thread_blocked, userId=13550, stack(0x00007ff9fd2b7000,0x00007ff9fd2f0000)]
+  0x00007ffa10003800 JavaThread "Daemon worker Thread 10" [_thread_blocked, userId=13462, stack(0x00007ffa7656a000,0x00007ffa7666b000)]
+  0x00007ffa40015800 JavaThread "Daemon Thread 10" [_thread_blocked, userId=13459, stack(0x00007ffa7686d000,0x00007ffa7696e000)]
+  0x00007ffa2c054000 JavaThread "pool-18-thread-3" [_thread_blocked, userId=12846, stack(0x00007ff9fd1b6000,0x00007ff9fd2b7000)]
+  0x00007ffa20004000 JavaThread "pool-18-thread-4" [_thread_blocked, userId=12845, stack(0x00007ff9fceb3000,0x00007ff9fcfb4000)]
+  0x00007ffa28004800 JavaThread "pool-18-thread-2" [_thread_blocked, userId=12844, stack(0x00007ffa1d68c000,0x00007ffa1d78d000)]
+  0x00007ffa24020800 JavaThread "pool-18-thread-1" [_thread_blocked, userId=12843, stack(0x00007ff9fd2f0000,0x00007ff9fd3f1000)]
+  0x00007ffa78002000 JavaThread "stdout" daemon [_thread_in_native, userId=12369, stack(0x00007ff9fd4f2000,0x00007ff9fd5f3000)]
+  0x00007ffa78010800 JavaThread "stderr" daemon [_thread_in_native, userId=12368, stack(0x00007ff9fd5f3000,0x00007ff9fd6f4000)]
+  0x00007ffa0400b800 JavaThread "stdout" daemon [_thread_in_native, userId=12367, stack(0x00007ff9fd6f4000,0x00007ff9fd7f5000)]
+  0x00007ffa6c014800 JavaThread "stdout" daemon [_thread_in_native, userId=12366, stack(0x00007ff9fd7f5000,0x00007ff9fd8f6000)]
+  0x00007ffa4c005800 JavaThread "stdout" daemon [_thread_in_native, userId=12365, stack(0x00007ff9fd8f6000,0x00007ff9fd9f7000)]
+  0x00007ffa6c012800 JavaThread "stderr" daemon [_thread_in_native, userId=12364, stack(0x00007ff9fd9f7000,0x00007ff9fdaf8000)]
+  0x00007ffa04009800 JavaThread "stderr" daemon [_thread_in_native, userId=12363, stack(0x00007ff9fdaf8000,0x00007ff9fdbf9000)]
+  0x00007ffa3801c800 JavaThread "stdout" daemon [_thread_in_native, userId=12362, stack(0x00007ff9fdbf9000,0x00007ff9fdcfa000)]
+  0x00007ffa38015000 JavaThread "stderr" daemon [_thread_in_native, userId=12361, stack(0x00007ff9fdcfa000,0x00007ff9fddfb000)]
+  0x00007ffa6803c800 JavaThread "stdout" daemon [_thread_in_native, userId=12360, stack(0x00007ff9fddfb000,0x00007ff9fdefc000)]
+  0x00007ffa6803a800 JavaThread "stderr" daemon [_thread_in_native, userId=12359, stack(0x00007ff9fdefc000,0x00007ff9fdffd000)]
+  0x00007ffa80058000 JavaThread "stdout" daemon [_thread_in_native, userId=12358, stack(0x00007ff9fdffd000,0x00007ff9fe0fe000)]
+  0x00007ffa80056000 JavaThread "stderr" daemon [_thread_in_native, userId=12357, stack(0x00007ff9fe0fe000,0x00007ff9fe1ff000)]
+  0x00007ffa0800b800 JavaThread "stdout" daemon [_thread_in_native, userId=12356, stack(0x00007ff9fe1ff000,0x00007ff9fe300000)]
+  0x00007ffa08009800 JavaThread "stderr" daemon [_thread_in_native, userId=12355, stack(0x00007ff9fe300000,0x00007ff9fe401000)]
+  0x00007ffa944c4800 JavaThread "stdout" daemon [_thread_in_native, userId=12354, stack(0x00007ff9fe401000,0x00007ff9fe502000)]
+  0x00007ffa94310800 JavaThread "stderr" daemon [_thread_in_native, userId=12353, stack(0x00007ff9fe502000,0x00007ff9fe603000)]
+  0x00007ffa04007800 JavaThread "stdout" daemon [_thread_in_native, userId=12352, stack(0x00007ff9fe603000,0x00007ff9fe704000)]
+  0x00007ffa04005800 JavaThread "stderr" daemon [_thread_in_native, userId=12351, stack(0x00007ff9fe704000,0x00007ff9fe805000)]
+  0x00007ffa3c16d800 JavaThread "stdout" daemon [_thread_in_native, userId=12350, stack(0x00007ff9fe805000,0x00007ff9fe906000)]
+  0x00007ffa3c16b800 JavaThread "stderr" daemon [_thread_in_native, userId=12349, stack(0x00007ff9fe906000,0x00007ff9fea07000)]
+  0x00007ffa0c00c800 JavaThread "stdout" daemon [_thread_in_native, userId=12348, stack(0x00007ff9fea07000,0x00007ff9feb08000)]
+  0x00007ffa0c00a800 JavaThread "stderr" daemon [_thread_in_native, userId=12347, stack(0x00007ff9feb08000,0x00007ff9fec09000)]
+  0x00007ffa14006800 JavaThread "stdout" daemon [_thread_in_native, userId=12346, stack(0x00007ff9fec09000,0x00007ff9fed0a000)]
+  0x00007ffa4c003000 JavaThread "stderr" daemon [_thread_in_native, userId=12345, stack(0x00007ff9fed0a000,0x00007ff9fee0b000)]
+  0x00007ffa14004800 JavaThread "stderr" daemon [_thread_in_native, userId=12344, stack(0x00007ff9fee0b000,0x00007ff9fef0c000)]
+  0x00000000008f7000 JavaThread "stdout" daemon [_thread_in_native, userId=12343, stack(0x00007ff9fef0c000,0x00007ff9ff00d000)]
+  0x00000000008f5800 JavaThread "stderr" daemon [_thread_in_native, userId=12342, stack(0x00007ff9ff00d000,0x00007ff9ff10e000)]
+  0x00007ffa44028800 JavaThread "stdout" daemon [_thread_in_native, userId=12341, stack(0x00007ff9ff10e000,0x00007ff9ff20f000)]
+  0x00007ffa44026800 JavaThread "stderr" daemon [_thread_in_native, userId=12340, stack(0x00007ff9ff20f000,0x00007ff9ff310000)]
+  0x00007ffa08007800 JavaThread "stdout" daemon [_thread_in_native, userId=12339, stack(0x00007ff9ff310000,0x00007ff9ff411000)]
+  0x00007ffa08005800 JavaThread "stderr" daemon [_thread_in_native, userId=12338, stack(0x00007ff9ff411000,0x00007ff9ff512000)]
+  0x00007ffa0000c000 JavaThread "stdout" daemon [_thread_in_native, userId=12337, stack(0x00007ff9ff512000,0x00007ff9ff613000)]
+  0x00007ffa0000a000 JavaThread "stderr" daemon [_thread_in_native, userId=12336, stack(0x00007ff9ff613000,0x00007ff9ff714000)]
+  0x00007ffa40060800 JavaThread "stdout" daemon [_thread_in_native, userId=12335, stack(0x00007ff9ff714000,0x00007ff9ff815000)]
+  0x00007ffa4003d800 JavaThread "stderr" daemon [_thread_in_native, userId=12334, stack(0x00007ff9ff815000,0x00007ff9ff916000)]
+  0x00007ffa0c008800 JavaThread "stdout" daemon [_thread_in_native, userId=12333, stack(0x00007ff9ff916000,0x00007ff9ffa17000)]
+  0x00007ffa0c007800 JavaThread "stderr" daemon [_thread_in_native, userId=12332, stack(0x00007ff9ffa17000,0x00007ff9ffb18000)]
+  0x00007ffa00008000 JavaThread "stdout" daemon [_thread_in_native, userId=12331, stack(0x00007ff9ffb18000,0x00007ff9ffc19000)]
+  0x00007ffa00006800 JavaThread "stderr" daemon [_thread_in_native, userId=12330, stack(0x00007ff9ffc19000,0x00007ff9ffd1a000)]
+  0x00007ffa94bd4800 JavaThread "process reaper" daemon [_thread_in_native, userId=12329, stack(0x00007ff9ffd1a000,0x00007ff9ffd53000)]
+  0x00007ffa7800e800 JavaThread "process reaper" daemon [_thread_in_native, userId=12328, stack(0x00007ff9ffd53000,0x00007ff9ffd8c000)]
+  0x00007ffa68038800 JavaThread "process reaper" daemon [_thread_in_native, userId=12327, stack(0x00007ff9ffd8c000,0x00007ff9ffdc5000)]
+  0x00007ffa80054000 JavaThread "process reaper" daemon [_thread_in_native, userId=12325, stack(0x00007ff9ffdc5000,0x00007ff9ffdfe000)]
+  0x00007ffa6c001800 JavaThread "process reaper" daemon [_thread_in_native, userId=12324, stack(0x00007ffa1c022000,0x00007ffa1c05b000)]
+  0x00007ffa3c169800 JavaThread "png-cruncher_20" daemon [_thread_blocked, userId=12322, stack(0x00007ff9ffdfe000,0x00007ff9ffeff000)]
+  0x00007ffa3c166800 JavaThread "png-cruncher_19" daemon [_thread_blocked, userId=12319, stack(0x00007ff9ffeff000,0x00007ffa00000000)]
+  0x00007ffa3c164800 JavaThread "png-cruncher_18" daemon [_thread_blocked, userId=12317, stack(0x00007ffa1c05b000,0x00007ffa1c15c000)]
+  0x00007ffa3c162800 JavaThread "png-cruncher_17" daemon [_thread_blocked, userId=12316, stack(0x00007ffa1c15c000,0x00007ffa1c25d000)]
+  0x00007ffa3c161000 JavaThread "png-cruncher_16" daemon [_thread_blocked, userId=12315, stack(0x00007ffa1c25d000,0x00007ffa1c35e000)]
+  0x00007ffa4c001800 JavaThread "process reaper" daemon [_thread_in_native, userId=12314, stack(0x00007ffa1c35e000,0x00007ffa1c397000)]
+  0x00007ffa14002800 JavaThread "process reaper" daemon [_thread_in_native, userId=12313, stack(0x00007ffa1c397000,0x00007ffa1c3d0000)]
+  0x00007ffa00003800 JavaThread "process reaper" daemon [_thread_in_native, userId=12312, stack(0x00007ffa1c3d0000,0x00007ffa1c409000)]
+  0x00007ffa44024000 JavaThread "process reaper" daemon [_thread_in_native, userId=12311, stack(0x00007ffa1c409000,0x00007ffa1c442000)]
+  0x00007ffa38012800 JavaThread "process reaper" daemon [_thread_in_native, userId=12310, stack(0x00007ffa1c442000,0x00007ffa1c47b000)]
+  0x00007ffa4003c000 JavaThread "process reaper" daemon [_thread_in_native, userId=12309, stack(0x00007ffa1c47b000,0x00007ffa1c4b4000)]
+  0x00007ffa3c15f000 JavaThread "process reaper" daemon [_thread_in_native, userId=12307, stack(0x00007ffa1c4b4000,0x00007ffa1c4ed000)]
+  0x00007ffa3c15d000 JavaThread "png-cruncher_15" daemon [_thread_blocked, userId=12305, stack(0x00007ffa1c4ed000,0x00007ffa1c5ee000)]
+  0x00007ffa3c15b000 JavaThread "png-cruncher_14" daemon [_thread_blocked, userId=12303, stack(0x00007ffa1c5ee000,0x00007ffa1c6ef000)]
+  0x00007ffa3c159000 JavaThread "png-cruncher_13" daemon [_thread_blocked, userId=12300, stack(0x00007ffa1c6ef000,0x00007ffa1c7f0000)]
+  0x00007ffa3c157000 JavaThread "png-cruncher_12" daemon [_thread_blocked, userId=12299, stack(0x00007ffa1c7f0000,0x00007ffa1c8f1000)]
+  0x00007ffa3c155000 JavaThread "png-cruncher_11" daemon [_thread_blocked, userId=12298, stack(0x00007ffa1c8f1000,0x00007ffa1c9f2000)]
+  0x00007ffa0c003800 JavaThread "process reaper" daemon [_thread_in_native, userId=12297, stack(0x00007ffa1c9f2000,0x00007ffa1ca2b000)]
+  0x00007ffa04003800 JavaThread "process reaper" daemon [_thread_in_native, userId=12296, stack(0x00007ffa1ca2b000,0x00007ffa1ca64000)]
+  0x00007ffa08003800 JavaThread "process reaper" daemon [_thread_in_native, userId=12295, stack(0x00007ffa1ca64000,0x00007ffa1ca9d000)]
+  0x00007ffa04001800 JavaThread "process reaper" daemon [_thread_in_native, userId=12294, stack(0x00007ffa1ca9d000,0x00007ffa1cad6000)]
+  0x00007ffa00001800 JavaThread "process reaper" daemon [_thread_in_native, userId=12293, stack(0x00007ffa1cad6000,0x00007ffa1cb0f000)]
+  0x00007ffa08002000 JavaThread "process reaper" daemon [_thread_in_native, userId=12292, stack(0x00007ffa1cb0f000,0x00007ffa1cb48000)]
+  0x00000000008f3000 JavaThread "process reaper" daemon [_thread_in_native, userId=12291, stack(0x00007ffa1cb48000,0x00007ffa1cb81000)]
+  0x00007ffa0c001800 JavaThread "process reaper" daemon [_thread_in_native, userId=12290, stack(0x00007ffa75971000,0x00007ffa759aa000)]
+  0x00007ffa3c153800 JavaThread "png-cruncher_10" daemon [_thread_blocked, userId=12287, stack(0x00007ffa1cb81000,0x00007ffa1cc82000)]
+  0x00007ffa3c152000 JavaThread "png-cruncher_9" daemon [_thread_blocked, userId=12285, stack(0x00007ffa1cc82000,0x00007ffa1cd83000)]
+  0x00007ffa3c150000 JavaThread "png-cruncher_8" daemon [_thread_blocked, userId=12282, stack(0x00007ffa1cd83000,0x00007ffa1ce84000)]
+  0x00007ffa3c09d800 JavaThread "png-cruncher_7" daemon [_thread_blocked, userId=12281, stack(0x00007ffa1ce84000,0x00007ffa1cf85000)]
+  0x00007ffa3c09c800 JavaThread "png-cruncher_6" daemon [_thread_blocked, userId=12280, stack(0x00007ffa1cf85000,0x00007ffa1d086000)]
+  0x00007ffa3c099000 JavaThread "png-cruncher_5" daemon [_thread_blocked, userId=12274, stack(0x00007ffa1d086000,0x00007ffa1d187000)]
+  0x00007ffa3c097800 JavaThread "png-cruncher_4" daemon [_thread_blocked, userId=12273, stack(0x00007ffa1d187000,0x00007ffa1d288000)]
+  0x00007ffa3c096000 JavaThread "png-cruncher_3" daemon [_thread_blocked, userId=12272, stack(0x00007ffa1d288000,0x00007ffa1d389000)]
+  0x00007ffa3c094000 JavaThread "png-cruncher_2" daemon [_thread_blocked, userId=12271, stack(0x00007ffa1d389000,0x00007ffa1d48a000)]
+  0x00007ffa3c080800 JavaThread "png-cruncher_1" daemon [_thread_blocked, userId=12270, stack(0x00007ffa1d48a000,0x00007ffa1d58b000)]
+  0x00007ffa34411000 JavaThread "File lock request listener" [_thread_in_native, userId=11059, stack(0x00007ffa75bee000,0x00007ffa75cef000)]
+  0x00007ffa9430f800 JavaThread "pool-1-thread-1" [_thread_blocked, userId=11050, stack(0x00007ffa7696e000,0x00007ffa76a6f000)]
+  0x00007ffa94b75000 JavaThread "Incoming local TCP Connector on port 33010" [_thread_in_native, userId=11049, stack(0x00007ffa76c76000,0x00007ffa76d77000)]
+  0x00007ffa940ba000 JavaThread "Service Thread" daemon [_thread_blocked, userId=11045, stack(0x00007ffa77cfd000,0x00007ffa77dfe000)]
+  0x00007ffa940b3000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, userId=11044, stack(0x00007ffa77dfe000,0x00007ffa77eff000)]
+  0x00007ffa940b1800 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, userId=11043, stack(0x00007ffa77eff000,0x00007ffa78000000)]
+  0x00007ffa940ae800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, userId=11042, stack(0x00007ffa7c01a000,0x00007ffa7c11b000)]
+  0x00007ffa940ac800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, userId=11041, stack(0x00007ffa7c11b000,0x00007ffa7c21c000)]
+  0x00007ffa94083800 JavaThread "Finalizer" daemon [_thread_blocked, userId=11040, stack(0x00007ffa7c4f5000,0x00007ffa7c5f6000)]
+  0x00007ffa9407f000 JavaThread "Reference Handler" daemon [_thread_blocked, userId=11039, stack(0x00007ffa7c5f6000,0x00007ffa7c6f7000)]
+  0x00007ffa9400a000 JavaThread "main" [_thread_blocked, userId=11030, stack(0x00007ffa9c844000,0x00007ffa9c945000)]
 
 Other Threads:
-=>0x00007ffa94077800 VMThread [stack: 0x00007ffa7c6f7000,0x00007ffa7c7f8000] [id=11038]
-  0x00007ffa940bc800 WatcherThread [stack: 0x00007ffa77bfc000,0x00007ffa77cfd000] [id=11046]
+=>0x00007ffa94077800 VMThread [stack: 0x00007ffa7c6f7000,0x00007ffa7c7f8000] [userId=11038]
+  0x00007ffa940bc800 WatcherThread [stack: 0x00007ffa77bfc000,0x00007ffa77cfd000] [userId=11046]
 
 VM state:at safepoint (normal execution)
 
@@ -1202,9 +1202,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2905.078
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 0
+core userId		: 0
 cpu cores	: 2
 apicid		: 0
 initial apicid	: 0
@@ -1229,9 +1229,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2893.554
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 0
+core userId		: 0
 cpu cores	: 2
 apicid		: 1
 initial apicid	: 1
@@ -1256,9 +1256,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2754.882
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 1
+core userId		: 1
 cpu cores	: 2
 apicid		: 2
 initial apicid	: 2
@@ -1283,9 +1283,9 @@ stepping	: 7
 microcode	: 0x28
 cpu MHz		: 2542.968
 cache size	: 3072 KB
-physical id	: 0
+physical userId	: 0
 siblings	: 4
-core id		: 1
+core userId		: 1
 cpu cores	: 2
 apicid		: 3
 initial apicid	: 3

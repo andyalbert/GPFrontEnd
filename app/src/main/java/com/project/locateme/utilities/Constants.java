@@ -19,7 +19,6 @@ public class Constants {
     public static final String HASHMAP = "hashmap"; //used for getting the hashmap from sender to receiver activity
     public static final String Event_CHAT_FRAGMENT = "eventChatFragment";
 
-
     //URLs
     public static final String UPDATE_LOCATION_URL = ""; //// TODO: 1/28/2017 this from backend
     public static final String GET_ALL_FRIENDS = ""; //// TODO: 1/28/2017 get from backend team
@@ -31,5 +30,9 @@ public class Constants {
     public static final String GET_USERS_ON_MAP_REGION = ""; //// TODO: 23/02/17 update this
     public static final String GET_ZONES = ""; //// TODO: 27/02/17 fill
     public static final String GET_ALL_EVENTS = ""; //// TODO: 28/02/17 fill this
-
+    public static final String GET_ZONE_FRIENDS_CURRENT_LOCATION = "";
+    public static final String ADD_FRIEND = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/addfriend";
+    public static final String REMOVE_FRIEND = "";
+    public static final String ACCEPT_REQUEST = "";
+    public static final String IGNORE_REQUEST = "";
 }
