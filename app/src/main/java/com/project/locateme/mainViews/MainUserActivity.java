@@ -117,7 +117,7 @@ public class MainUserActivity extends AppCompatActivity implements
 
         //// TODO: 1/28/2017 transfer this to login
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
-        preferences.edit().putString(getString(R.string.user_id), "1");//// TODO: 1/28/2017 this id is static for testing
+        preferences.edit().putString(getString(R.string.user_id), "1").apply();//// TODO: 1/28/2017 this id is static for testing
         preferences.edit().putString(getString(R.string.user_password), "00000000").apply(); //// TODO: 1/28/2017 also static, must be changed
     }
 

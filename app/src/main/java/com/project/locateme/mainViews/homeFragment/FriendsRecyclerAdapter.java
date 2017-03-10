@@ -98,7 +98,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public ProfileViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.list_item_friend_name);
-            time = (TextView) itemView.findViewById(R.id.list_item_friend_last_update_time);
+            //time = (TextView) itemView.findViewById(R.id.list_item_friend_last_update_time);
             image = (ImageView) itemView.findViewById(R.id.list_item_friend_image);
         }
     }

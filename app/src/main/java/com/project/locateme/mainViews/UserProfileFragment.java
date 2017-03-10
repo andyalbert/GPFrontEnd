@@ -37,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by abdo on 2/25/17.
  */
 
-public class UserProfile extends Fragment
+public class UserProfileFragment extends Fragment
 {
     private Profile profile;
     private SharedPreferences preferences;

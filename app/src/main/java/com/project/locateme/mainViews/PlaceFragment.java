@@ -2,10 +2,12 @@ package com.project.locateme.mainViews;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.project.locateme.R;
@@ -54,10 +57,11 @@ public class PlaceFragment extends Fragment {
     private ArrayList<Area> zones;
     private ZonesAdapter areaArrayAdapter;
     private View view;
-    private JsonObjectRequest eventObjectRequest;
-    private JsonObjectRequest zoneObjectRequest;
+    private StringRequest zoneObjectRequest;
+    private StringRequest eventObjectRequest;
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
+    private final String VOLLEY_TAG = "placeFragment";
     @BindView(R.id.fragment_places_events_list)
     ListView eventsListView;
     @BindView(R.id.fragment_places_no_zones)
@@ -81,20 +85,19 @@ public class PlaceFragment extends Fragment {
     }
 
     private void setPlaceListViewItems(){
-        final JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
-            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
+        Uri uri = Uri.parse(Constants.GET_ZONES).buildUpon()
+                .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
+                .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
+                .build();
+        Log.d("shit i", uri.toString());
 
-        zoneObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_ZONES, jsonObject, new Response.Listener<JSONObject>() {
+        zoneObjectRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                JSONArray array = null; //todo make sure that's the real name
+            public void onResponse(String response) {
+                JSONArray array = null;
                 try {
-                    array = response.getJSONArray("object");
+                    JSONObject temp = new JSONObject(response);
+                    array = temp.getJSONArray("object");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -121,7 +124,8 @@ public class PlaceFragment extends Fragment {
                             profiles = currentObject.getJSONArray("users");
 
                             area.setId(currentObject.getString("area_id"));
-                            area.setImageURL(currentObject.getString("image"));
+                            //// TODO: 10/03/17 uncomment when fixed
+                            //area.setImageURL(currentObject.getString("image"));
                             area.setRadius(currentObject.getDouble("redius"));
 
                             location.setLatitude(currentLocation.getDouble("latitude"));
@@ -134,12 +138,14 @@ public class PlaceFragment extends Fragment {
                                 profile = new Profile();
 
                                 profile.setUserId(currentProfile.getInt("user_Id"));//// TODO: 08/03/17 string not int
-                                profile.setPictureURL(currentLocation.getString("pictureURL"));
+                                //// TODO: 10/03/17 uncomment
+                                //profile.setPictureURL(currentLocation.getString("pictureURL"));
                                 profile.setName(currentProfile.getString("name"));
-                                profile.setFirstName(currentLocation.getString("firstName"));
-                                profile.setLastName(currentLocation.getString("lastName"));
-                                profile.setHomeTown(currentLocation.getString("homeTown"));
-                                profile.setBirthday(currentLocation.getString("birthday"));
+                                profile.setFirstName(currentProfile.getString("firstName"));
+                                profile.setLastName(currentProfile.getString("lastName"));
+                                profile.setHomeTown(currentProfile.getString("homeTown"));
+                                //// TODO: 10/03/17 uncomment
+//                                profile.setBirthday(currentProfile.getString("birthday"));
                                 profile.setState(Profile.FriendShipState.FRIEND);
 
                                 accounts.add(profile);
@@ -161,12 +167,10 @@ public class PlaceFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "error loading your zones, please try again later", Toast.LENGTH_SHORT).show();
             }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return new HashMap(){{put("Content-Type", "application/x-www-form-urlencoded");}};
-            }
-        };
+        });
+
+        zoneObjectRequest.setTag(VOLLEY_TAG);
+        requestQueue.add(zoneObjectRequest);
     }
 
     private void setEventListViewItems() {
@@ -178,30 +182,30 @@ public class PlaceFragment extends Fragment {
             exception.printStackTrace();
         }
 
-        eventObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_UPCOMING_EVENTS, jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //// TODO: 1/29/2017 fill here the event list
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return new HashMap(){{put("Content-Type", "application/x-www-form-urlencoded");}};
-            }
-        };
-        requestQueue.add(eventObjectRequest);
+//        eventObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_UPCOMING_EVENTS, jsonObject, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                //// TODO: 1/29/2017 fill here the event list
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                error.printStackTrace();
+//            }
+//        }){
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                return new HashMap(){{put("Content-Type", "application/x-www-form-urlencoded");}};
+//            }
+      //  };
+       // requestQueue.add(eventObjectRequest);
     }
 
     @Override
     public void onDestroyView() {
         if(requestQueue != null)
-            requestQueue.stop();
+            requestQueue.cancelAll(VOLLEY_TAG);
         super.onDestroyView();
     }
 }

@@ -2,6 +2,7 @@ package com.project.locateme.dataHolder.userManagement;
 
 import com.project.locateme.dataHolder.locationManager.Location;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
  * @version 1.1
  */
 
-public class History {
+public class History implements Serializable {
     private Location location;
     private Timestamp timestamp;
 

@@ -39,6 +39,12 @@
         android:id="@+id/view_zone_fragment"
         android:text="test view zone"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="view my friends"
+        android:id="@+id/fragment_settings_view_friends"
+        />
     <android.support.v7.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

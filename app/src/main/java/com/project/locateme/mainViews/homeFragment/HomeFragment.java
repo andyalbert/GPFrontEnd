@@ -211,7 +211,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     public boolean onMarkerClick(Marker marker) {
         //// TODO: 25/02/17 uncomment when the account is done
 //        String id = (String) marker.getTag();
-//        Intent intent = new Intent(getActivity(), UserProfile.class);
+//        Intent intent = new Intent(getActivity(), UserProfileFragment.class);
 //        intent.putExtra(getString(R.string.fragment_name, Constants.));
 //        HashMap<String, Object> params = new HashMap<>();
 //        params.put("id", id);

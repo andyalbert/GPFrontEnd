@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -63,7 +65,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
     private View view;
     private HashMap<String, Object> parameters;
     private Area area;
-    private JsonObjectRequest request;
+    private StringRequest request;
     private RequestQueue queue;
     private SharedPreferences preferences;
     private ArrayList<UserLocation> usersLocation;
@@ -95,24 +97,21 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
     private void getUsersCurrentLocation() {
-        JSONObject object = new JSONObject();
-        try{
-            object.put("id", preferences.getString(getString(R.string.user_id), ""));
-            object.put("pass", preferences.getString(getString(R.string.user_password), ""));
-            object.put("areaId", area.getId());
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
+        Uri uri = Uri.parse(Constants.GET_ZONE_FRIENDS_CURRENT_LOCATION).buildUpon()
+                .appendQueryParameter("userid", preferences.getString(getString(R.string.user_id), ""))
+                .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
+                .appendQueryParameter("areaid", area.getId())
+                .build();
 
-        request = new JsonObjectRequest(Request.Method.POST,Constants.GET_ZONE_FRIENDS_CURRENT_LOCATION, object, new Response.Listener<JSONObject>() {
+        request = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 usersLocation = new ArrayList<>();
                 UserLocation currentUser;
                 Location location;
                 JSONObject currentObject;
                 try{
-                    JSONArray array = response.getJSONArray("array");
+                    JSONArray array = new JSONObject(response).getJSONArray("object");
 
                     for(int i = 0;array != null && i < array.length();i++){
                         currentObject = array.getJSONObject(i);
@@ -132,6 +131,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
                 //now update the users you have with their locations
                 for(int j = 0;j < area.getAccounts().size();j++)
                     match(area.getAccounts().get(j));
+                drawAndFocus();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -139,6 +139,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
                 Toast.makeText(getActivity(), "error loading your friends locations, please try again", Toast.LENGTH_SHORT).show();
             }
         });
+
         queue.add(request);
     }
 
@@ -171,7 +172,6 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
         map = googleMap;
         map.setOnMarkerClickListener(this);
         getUsersCurrentLocation();
-        drawAndFocus();
     }
 
     private void drawAndFocus() {
@@ -191,23 +191,19 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
             profile = area.getAccounts().get(i);
             LatLng latLng = new LatLng(profile.getHistory().getLocation().getLatitude(), profile.getHistory().getLocation().getLongitude());
             Bitmap bitmap = General.loadBitmapFromView(myView);
-            Glide.with(getActivity())
-                    .load(profile.getPictureURL())
-                    .into((ImageView)myView.findViewById(R.id.map_marker_user_image));
+            //// TODO: 10/03/17 uncomment when image is ready
+//            Glide.with(getActivity())
+//                    .load(profile.getPictureURL())
+//                    .into((ImageView)myView.findViewById(R.id.map_marker_user_image));
             map.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                            .title(profile.getHistory().getTimestamp().toString()))//// TODO: 08/03/17 the timestamp should be more rational 
-                    .setTag(profile);
+//                            .title(profile.getHistory().getTimestamp().toString()))//// TODO: 08/03/17 the timestamp should be more rational
+                    ).setTag(profile);
         }
-        LatLng latLng = new LatLng((double) parameters.get("lat"), (double) parameters.get("long"));
-        map.addMarker(new MarkerOptions()
-                .position(latLng)
-                .title((String) parameters.get("title"))
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
         //finally, set the map for the user
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f)); //// TODO: 08/03/17 may be changed to match the circle zone, it there is time
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(circleLatLong, 12.0f)); //// TODO: 08/03/17 may be changed to match the circle zone, it there is time
         map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setMapToolbarEnabled(false);
         map.getUiSettings().setCompassEnabled(true);
