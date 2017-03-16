@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class Event  implements Serializable{
-    int id;
+    private String id;
     private String name;
     private String description;
     private String imageURL;
@@ -28,8 +28,8 @@ public class Event  implements Serializable{
     public Event(){
         imageURL = null;
     }
-    public int getId(){ return id;}
-    public void setId(int id) { this.id = id;}
+    public String getId(){ return id;}
+    public void setId(String id) { this.id = id;}
     public String getName() {
         return name;
     }
