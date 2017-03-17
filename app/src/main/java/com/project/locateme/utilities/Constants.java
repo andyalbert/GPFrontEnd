@@ -19,6 +19,7 @@ public class Constants {
     public static final String HASHMAP = "hashmap"; //used for getting the hashmap from sender to receiver activity
     public static final String Event_CHAT_FRAGMENT = "eventChatFragment";
     public static final String PROFILE_FRAGMENT = "profileFragment";
+    public static final String CREATE_PLACE_FRAGMENT = "createPlace";
 
     //URLs
     public static final String UPDATE_LOCATION_URL = ""; //// TODO: 1/28/2017 this from backend

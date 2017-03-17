@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create new place"
+                android:textStyle="bold"
+                android:textSize="@dimen/title_size"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"
+                android:textColor="?android:textColorPrimary"
+                />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@mipmap/ic_event"
+                android:layout_gravity="center"
+                android:id="@+id/fragment_create_place_photo"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="press to edit"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_small"
+                />
+            <CheckedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/select_location"
+                android:textColor="@color/link_color"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_small"
+                android:checked="false"
+                android:layout_marginTop="@dimen/margin"
+                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+
+                android:focusable="false"
+                android:id="@+id/fragment_create_place_checked_place"
+                />
+            <LinearLayout
+                android:layout_marginTop="@dimen/separate_margin"
+                android:layout_width="match_parent"
+                android:weightSum="3"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:text="Type a name"
+                    android:layout_marginLeft="@dimen/margin"
+                    />
+                <EditText
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:id="@+id/fragment_create_place_name"
+                    />
+
+            </LinearLayout>
+            <TextView
+                android:layout_marginTop="@dimen/margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/separate_margin"
+                android:text="Choose friends"
+                android:textColor="@color/secondary_text"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/separate_margin"
+                android:orientation="horizontal"
+                android:id="@+id/fragment_create_place_friends"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+    <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_gravity="bottom|right"
+        android:src="@mipmap/ic_done"
+        android:layout_margin="16dp"
+        android:elevation="6dp"
+        app:borderWidth="0dp"
+        android:translationZ="12dp"
+        android:id="@+id/fragment_create_place_floating_button"
+        />
+</FrameLayout>

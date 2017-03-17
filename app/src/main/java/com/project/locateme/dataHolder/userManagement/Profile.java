@@ -20,6 +20,7 @@ public class Profile implements Serializable {
     private String pictureURL;
     private History history;
     private FriendShipState state;
+    private int userId;
 
     public enum FriendShipState{
         FRIEND, NOT_FRIEND, PENDING_REQUEST, ADD_REQUEST
@@ -41,7 +42,6 @@ public class Profile implements Serializable {
         this.userId = userId;
     }
 
-    private int userId;
 
     public String getFirstName() {
         return firstName;

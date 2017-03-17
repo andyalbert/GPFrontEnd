@@ -8,6 +8,7 @@ import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.googleMap.AddZoneFragment;
 import com.project.locateme.googleMap.UserLocationFragment;
 import com.project.locateme.googleMap.ViewZoneFragment;
+import com.project.locateme.mainViews.CreatePlace;
 import com.project.locateme.mainViews.PlaceFragment;
 import com.project.locateme.mainViews.UserProfileFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
@@ -52,6 +53,8 @@ public class FragmentsFactory {
             fragment = new EventChatFragment();
         else if(name.equals(Constants.PROFILE_FRAGMENT))
             fragment = new UserProfileFragment();
+        else if(name.equals(Constants.CREATE_PLACE_FRAGMENT))
+            fragment = new CreatePlace();
         //add more as we go ahead in the application
         return fragment;
     }

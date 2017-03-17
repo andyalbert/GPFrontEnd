@@ -1,5 +1,7 @@
 package com.project.locateme.googleMap;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -61,6 +63,10 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
         private LatLng radiusPosition;
         private double radius;
 
+        public double getRadius(){
+            return radius;
+        }
+
         public void setCenterPosition(LatLng centerPosition) {
             this.centerPosition = centerPosition;
         }
@@ -90,6 +96,9 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
                 Toast.makeText(getActivity(), "you only need 2 markers to create a circle", Toast.LENGTH_LONG).show();
         }
         public void updateCircle(Marker marker){
+            if(radiusMarker == null){
+                return;
+            }
             if(marker.equals(centerMarker)){
                 circle.setCenter(marker.getPosition());
                 radiusMarker.setPosition(toRadiusLatLng(marker.getPosition(), radius));
@@ -123,7 +132,7 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
                     .radius(radius));
         }
 
-        public void drawIfPossible() {
+        private void drawIfPossible() {
             if(centerPosition != null)
                 drawCenterMarker(centerPosition);
             if(radiusPosition != null)
@@ -197,6 +206,7 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
             draggableCircle.setRadiusPosition((LatLng) savedInstanceState.getParcelable(RADIUS_MARKER));
         }
 
+
         return view;
     }
 
@@ -255,12 +265,14 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
      */
     @Override
     public void onClick(View view) {
-        //copy radius, and center to the next fragment/activity
-//        com.project.locateme.dataHolder.locationManager.Location model = new com.project.locateme.dataHolder.locationManager.Location(draggableCircle.centerPosition.longitude,
-//                draggableCircle.centerPosition.latitude , "");
-
-
-
+        Intent resultIntent = new Intent();
+        HashMap<String, Double> result = new HashMap<>();
+        result.put("lat", draggableCircle.getCenterMarker().getPosition().latitude);
+        result.put("long", draggableCircle.getCenterMarker().getPosition().longitude);
+        result.put("radius", draggableCircle.getRadius());
+        resultIntent.putExtra("result", result);
+        getActivity().setResult(Activity.RESULT_OK, resultIntent);
+        getActivity().finish();
     }
 
     @Override

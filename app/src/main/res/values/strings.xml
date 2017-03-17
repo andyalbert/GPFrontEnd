@@ -14,4 +14,5 @@
     <string name="title_activity_add_zone">Map</string>
     <string name="place_welcome_exit"> <u>exit</u> </string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_location"> <u>Select a location</u> </string>
 </resources>

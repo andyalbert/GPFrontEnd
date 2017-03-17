@@ -106,6 +106,15 @@ public class SettingsFragment extends Fragment {
                     startActivity(intent);
                 }
             });
+            view.findViewById(R.id.fragment_settings_create_place).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), HolderActivity.class);
+                    intent.putExtra(getString(R.string.fragment_name), Constants.CREATE_PLACE_FRAGMENT);
+                    intent.putExtra(Constants.HASHMAP, new HashMap<>());
+                    startActivity(intent);
+                }
+            });
         }
 
         //// TODO: 01/02/17 this is just temporary, it must be placed well and somewhere else
