@@ -114,10 +114,12 @@ public class HomeFragment extends Fragment {
         Event e = new Event(), e1 = new Event();
         e1.setName("Test 2");
         e1.setDateOfEvent(new Timestamp(156465789));
-        e1.setLocation(new Location(132.13, 45.33, "NY"));
+        //TODO : Update Models
+        //e1.setLocation(new Location(132.13, 45.33, "NY"));
         e.setName("Test 1");
         e.setDateOfEvent(new Timestamp(156465789));
-        e.setLocation(new Location(32.2265, 21.55556, "Giza"));
+        //TODO : Update Models
+        //e.setLocation(new Location(32.2265, 21.55556, "Giza"));
         events = new ArrayList<>();
         events.addAll(Arrays.asList(e, e, e1, e1, e1, e1, e1, e1, e1, e1, e1, e1));
         eventArrayAdapter = new EventsAdapter(getContext(), R.id.fragment_home_events_list, events);

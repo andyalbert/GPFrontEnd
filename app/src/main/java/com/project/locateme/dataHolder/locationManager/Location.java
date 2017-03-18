@@ -10,6 +10,15 @@ public class Location {
     private double longitude;
     private double latitude;
     private String name;
+    private String Id;
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
 
     public Location(double longitude, double latitude, String name){
         this.longitude = longitude;

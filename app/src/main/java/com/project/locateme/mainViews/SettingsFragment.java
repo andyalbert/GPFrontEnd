@@ -42,7 +42,7 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), HolderActivity.class);
-                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
+                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.CREATE_EVENT_FRAGMENT);
                     intent.putExtra(Constants.HASHMAP, new HashMap<>());
                     startActivity(intent);
                 }

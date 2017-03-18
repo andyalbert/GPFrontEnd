@@ -28,7 +28,7 @@ public class HolderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_holder);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        startService(new Intent(FirebaseInstanceIDService.class.getName()));
+        //startService(new Intent(FirebaseInstanceIDService.class.getName()));
         String fragmentName = getIntent().getExtras().getString(getResources().getString(R.string.fragment_name));
         Fragment fragment = FragmentsFactory.getFragmentForActivityHolder(fragmentName);
         Bundle bundle = new Bundle();

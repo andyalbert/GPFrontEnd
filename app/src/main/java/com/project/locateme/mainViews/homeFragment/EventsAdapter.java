@@ -55,9 +55,10 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
         holder.date.setText(events.get(position).getDateOfEvent().toString());
         holder.name.setText(events.get(position).getName());
-        holder.location.setText(events.get(position).getLocation().getName());
-        if(events.get(position).getImageURL() != null) //first, check if it exists
-            Glide.with(context).load(events.get(position).getImageURL()).into(holder.image);
+        //TODO : Update Models
+//        holder.location.setText(events.get(position).getLocation().getName());
+//        if(events.get(position).getImageURL() != null) //first, check if it exists
+//            Glide.with(context).load(events.get(position).getImageURL()).into(holder.image);
         return convertView;
     }
     class ViewHolder{

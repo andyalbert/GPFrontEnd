@@ -28,5 +28,7 @@ public class Constants {
     public static final String CREATE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createevent";
     public static final String GET_OWNERS_EVENT = " http://firstapp-fciswpro.rhcloud.com/restapi/rest/getownersevent";
     public static final String GET_EVENT_USERS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventusers";
+    public static final String CREATE_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createlocation";
+    public static final String CREATE_AREA = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createarea";
 
 }
