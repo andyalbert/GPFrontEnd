@@ -31,5 +31,8 @@ public class Constants {
     public static final String GET_USERS_ON_MAP_REGION = ""; //// TODO: 23/02/17 update this
     public static final String GET_ZONES = ""; //// TODO: 27/02/17 fill
     public static final String GET_ALL_EVENTS = ""; //// TODO: 28/02/17 fill this
+    public static final String CREATE_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createlocation";
+    public static final String CREATE_AREA = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createarea";
+
 
 }

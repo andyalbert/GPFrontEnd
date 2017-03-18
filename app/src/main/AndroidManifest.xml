@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -17,17 +18,18 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
-    <!-- used for supporting animation between activities-->
+    <!-- used for supporting animation between activities -->
     <supports-screens
-        android:smallScreens="true"
-        android:normalScreens="true"
+        android:anyDensity="true"
         android:largeScreens="true"
+        android:normalScreens="true"
         android:resizeable="true"
-        android:anyDensity="true">
-    </supports-screens>
+        android:smallScreens="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -56,9 +58,7 @@
         <activity
             android:screenOrientation="portrait"
             android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-
-            />
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
         <activity android:name=".HolderActivity" />
 
         <receiver
@@ -75,6 +75,17 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".utilities.FirebaseInstanceIDService" android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".FirebaseNotificationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <activity
             android:screenOrientation="portrait"
             android:name="com.facebook.CustomTabActivity"
@@ -107,7 +118,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".customViews.testActivity"/>
+
+        <activity android:name=".customViews.testActivity" />
+
     </application>
 
 </manifest>

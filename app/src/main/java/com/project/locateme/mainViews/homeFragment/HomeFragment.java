@@ -233,6 +233,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_UPDATE_REQUEST);
         return null;//// TODO: 24/02/17 change
+
     }
 
     @Override

@@ -19,16 +19,6 @@ public class Profile implements Serializable {
     private Calendar birthday;
     private String pictureURL;
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    private int userId;
-
     public String getFirstName() {
         return firstName;
     }
