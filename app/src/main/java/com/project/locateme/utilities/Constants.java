@@ -22,19 +22,20 @@ public class Constants {
     public static final String CREATE_PLACE_FRAGMENT = "createPlace";
 
     //URLs
-    public static final String UPDATE_LOCATION_URL = ""; //// TODO: 1/28/2017 this from backend
+    public static final String UPDATE_LOCATION_URL = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/updateuserlocation";
     public static final String GET_ALL_FRIENDS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getfriends";
     public static final String GET_CLOSEST_FRIENDS = "";//// TODO: 1/29/2017 same
     public static final String GET_UPCOMING_EVENTS = ""; //// TODO: 1/29/2017 same
     public static final String CREATE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createevent";
     public static final String GET_OWNERS_EVENT = " http://firstapp-fciswpro.rhcloud.com/restapi/rest/getownersevent";
     public static final String GET_EVENT_USERS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventusers";
-    public static final String GET_USERS_ON_MAP_REGION = ""; //// TODO: 23/02/17 update this
+    public static final String GET_USERS_ON_MAP_REGION = ""; //// TODO: 23/02/17 Updater this
     public static final String GET_ZONES = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserareas";
     public static final String GET_ALL_EVENTS = ""; //// TODO: 28/02/17 fill this
     public static final String GET_ZONE_FRIENDS_CURRENT_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getareauserswithlocation";
+    public static final String CREATE_ZONE = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createareawithusers";
     public static final String ADD_FRIEND = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/addfriend";
-    public static final String REMOVE_FRIEND = "";
-    public static final String ACCEPT_REQUEST = "";
-    public static final String IGNORE_REQUEST = "";
+    public static final String REMOVE_FRIEND = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/removefriend";
+    public static final String ACCEPT_REQUEST = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/acceptfriendrequest";
+    public static final String IGNORE_REQUEST = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejectfriendrequest";
 }

@@ -58,6 +58,7 @@ public class CreatePlace extends Fragment {
     private View view;
     private FriendsAdapter adapter;
     private StringRequest friendsReqeust;
+    private StringRequest createRequest;
     private RequestQueue queue;
     private SharedPreferences preferences;
     private ArrayList<Profile> profiles;
@@ -81,7 +82,7 @@ public class CreatePlace extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_create_place, container, false);
         ButterKnife.bind(this, view);
@@ -96,7 +97,7 @@ public class CreatePlace extends Fragment {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Matcher matcher = Pattern.compile("\\s*").matcher(placeName.getText());
+                Matcher matcher = Pattern.compile("\\s*").matcher(placeName.getText().toString());
                 //check that the entered name isn't just spaces
                 matcher.find();
                     if(matcher.start() == 0 && matcher.end() == placeName.getText().length()){
@@ -118,8 +119,34 @@ public class CreatePlace extends Fragment {
                     selected.add(selectedProfiles.valueAt(i));
                 }
                 area.setAccounts(selected);
-                //// TODO: 14/03/17 set this after we check it first
-                //area.setImageURL();
+                //// TODO: 14/03/17 set this after we fix it first
+                area.setImageURL("2.img");
+
+                Uri.Builder builder = Uri.parse(Constants.CREATE_ZONE).buildUpon()
+                        .appendQueryParameter("ownerid", preferences.getString(getString(R.string.user_id), ""))
+                        .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
+                        .appendQueryParameter("lon", String.valueOf(area.getLocation().getLongitude()))
+                        .appendQueryParameter("lat", String.valueOf(area.getLocation().getLatitude()))
+                        .appendQueryParameter("redius", String.valueOf(area.getRadius()))
+                        .appendQueryParameter("name", placeName.getText().toString())
+                        .appendQueryParameter("imageurl", area.getImageURL());
+                for(Profile tempProfile : area.getAccounts())
+                    builder.appendQueryParameter("userid", String.valueOf(tempProfile.getUserId()));
+
+
+                createRequest = new StringRequest(Request.Method.POST, builder.build().toString(), new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        getActivity().finish();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "error creating your area, please try again", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                createRequest.setTag(FRIENDS_VOLLEY_TAG);
+                queue.add(createRequest);
             }
         });
 
@@ -188,6 +215,13 @@ public class CreatePlace extends Fragment {
         });
         friendsReqeust.setTag(FRIENDS_VOLLEY_TAG);
         queue.add(friendsReqeust);
+    }
+
+    @Override
+    public void onDestroyView() {
+        if(queue != null)
+            queue.cancelAll(FRIENDS_VOLLEY_TAG);
+        super.onDestroyView();
     }
 
     @Override

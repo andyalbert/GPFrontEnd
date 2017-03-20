@@ -40,7 +40,6 @@ public class FragmentsFactory {
             fragment = new AllFriendsFragment();
         else if(name.equals(Constants.EVENT_FRAGMENT))
             fragment = new EventFragment();
-
         else if(name.equals(Constants.USER_LOCATION_FRAGMENT))
             fragment = new UserLocationFragment();
         else if(name.equals(Constants.SELECT_ZONE_FRAGMENT))

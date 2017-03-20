@@ -128,7 +128,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
-                //now update the users you have with their locations
+                //now Updater the users you have with their locations
                 for(int j = 0;j < area.getAccounts().size();j++)
                     match(area.getAccounts().get(j));
                 drawAndFocus();

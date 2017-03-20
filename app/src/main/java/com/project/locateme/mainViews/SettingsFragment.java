@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
@@ -17,8 +16,7 @@ import android.widget.CompoundButton;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
 import com.project.locateme.customViews.testActivity;
-import com.project.locateme.googleMap.AddZoneFragment;
-import com.project.locateme.updatingUserLocation.GPSAndInternetStateChangeReceiver;
+import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
 import com.project.locateme.utilities.Constants;
 
 import java.util.HashMap;
@@ -32,6 +30,7 @@ import butterknife.ButterKnife;
  */
 public class SettingsFragment extends Fragment {
     private View view;
+    //// TODO: 20/03/17 add an option to allow the user to edit the update time
 
     @Nullable
     @Override
@@ -122,7 +121,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 PackageManager pm = getActivity().getPackageManager();
-                ComponentName componentName = new ComponentName(getActivity(), GPSAndInternetStateChangeReceiver.class);
+                ComponentName componentName = new ComponentName(getActivity(), ProviderNetworkStateBroadcastReceiver.class);
                 if (b)
                     pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
@@ -131,5 +130,9 @@ public class SettingsFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void test(){
+
     }
 }

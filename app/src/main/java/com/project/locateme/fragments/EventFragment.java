@@ -168,7 +168,7 @@ public class EventFragment extends Fragment {
         Uri usersUri = Uri.parse(Constants.GET_EVENT_USERS).buildUpon()
                 .appendQueryParameter("eventid" , String.valueOf(model.getId())).build();
 
-        //TODO : update list from backend
+        //TODO : Updater list from backend
         StringRequest usersRequest = new StringRequest(Request.Method.POST, usersUri.toString(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
