@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
@@ -30,6 +31,17 @@ public class ProviderNetworkStateBroadcastReceiver extends BroadcastReceiver {
         //will only continue execution if permission is granted
         if(!isPermissionGranted(context)) //// TODO: 20/03/17 not tested, careful !
             return;
+
+
+        //used to close in incognito mode
+        if(intent.getAction().equals("Initiate") && intent.getIntExtra("disable", 0) == 1){
+            if(alarmManager != null){
+                alarmManager.cancel(pendingIntent);
+                pendingIntent.cancel();
+                alarmManager = null;
+            }
+            return;
+        }
 
         //only triggered explicitly from the app, to update the duration time
         if(intent.getAction().equals("Initiate") && alarmManager != null){

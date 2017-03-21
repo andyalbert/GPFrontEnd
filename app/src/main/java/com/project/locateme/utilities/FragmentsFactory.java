@@ -1,4 +1,6 @@
 package com.project.locateme.utilities;
+
+
 import android.support.v4.app.Fragment;
 
 import com.project.locateme.fragments.CreateEventFragment;
@@ -10,6 +12,7 @@ import com.project.locateme.googleMap.UserLocationFragment;
 import com.project.locateme.googleMap.ViewZoneFragment;
 import com.project.locateme.mainViews.CreatePlace;
 import com.project.locateme.mainViews.PlaceFragment;
+import com.project.locateme.mainViews.PrefFragment;
 import com.project.locateme.mainViews.UserProfileFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.mainViews.NotificationFragment;
@@ -30,12 +33,14 @@ public class FragmentsFactory {
             fragment = new PlaceFragment();
         else if(position == 2)
             fragment = new NotificationFragment();
-        else
+        else if(position == 3)
             fragment = new SettingsFragment();
+        else
+            fragment = new PrefFragment();
         return fragment;
     }
     public static Fragment getFragmentForActivityHolder(String name){
-        Fragment fragment = null;
+        android.support.v4.app.Fragment fragment = null;
         if(name.equals(Constants.ALL_FRIENDS_FRAGMENT))
             fragment = new AllFriendsFragment();
         else if(name.equals(Constants.EVENT_FRAGMENT))

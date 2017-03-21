@@ -114,10 +114,10 @@ public class MainUserActivity extends AppCompatActivity implements
         super.onStart();
         // TODO: 1/27/2017 remove this from here and insert it in the after login activity so it got fixed every time
         // this is used to set the not enabled broadcast receiver of the updating user location into true
-        PackageManager pm  = MainUserActivity.this.getPackageManager();
-        ComponentName componentName = new ComponentName(MainUserActivity.this, ProviderNetworkStateBroadcastReceiver.class);
-        pm.setComponentEnabledSetting(componentName,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
+//        PackageManager pm  = MainUserActivity.this.getPackageManager();
+//        ComponentName componentName = new ComponentName(MainUserActivity.this, ProviderNetworkStateBroadcastReceiver.class);
+//        pm.setComponentEnabledSetting(componentName,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//                PackageManager.DONT_KILL_APP);
 
         //// TODO: 1/28/2017 transfer this to login
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
@@ -159,13 +159,14 @@ public class MainUserActivity extends AppCompatActivity implements
 
     private void setViewPagerTabs() {
         viewPager.setAdapter(mainViewsAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);//// TODO: 20/03/17 make this 3 back again
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.mipmap.ic_home);
         tabLayout.getTabAt(1).setIcon(R.mipmap.ic_message);
         tabLayout.getTabAt(2).setIcon(R.mipmap.ic_notification);
-        tabLayout.getTabAt(3).setIcon(R.mipmap.ic_settings);
+        tabLayout.getTabAt(3).setIcon(R.mipmap.ic_settings);//// TODO: 20/03/17 remove this
+        tabLayout.getTabAt(4).setIcon(R.mipmap.ic_settings);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -266,6 +267,10 @@ public class MainUserActivity extends AppCompatActivity implements
     }
 
     private void callBroadcast() {
+        //// TODO: 21/03/17 remove in between comments
+        //
+        ComponentName componentName = new ComponentName(this, ProviderNetworkStateBroadcastReceiver.class);
+        Log.d("mystate", "callBroadcast: " + getPackageManager().getComponentEnabledSetting(componentName));
         Intent intent = new Intent("Initiate");
         sendBroadcast(intent);
     }

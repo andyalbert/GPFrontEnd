@@ -16,7 +16,6 @@ import android.widget.CompoundButton;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
 import com.project.locateme.customViews.testActivity;
-import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
 import com.project.locateme.utilities.Constants;
 
 import java.util.HashMap;
@@ -116,19 +115,6 @@ public class SettingsFragment extends Fragment {
             });
         }
 
-        //// TODO: 01/02/17 this is just temporary, it must be placed well and somewhere else
-        ((SwitchCompat) view.findViewById(R.id.fragment_settings_switch_incognito)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                PackageManager pm = getActivity().getPackageManager();
-                ComponentName componentName = new ComponentName(getActivity(), ProviderNetworkStateBroadcastReceiver.class);
-                if (b)
-                    pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                            PackageManager.DONT_KILL_APP);
-                else
-                    pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-            }
-        });
         return view;
     }
 

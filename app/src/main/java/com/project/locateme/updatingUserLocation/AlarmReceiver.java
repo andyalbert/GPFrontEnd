@@ -53,6 +53,12 @@ public class AlarmReceiver extends Service implements LocationListener {
 
     }
 
+    @Override
+    public void onDestroy() {
+        Log.d("hi", "onDestroy: ");
+        super.onDestroy();
+    }
+
     /**
      * in this method, a request is sent to the server to update the location, then the service is killed :(
      * @param location

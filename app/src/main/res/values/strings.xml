@@ -16,4 +16,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="select_location"> <u>Select a location</u> </string>
     <string name="location_update_duration">300000</string>
+    <string name="incognito_key">incognito</string>
+    <string name="do_not_disturb_key">do_not_disturb</string>
+    <string name="user_profile_key">user_profile</string>
+    <string name="update_frequency_key">update_frequency</string>
+    <string name="is_incognito">incognito</string>
 </resources>
