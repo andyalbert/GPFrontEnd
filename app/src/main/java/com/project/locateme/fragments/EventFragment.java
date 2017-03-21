@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.project.locateme.ImagePickerActivity;
 import com.project.locateme.R;
 import com.project.locateme.customViews.NestedListView;
 import com.project.locateme.dataHolder.eventsManager.Event;
+import com.project.locateme.dataHolder.locationManager.Area;
 import com.project.locateme.dataHolder.userManagement.Account;
 import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.utilities.Constants;
@@ -78,6 +80,7 @@ public class EventFragment extends Fragment {
     private boolean isOwner = false;
     private StringRequest stringRequest;
     private RequestQueue requestQueue ;
+    private Area area;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,15 +88,18 @@ public class EventFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_event, container, false);
         ButterKnife.bind(this, view);
         requestQueue = Volley.newRequestQueue(getActivity());
-        collapsingToolbar.setTitle("EventName");
+        //collapsingToolbar.setTitle("EventName");
         //collapsingToolbar.setBackgroundColor();
-        eventImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
-                startActivity(intent);
-            }
-        });
+//        eventImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+        initializeEvent();
+        setupAdminView();
+        //initializeUsersListItems();
         acceptEvent.setVisibility(View.GONE);
         declineEvent.setVisibility(View.GONE);
         deleteEvent.setVisibility(View.GONE);
@@ -108,9 +114,7 @@ public class EventFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        initializeEvent();
-        setupAdminView();
-        initializeUsersListItems();
+
         return view;
     }
     //TODO : Accept and decline Event Invitation ? ?
@@ -134,10 +138,11 @@ public class EventFragment extends Fragment {
                     isOwner = false;
                 } else {
                     isOwner = true;
-                    acceptEvent.setVisibility(View.VISIBLE);
-                    declineEvent.setVisibility(View.VISIBLE);
+                    //acceptEvent.setVisibility(View.VISIBLE);
+                    //declineEvent.setVisibility(View.VISIBLE);
                     deleteEvent.setVisibility(View.VISIBLE);
                 }
+                initializeUsersListItems();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -154,11 +159,14 @@ public class EventFragment extends Fragment {
         //TODO: Dont forget to initialize Event Users List
         params = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
         model = new Event();
+        area = new Area();
         model = (Event) params.get("eventModel");
         collapsingToolbar.setTitle(model.getName());
+        collapsingToolbar.setBackgroundColor(15);
         description.setText(model.getDescription());
+        dateTextview.setText(General.convertTimeatampToString(model.getDeadline()));
         //dateTextview.setText(model.getDeadline().toString());
-        //Glide.with(getActivity()).load(model.getImageURL()).into(eventImage);
+        Glide.with(getActivity()).load(model.getArea().getImageURL()).into(eventImage);
     }
 
     public void initializeUsersListItems() {
@@ -179,7 +187,7 @@ public class EventFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+            Log.e("jos" , users.toString());
             for(int i=0 ; i<users.length() ; i++){
                 Profile tempObject = new Profile();
                 Account tempAccount = new Account();
@@ -190,7 +198,7 @@ public class EventFragment extends Fragment {
                     e.printStackTrace();
                 }
                 try {
-                    tempAccount.setId(iterator.getString("User_Id"));
+                    tempAccount.setId(iterator.getString("user_Id"));
                     tempObject.setFirstName(iterator.getString("firstName"));
                     tempObject.setLastName(iterator.getString("lastName"));
                     tempObject.setPictureURL(iterator.getString("pictureURL"));
@@ -204,6 +212,7 @@ public class EventFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+                Log.e("eventUsers" , String.valueOf(eventUsersArray.size()));
                 eventUsersAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
@@ -235,17 +244,19 @@ public class EventFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             Holder holder;
-            if (convertView == null) {
-                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_event_user, null);
+            convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_event_user, null);
+//            if (convertView == null) {
+//                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_event_user, null);
+//                holder = new Holder();
+//                holder.name = (TextView) convertView.findViewById(R.id.list_item_event_user_name);
+//                holder.image = (ImageView) convertView.findViewById(R.id.list_item_event_user_image);
+//                convertView.setTag(holder);
+//            } else {
+                //holder = (Holder) convertView.getTag();
                 holder = new Holder();
-                holder.name = (TextView) convertView.findViewById(R.id.list_item_event_user_name);
-                holder.image = (ImageView) convertView.findViewById(R.id.list_item_event_user_image);
-                convertView.setTag(holder);
-            } else {
-                holder = (Holder) convertView.getTag();
                 holder.name.setText(profileArrayList.get(position).getName());
                 Glide.with(context).load(profileArrayList.get(position).getPictureURL()).into(holder.image);
-            }
+            //}
             return convertView;
         }
 

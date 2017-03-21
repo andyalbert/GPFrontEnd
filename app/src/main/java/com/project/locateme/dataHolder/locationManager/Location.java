@@ -1,12 +1,14 @@
 package com.project.locateme.dataHolder.locationManager;
 
+import java.io.Serializable;
+
 /**
  * @author Andrew
  * @version 1.0
  * @since 25/1/2017
  */
 
-public class Location {
+public class Location implements Serializable {
     private double longitude;
     private double latitude;
     private String name;

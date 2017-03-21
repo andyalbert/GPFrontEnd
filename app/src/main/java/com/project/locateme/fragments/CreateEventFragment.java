@@ -153,10 +153,11 @@ public class CreateEventFragment extends Fragment {
                 initializeModel();
                 Uri uri = null;
                 uri = Uri.parse(Constants.CREATE_LOCATION).buildUpon()
-                .appendQueryParameter("longitude" , String.valueOf(eventLocationObject.getLongitude())).appendQueryParameter("latitude" , String.valueOf(eventLocationObject.getLatitude()))
-                .appendQueryParameter("name" , String.valueOf(eventLocationObject.getName()))
-                .build();
-                stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+                        .appendQueryParameter("longitude", String.valueOf(eventLocationObject.getLongitude()))
+                        .appendQueryParameter("latitude", String.valueOf(eventLocationObject.getLatitude()))
+                        .appendQueryParameter("name", String.valueOf(eventLocationObject.getName()))
+                        .build();
+               stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
@@ -171,111 +172,18 @@ public class CreateEventFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        //call create area
+                        createAreaNetworkcall();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                     }
-                }){
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
-                        return params;
-                    }
-                };
-                requestQueue.add(stringRequest);
-
-                uri = Uri.parse(Constants.CREATE_AREA).buildUpon()
-                        .appendQueryParameter("ownerid" , "1")
-                        .appendQueryParameter("locationid" , eventLocationObject.getId())
-                        .appendQueryParameter("redius" , String.valueOf(radius))
-                        .build();
-                stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        JSONObject json = null;
-                        try {
-                            json = new JSONObject(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            eventArea.setId(json.getString("area_id"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }){
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
-                        return params;
-                    }
-                };
-                requestQueue.add(stringRequest);
-                uri = Uri.parse(Constants.CREATE_EVENT)
-                        .buildUpon().
-                                appendQueryParameter("name", model.getName())
-                        .appendQueryParameter("description", model.getDescription())
-                        .appendQueryParameter("radius", String.valueOf(eventArea.getRadius()))
-                        .appendQueryParameter("userid", "2")
-                        .appendQueryParameter("dateofevent", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(new Date()))
-                        .appendQueryParameter("deadline", formattedDate)
-                        .appendQueryParameter("imageurl", imagePath)
-                        .appendQueryParameter("state", "true")
-                        .appendQueryParameter("locationid", eventLocationObject.getId())
-                        .build();
-                stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject returnedData = new JSONObject(response);
-
-                            model.setId(returnedData.getString("event_id"));
-
-                            Toast.makeText(getActivity(), "Event created Successfuly", Toast.LENGTH_LONG);
-                            Intent intent = new Intent(getActivity(), HolderActivity.class);
-                            HashMap<String, Object> params = new HashMap<String, Object>();
-                            params.put("eventModel", model);
-                            intent.putExtra(Constants.HASHMAP, params);
-                            intent.putExtra(getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
-                            startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "An Error occurred. Try Again Later ", Toast.LENGTH_LONG);
-                        error.printStackTrace();
-                    }
-                }){
-                        @Override
-                        public Map<String , String> getParams() throws AuthFailureError{
-                            return new HashMap<String, String>();
-                        }
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
-                        return params;
-                    }
-                };
+                });
 
                 requestQueue.add(stringRequest);
+
             }
         });
 
@@ -291,12 +199,21 @@ public class CreateEventFragment extends Fragment {
                 imagePath = data.getStringExtra("path");
                 Log.e("ImagePathCreate", imagePath);
                 Uri imagePathUri = Uri.fromFile(new File(imagePath));
-                reference.child(eventName.getText().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                reference.child(eventName.getText().toString());
+                UploadTask uploadTask = reference.child(eventName.getText().toString()).putFile(imagePathUri);
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        @SuppressWarnings("VisibleForTests") Uri cc = taskSnapshot.getDownloadUrl();
+//                        imagePath = cc.toString();
+//
+//                    }
+//                });
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        @SuppressWarnings("VisibleForTests") Uri cc = taskSnapshot.getDownloadUrl();
-                        imagePath = cc.toString();
-
+                        @SuppressWarnings("VisibleForTests")Uri downloadImage = taskSnapshot.getDownloadUrl();
+                        eventArea.setImageURL(downloadImage.toString());
                     }
                 });
                 Log.i("Path", imagePath);
@@ -314,11 +231,86 @@ public class CreateEventFragment extends Fragment {
             }
         }
     }
+    public void createAreaNetworkcall(){
+        Uri uri = Uri.parse(Constants.CREATE_AREA).buildUpon()
+                .appendQueryParameter("ownerid", "1")
+                .appendQueryParameter("locationid", eventLocationObject.getId())
+                .appendQueryParameter("redius", String.valueOf(radius))
+                .build();
 
+        stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    eventArea.setId(json.getString("area_id"));
+                    //call create event fun
+                    createEventNetworkcall();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }) ;
+        requestQueue.add(stringRequest);
+    }
+    public void createEventNetworkcall(){
+        Uri uri = Uri.parse(Constants.CREATE_EVENT)
+                .buildUpon()
+                .appendQueryParameter("name", model.getName())
+                .appendQueryParameter("description", model.getDescription())
+                .appendQueryParameter("radius", String.valueOf(eventArea.getRadius()))
+                .appendQueryParameter("userid", "2")
+                .appendQueryParameter("dateofevent", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(new Date()))
+                .appendQueryParameter("deadline", formattedDate)
+                .appendQueryParameter("imageurl", imagePath)
+                .appendQueryParameter("state", "true")
+                .appendQueryParameter("locationid", eventLocationObject.getId())
+                .build();
+
+        stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject returnedData = new JSONObject(response);
+
+                    model.setId(returnedData.getString("event_id"));
+
+                    Toast.makeText(getActivity(), "Event created Successfuly", Toast.LENGTH_LONG);
+                    Intent intent = new Intent(getActivity(), HolderActivity.class);
+                    HashMap<String, Object> params = new HashMap<String, Object>();
+                    params.put("eventModel", model);
+                    intent.putExtra(Constants.HASHMAP, params);
+                    intent.putExtra(getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "An Error occurred. Try Again Later ", Toast.LENGTH_LONG);
+                error.printStackTrace();
+            }
+        }) ;
+
+        requestQueue.add(stringRequest);
+    }
     public void initializeModel() {
 
         //TODO : get it from the add zone
-        eventLocationObject = new Location(longitude, latitude, eventName.toString());
+        eventLocationObject = new Location(longitude, latitude, eventName.getText().toString());
         model.setName(eventName.getText().toString());
         model.setDescription(eventDescription.getText().toString());
         // get current Date ( Date of creation)
