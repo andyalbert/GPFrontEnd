@@ -3,26 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:gravity="center_vertical"
-    android:background="@drawable/list_item_shape"
-    android:layout_height="55dp">
+    android:layout_height="60dp">
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/ic_event"
         android:id="@+id/list_item_zone_image"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="zone name"
-        android:textColor="#d5000000"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/text_size"
         android:id="@+id/list_item_zone_name"
         android:layout_marginLeft="@dimen/margin"
         />
     <LinearLayout
         android:layout_width="0dp"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="5dp"
         android:layout_weight="1"
         android:gravity="end"
         android:layout_height="wrap_content">
@@ -37,7 +36,6 @@
             android:layout_height="wrap_content"
             tools:text="5"
             android:textSize="@dimen/text_size_small"
-            android:textStyle="bold"
             android:id="@+id/list_item_zone_assigned_number"
             />
     </LinearLayout>
