@@ -10,4 +10,5 @@
     <dimen name="button_width">90dp</dimen>
     <dimen name="button_text_size">10sp</dimen>
     <dimen name="margin">16dp</dimen>
+    <dimen name="separate_margin">8dp</dimen>
 </resources>

@@ -266,11 +266,9 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onClick(View view) {
         Intent resultIntent = new Intent();
-        HashMap<String, Double> result = new HashMap<>();
-        result.put("lat", draggableCircle.getCenterMarker().getPosition().latitude);
-        result.put("long", draggableCircle.getCenterMarker().getPosition().longitude);
-        result.put("radius", draggableCircle.getRadius());
-        resultIntent.putExtra("result", result);
+        resultIntent.putExtra("lat", draggableCircle.getCenterMarker().getPosition().latitude);
+        resultIntent.putExtra("long", draggableCircle.getCenterMarker().getPosition().longitude);
+        resultIntent.putExtra("radius", draggableCircle.getRadius());
         getActivity().setResult(Activity.RESULT_OK, resultIntent);
         getActivity().finish();
     }

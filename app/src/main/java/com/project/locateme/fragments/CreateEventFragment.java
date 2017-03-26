@@ -43,6 +43,7 @@ import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.dataHolder.locationManager.Area;
 import com.project.locateme.dataHolder.locationManager.Location;
 import com.project.locateme.utilities.Constants;
+import com.project.locateme.utilities.DatePickerFragment;
 import com.project.locateme.utilities.General;
 
 import org.json.JSONException;
@@ -157,8 +158,7 @@ public class CreateEventFragment extends Fragment {
                         .appendQueryParameter("latitude", String.valueOf(eventLocationObject.getLatitude()))
                         .appendQueryParameter("name", String.valueOf(eventLocationObject.getName()))
                         .build();
-               stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
-
+                stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         JSONObject jsonObject = null;
@@ -181,11 +181,10 @@ public class CreateEventFragment extends Fragment {
                         error.printStackTrace();
                     }
                 });
-
                 requestQueue.add(stringRequest);
-
             }
         });
+
 
         return view;
 
@@ -201,14 +200,6 @@ public class CreateEventFragment extends Fragment {
                 Uri imagePathUri = Uri.fromFile(new File(imagePath));
                 reference.child(eventName.getText().toString());
                 UploadTask uploadTask = reference.child(eventName.getText().toString()).putFile(imagePathUri);
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        @SuppressWarnings("VisibleForTests") Uri cc = taskSnapshot.getDownloadUrl();
-//                        imagePath = cc.toString();
-//
-//                    }
-//                });
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -222,11 +213,10 @@ public class CreateEventFragment extends Fragment {
             }
         } else if (requestCode == REQUEST_MAP_LOCATION) {
             if (resultCode == RESULT_OK) {
-                HashMap<String, Double> result = (HashMap<String, Double>) data.getSerializableExtra("result");
-                Log.e(result.get("lat").toString(), "Lat");
-                longitude = result.get("long");
-                latitude = result.get("lat");
-                radius = result.get("radius");
+                Log.e(data.getDoubleExtra("lat", 0.0) + "", "Lat");
+                longitude = data.getDoubleExtra("long", 0.0);
+                latitude = data.getDoubleExtra("lat", 0.0);
+                radius = data.getDoubleExtra("radius", 0.0);
                 Toast.makeText(getActivity(), "Location Added", Toast.LENGTH_LONG);
             }
         }
@@ -350,3 +340,4 @@ public class CreateEventFragment extends Fragment {
     }
 
 }
+

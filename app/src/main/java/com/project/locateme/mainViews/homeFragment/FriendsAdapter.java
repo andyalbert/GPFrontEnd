@@ -19,6 +19,9 @@ import com.project.locateme.utilities.Constants;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author Andrew
  * @since 26/1/2017
@@ -48,25 +51,35 @@ public class FriendsAdapter extends ArrayAdapter<Profile> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ProfileViewHolder holder;
         if(convertView == null){
-            holder = new ProfileViewHolder();
             convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_friend, null);
-            holder.name = (TextView) convertView.findViewById(R.id.list_item_friend_name);
-            holder.time = (TextView) convertView.findViewById(R.id.list_item_friend_last_update_time);
-            holder.image = (ImageView) convertView.findViewById(R.id.list_item_friend_image);
+            holder = new ProfileViewHolder(convertView);
             convertView.setTag(holder);
         } else
             holder = (ProfileViewHolder) convertView.getTag();
         holder.name.setText(profiles.get(position).getName());
-        // holder.time.setText(profiles.get(position).get); // TODO: 1/26/2017 please fix this as soon as possible
-        Glide.with(context).load(profiles.get(position).getPictureURL()).into(holder.image);
+        //// TODO: 10/03/17 enable when images are ready on server
+        //Glide.with(context).load(profiles.get(position).getPictureURL()).into(holder.image);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, HolderActivity.class);
+                intent.putExtra(context.getString(R.string.fragment_name), Constants.PROFILE_FRAGMENT);
+                intent.putExtra(Constants.HASHMAP, new HashMap(){{put("profile", profiles.get(position));}});
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
     class ProfileViewHolder {
-        public TextView name;
-        public TextView time;
-        public ImageView image;
+        @BindView(R.id.list_item_friend_name)
+        TextView name;
+        @BindView(R.id.list_item_friend_image)
+        ImageView image;
+        public ProfileViewHolder(View view){
+            ButterKnife.bind(this, view);
+        }
     }
 }

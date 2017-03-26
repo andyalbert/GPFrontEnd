@@ -12,21 +12,23 @@ public class Location implements Serializable {
     private double longitude;
     private double latitude;
     private String name;
-    private String Id;
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
+    private String id;
 
     public Location(double longitude, double latitude, String name){
         this.longitude = longitude;
         this.latitude = latitude;
         this.name = name;
     }
+    public Location(){}
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public String getId(){
+        return id;
+    }
+
     public double getLongitude() {
         return longitude;
     }

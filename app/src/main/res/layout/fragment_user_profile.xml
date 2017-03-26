@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
@@ -14,8 +15,7 @@
             android:src="@mipmap/ic_profile_original"
             app:civ_border_color="#FF000000"
             app:civ_border_width="0dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="@dimen/margin" />
+            android:layout_marginTop="15dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,12 +31,55 @@
             android:id="@+id/FriendState"
             android:text="Add as a friend"
             android:textAllCaps="false"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_shape_add_friend"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="115dp"
             android:textColor="#FFFFFF"
+            android:layout_gravity="center"
             android:textAlignment="center"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:id="@+id/fragment_user_profile_respond_linear_view"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <Button
+                    android:layout_width="160dp"
+                    android:layout_height="25dp"
+                    android:text="Accept"
+                    android:textColor="#ffffff"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:id="@+id/fragment_user_profile_accept"
+                    android:background="@drawable/button_shape_add_friend"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                >
+                <Button
+                    android:layout_width="160dp"
+                    android:layout_height="25dp"
+                    android:textColor="#ffffff"
+                    android:textAlignment="center"
+                    android:background="@drawable/button_shape_remove_friend"
+                    android:text="Ignore"
+                    android:textAllCaps="false"
+                    android:id="@+id/fragment_user_profile_delete"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

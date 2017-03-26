@@ -2,23 +2,33 @@ package com.project.locateme.dataHolder.userManagement;
 
 import com.project.locateme.dataHolder.locationManager.Location;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
 /**
  * @author Andrew
  * @since 26/1/2017
- * @version 1.0
+ * @version 1.1
  */
 
-public class History {
-    private HashMap<Timestamp, Location> positions;
+public class History implements Serializable {
+    private Location location;
+    private Timestamp timestamp;
 
-    public HashMap<Timestamp, Location> getPositions() {
-        return positions;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setPositions(HashMap<Timestamp, Location> positions) {
-        this.positions = positions;
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

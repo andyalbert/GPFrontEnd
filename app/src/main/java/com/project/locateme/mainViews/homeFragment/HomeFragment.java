@@ -13,7 +13,6 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +92,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             map.setMyLocationEnabled(true);
             }
 
-        //used on the app launch, to update to user location
+        //used on the app launch, to Updater to user location
         Location location = getLocation();
         if(location != null)
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.0f));
@@ -196,7 +195,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "an error has occurred during update, please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "an error has occurred during Updater, please try again", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -211,7 +210,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     public boolean onMarkerClick(Marker marker) {
         //// TODO: 25/02/17 uncomment when the account is done
 //        String id = (String) marker.getTag();
-//        Intent intent = new Intent(getActivity(), UserProfile.class);
+//        Intent intent = new Intent(getActivity(), UserProfileFragment.class);
 //        intent.putExtra(getString(R.string.fragment_name, Constants.));
 //        HashMap<String, Object> params = new HashMap<>();
 //        params.put("id", id);

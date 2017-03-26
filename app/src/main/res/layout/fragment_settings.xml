@@ -39,11 +39,17 @@
         android:id="@+id/view_zone_fragment"
         android:text="test view zone"
         />
-    <android.support.v7.widget.SwitchCompat
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Incognito mode"
-        android:id="@+id/fragment_settings_switch_incognito"
+        android:text="view my friends"
+        android:id="@+id/fragment_settings_view_friends"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="create place"
+        android:id="@+id/fragment_settings_create_place"
         />
 
 </LinearLayout>

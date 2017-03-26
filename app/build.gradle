@@ -42,11 +42,13 @@ dependencies {
         transitive = true;
     }
 
+    compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.android.support:design:24.2.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:support-v13:24.2.1'
+    compile 'com.takisoft.fix:preference-v7:24.2.1.0'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:24.2.1'

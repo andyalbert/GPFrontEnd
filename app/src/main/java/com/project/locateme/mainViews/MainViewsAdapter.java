@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+
 import com.project.locateme.utilities.FragmentsFactory;
 
 /**
@@ -27,6 +28,7 @@ public class MainViewsAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4; //// TODO: 1/25/2017 check this number for any further modification
+        return 5; //// TODO: 1/25/2017 check this number for any further modification
+        // TODO: 20/03/17 make this only 4 back
     }
 }
