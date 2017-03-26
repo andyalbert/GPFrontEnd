@@ -2,6 +2,7 @@ package com.project.locateme.dataHolder.locationManager;
 
 import com.project.locateme.dataHolder.userManagement.Profile;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -10,7 +11,7 @@ import java.util.HashMap;
  * @since 9/2/2017
  */
 
-public class Area {
+public class Area implements Serializable{
     private double radius;
     private HashMap<Profile, Boolean> accounts;
     private Location location;

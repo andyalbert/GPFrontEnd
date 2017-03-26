@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.health.TimerStat;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -79,6 +80,11 @@ public class General {
             return null;
 
         }
+    }
+    public static String convertTimeatampToString(Timestamp timerstamp){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String string  = dateFormat.format(new Date());
+        return string;
     }
     public static boolean isAppInBackground(Context context){
         boolean isInBackground = true;
