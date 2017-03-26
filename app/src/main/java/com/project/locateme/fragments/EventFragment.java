@@ -245,18 +245,18 @@ public class EventFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             Holder holder;
             convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_event_user, null);
-//            if (convertView == null) {
-//                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_event_user, null);
-//                holder = new Holder();
-//                holder.name = (TextView) convertView.findViewById(R.id.list_item_event_user_name);
-//                holder.image = (ImageView) convertView.findViewById(R.id.list_item_event_user_image);
-//                convertView.setTag(holder);
-//            } else {
-                //holder = (Holder) convertView.getTag();
+            if (convertView == null) {
+                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_event_user, null);
+                holder = new Holder();
+                holder.name = (TextView) convertView.findViewById(R.id.list_item_event_user_name);
+                holder.image = (ImageView) convertView.findViewById(R.id.list_item_event_user_image);
+                convertView.setTag(holder);
+            } else {
+                holder = (Holder) convertView.getTag();
                 holder = new Holder();
                 holder.name.setText(profileArrayList.get(position).getName());
                 Glide.with(context).load(profileArrayList.get(position).getPictureURL()).into(holder.image);
-            //}
+          }
             return convertView;
         }
 
