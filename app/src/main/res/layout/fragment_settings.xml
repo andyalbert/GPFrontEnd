@@ -51,11 +51,5 @@
         android:text="create place"
         android:id="@+id/fragment_settings_create_place"
         />
-    <android.support.v7.widget.SwitchCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Incognito mode"
-        android:id="@+id/fragment_settings_switch_incognito"
-        />
 
 </LinearLayout>

@@ -56,6 +56,7 @@ public class EventChatFragment extends Fragment {
                 //TODO : get username from shared Pref
                 EditText input = (EditText) view.findViewById(R.id.fragment_event_chat_text_edit);
                 mDatabase.child(eventName)
+                        .child("chat")
                         .push()
                         .setValue(
                                 new MessageModel(
@@ -69,7 +70,7 @@ public class EventChatFragment extends Fragment {
         });
         listOfMessages = (ListView) view.findViewById(R.id.fragment_event_chat_list_of_messages);
         myAdapter = new FirebaseListAdapter<MessageModel>(getActivity(), MessageModel.class, R.layout.chat_message_item,
-                FirebaseDatabase.getInstance().getReference().child(eventName)) {
+                FirebaseDatabase.getInstance().getReference().child(eventName).child("chat")) {
             @Override
             protected void populateView(View v, MessageModel model, int position) {
                 TextView messageText = (TextView) v.findViewById(R.id.chat_message_text);

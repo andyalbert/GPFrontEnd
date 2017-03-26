@@ -6,13 +6,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
 import com.project.locateme.customViews.testActivity;
@@ -37,6 +38,7 @@ public class SettingsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
+        Log.e("tokk" ,FirebaseInstanceId.getInstance().getToken());
 
         //// TODO: 1/28/2017 remove this, it's just for testing
         {
@@ -45,7 +47,7 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), HolderActivity.class);
-                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
+                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.CREATE_EVENT_FRAGMENT);
                     intent.putExtra(Constants.HASHMAP, new HashMap<>());
                     startActivity(intent);
                 }

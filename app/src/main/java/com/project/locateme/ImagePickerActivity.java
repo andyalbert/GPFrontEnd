@@ -70,6 +70,7 @@ public class ImagePickerActivity extends AppCompatActivity {
                 cursor.close();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("path",imagePath);
+                returnIntent.putExtra("URIPath" , selectedImage);
                 setResult(Activity.RESULT_OK,returnIntent);
                 Log.i("PathPicker" , imagePath);
                 finish();

@@ -136,7 +136,7 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
             if(centerPosition != null)
                 drawCenterMarker(centerPosition);
             if(radiusPosition != null)
-               drawRadiusMarker(radiusPosition);
+                drawRadiusMarker(radiusPosition);
             if(radiusPosition != null && centerPosition != null){
                 radius = toRadiusMeters(centerPosition, radiusPosition);
                 drawCircle();

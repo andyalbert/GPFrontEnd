@@ -14,8 +14,7 @@ import java.util.ArrayList;
  * @version 1.2
  */
 
-public class Event  implements Serializable{
-    int id; //// TODO: 08/03/17 this is private and string -_-
+public class Event  implements Serializable {
     private String name;
     private String description;
     private Area area;
@@ -23,11 +22,13 @@ public class Event  implements Serializable{
     private Timestamp deadline; //what is this ??
     private boolean state;
     private Suggestion suggestion;
-    private String imageURL;//// TODO: 08/03/17 remove this, it's in the area
+    private String id;
 
-
-    public Event(){
-        imageURL = null;
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -86,15 +87,4 @@ public class Event  implements Serializable{
         this.suggestion = suggestion;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
 }

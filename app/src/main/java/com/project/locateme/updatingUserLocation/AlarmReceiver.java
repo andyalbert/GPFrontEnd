@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -22,6 +23,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.project.locateme.R;
 import com.project.locateme.utilities.Constants;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author andrew
@@ -51,6 +55,13 @@ public class AlarmReceiver extends Service implements LocationListener {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
 
+        new Timer().schedule(new TimerTask() {//close the service in case of bad network
+            @Override
+            public void run() {
+                mLocationManager.removeUpdates(AlarmReceiver.this);
+                stopSelf();
+            }
+        }, 10000);
     }
 
     @Override

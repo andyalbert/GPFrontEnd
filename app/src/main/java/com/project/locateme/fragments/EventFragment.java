@@ -30,6 +30,7 @@ import com.project.locateme.ImagePickerActivity;
 import com.project.locateme.R;
 import com.project.locateme.customViews.NestedListView;
 import com.project.locateme.dataHolder.eventsManager.Event;
+import com.project.locateme.dataHolder.userManagement.Account;
 import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.utilities.Constants;
 import com.project.locateme.utilities.General;
@@ -181,6 +182,7 @@ public class EventFragment extends Fragment {
 
             for(int i=0 ; i<users.length() ; i++){
                 Profile tempObject = new Profile();
+                Account tempAccount = new Account();
                 JSONObject iterator = null;
                 try {
                     iterator = (JSONObject)users.get(i);
@@ -188,7 +190,7 @@ public class EventFragment extends Fragment {
                     e.printStackTrace();
                 }
                 try {
-                    tempObject.setUserId(iterator.getInt("User_Id"));
+                    tempAccount.setId(iterator.getString("User_Id"));
                     tempObject.setFirstName(iterator.getString("firstName"));
                     tempObject.setLastName(iterator.getString("lastName"));
                     tempObject.setPictureURL(iterator.getString("pictureURL"));
@@ -196,6 +198,7 @@ public class EventFragment extends Fragment {
                     //tempObject.setBirthday(General.convertStringToTimestamp(iterator.getString("birthday")));
                     tempObject.setEmail(iterator.getString("email"));
                     tempObject.setName(iterator.getString("name"));
+                    tempAccount.setProfile(tempObject);
                     eventUsersArray.add(tempObject);
                 } catch (JSONException e) {
                     e.printStackTrace();

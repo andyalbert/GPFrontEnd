@@ -1,5 +1,6 @@
 package com.project.locateme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.project.locateme.utilities.Constants;
+import com.project.locateme.utilities.FirebaseInstanceIDService;
 import com.project.locateme.utilities.FragmentsFactory;
 
 /**
@@ -26,7 +28,7 @@ public class HolderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_holder);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        //startService(new Intent(FirebaseInstanceIDService.class.getName()));
         String fragmentName = getIntent().getExtras().getString(getResources().getString(R.string.fragment_name));
         Fragment fragment = FragmentsFactory.getFragmentForActivityHolder(fragmentName);
         Bundle bundle = new Bundle();

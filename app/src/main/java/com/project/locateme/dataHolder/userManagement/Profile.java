@@ -42,7 +42,6 @@ public class Profile implements Serializable {
         this.userId = userId;
     }
 
-
     public String getFirstName() {
         return firstName;
     }

@@ -38,4 +38,7 @@ public class Constants {
     public static final String REMOVE_FRIEND = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/removefriend";
     public static final String ACCEPT_REQUEST = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/acceptfriendrequest";
     public static final String IGNORE_REQUEST = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejectfriendrequest";
+    public static final String CREATE_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createlocation";
+    public static final String CREATE_AREA = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createarea";
+
 }
