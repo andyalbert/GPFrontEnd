@@ -60,7 +60,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".HolderActivity" />
+        <activity android:name=".HolderActivity" android:windowSoftInputMode="stateHidden" />
         <service
             android:name=".updatingUserLocation.AlarmReceiver"
             android:enabled="true"

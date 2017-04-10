@@ -81,9 +81,9 @@ public class General {
 
         }
     }
-    public static String convertTimeatampToString(Timestamp timerstamp){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String string  = dateFormat.format(new Date());
+    public static String convertTimeatampToString(Timestamp timestamp){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String string  = dateFormat.format(timestamp);
         return string;
     }
     public static boolean isAppInBackground(Context context){

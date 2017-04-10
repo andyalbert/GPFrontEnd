@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,6 @@ import com.bumptech.glide.Glide;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.ImagePickerActivity;
 import com.project.locateme.R;
-import com.project.locateme.customViews.NestedListView;
 import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.dataHolder.locationManager.Area;
 import com.project.locateme.dataHolder.userManagement.Account;
@@ -50,7 +50,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by khaled on 1/28/2017.
+ * @author khaled, andrew
+ * @since 28/1/2017
+ * @version 1.2
  */
 
 public class EventFragment extends Fragment {
@@ -63,7 +65,7 @@ public class EventFragment extends Fragment {
     @BindView(R.id.fragment_event_collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.fragment_event_users_list)
-    NestedListView eventUsersListView;
+    ListView eventUsersListView;
     @BindView(R.id.fragment_event_accept_event)
     Button acceptEvent;
     @BindView(R.id.fragment_event_decline_even)
@@ -80,7 +82,6 @@ public class EventFragment extends Fragment {
     private boolean isOwner = false;
     private StringRequest stringRequest;
     private RequestQueue requestQueue ;
-    private Area area;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -158,14 +159,11 @@ public class EventFragment extends Fragment {
     public void initializeEvent() {
         //TODO: Dont forget to initialize Event Users List
         params = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
-        model = new Event();
-        area = new Area();
         model = (Event) params.get("eventModel");
         collapsingToolbar.setTitle(model.getName());
         collapsingToolbar.setBackgroundColor(15);
         description.setText(model.getDescription());
-        dateTextview.setText(General.convertTimeatampToString(model.getDeadline()));
-        //dateTextview.setText(model.getDeadline().toString());
+        dateTextview.setText(General.convertTimeatampToString(model.getDateOfEvent()));
         Glide.with(getActivity()).load(model.getArea().getImageURL()).into(eventImage);
     }
 

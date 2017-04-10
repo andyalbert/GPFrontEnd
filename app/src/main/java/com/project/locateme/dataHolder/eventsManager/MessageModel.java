@@ -6,12 +6,15 @@ public class MessageModel {
 
     private String messageText;
     private String messageUser;
+    private String userId;
     private long messageTime;
 
-    public MessageModel(String messageText, String messageUser) {
+
+
+    public MessageModel(String messageText, String messageUser, String userId) {
         this.messageText = messageText;
         this.messageUser = messageUser;
-
+        this.userId = userId;
         // Initialize to current time
         messageTime = new Date().getTime();
     }
@@ -42,5 +45,12 @@ public class MessageModel {
 
     public void setMessageTime(long messageTime) {
         this.messageTime = messageTime;
+    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -51,23 +51,24 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), HolderActivity.class);
-                    Location loc = new Location(1.2 , 2.2 , "AAA");
-                    loc.setId("1");
-                    Area area = new Area();
-                    area.setId("1");
-                    area.setRadius(222.50);
-                    area.setImageURL("https://firebasestorage.googleapis.com/v0/b/locateme-f9c41.appspot.com/o/final%20edit?alt=media&token=83ce548c-2193-43cb-9955-60272cac3080");
-                    area.setLocation(loc);
-                    Event event = new Event();
-                    event.setArea(area);
-                    event.setId("2");
-                    event.setDescription("A5 5ara");
-                    event.setState(true);
-                    event.setDateOfEvent(new Timestamp(1244512154));
-                    event.setDeadline(new Timestamp(544546));
+//                    Location loc = new Location(1.2 , 2.2 , "AAA");
+//                    loc.setId("1");
+//                    Area area = new Area();
+//                    area.setId("1");
+//                    area.setRadius(222.50);
+//                    area.setImageURL("https://firebasestorage.googleapis.com/v0/b/locateme-f9c41.appspot.com/o/final%20edit?alt=media&token=83ce548c-2193-43cb-9955-60272cac3080");
+//                    area.setLocation(loc);
+//                    Event event = new Event();
+//                    event.setArea(area);
+//                    event.setId("2");
+//                    event.setDescription("A5 5ara");
+//                    event.setState(true);
+//                    event.setDateOfEvent(new Timestamp(1244512154));
+//                    event.setDeadline(new Timestamp(544546));
                     HashMap<String , Object> params = new HashMap<String, Object>();
-                    params.put("eventModel" , event);
-                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
+                   // params.put("eventModel" , event);
+                   // intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
+                    intent.putExtra(getString(R.string.fragment_name), Constants.CREATE_EVENT_FRAGMENT);
                     intent.putExtra(Constants.HASHMAP, params);
                     startActivity(intent);
                 }
