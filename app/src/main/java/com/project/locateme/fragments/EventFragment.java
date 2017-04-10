@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +76,14 @@ public class EventFragment extends Fragment {
     Button deleteEvent;
     @BindView(R.id.fragment_event_chat_button)
     Button chatEvent;
+    @BindView(R.id.fragment_event_list_floating_button)
+    FloatingActionButton mainActionButton;
+    @BindView(R.id.fragment_event_edit_floating_button)
+    FloatingActionButton editActionButton;
+    @BindView(R.id.fragment_event_invite_floating_button)
+    FloatingActionButton inviteActionButton;
+    @BindView(R.id.fragment_event_transparent_layout)
+    LinearLayout transparentLinearLayout;
     private View view;
     private Event model;
     private EventUsersAdapter eventUsersAdapter;
@@ -115,7 +125,25 @@ public class EventFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        mainActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transparentLinearLayout.setVisibility(View.VISIBLE);
+                editActionButton.setVisibility(View.VISIBLE);
+                if(isOwner)
+                    inviteActionButton.setVisibility(View.VISIBLE);
+                mainActionButton.setClickable(false);
+            }
+        });
+        transparentLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.setVisibility(View.GONE);
+                mainActionButton.setClickable(true);
+                editActionButton.setVisibility(View.GONE);
+                inviteActionButton.setVisibility(View.GONE);
+            }
+        });
         return view;
     }
     //TODO : Accept and decline Event Invitation ? ?
