@@ -42,11 +42,8 @@ import com.project.locateme.utilities.General;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -142,6 +139,19 @@ public class EventFragment extends Fragment {
                 mainActionButton.setClickable(true);
                 editActionButton.setVisibility(View.GONE);
                 inviteActionButton.setVisibility(View.GONE);
+            }
+        });
+        inviteActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), HolderActivity.class);
+                intent.putExtra(getString(R.string.fragment_name), Constants.INVITE_FRIENDS_FRAGMENT);
+                intent.putExtra(Constants.HASHMAP, new HashMap(){
+                    {
+                        put("eventId", model.getId());
+                    }
+                });
+                startActivity(intent);
             }
         });
         return view;

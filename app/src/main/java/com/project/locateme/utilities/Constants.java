@@ -20,6 +20,7 @@ public class Constants {
     public static final String Event_CHAT_FRAGMENT = "eventChatFragment";
     public static final String PROFILE_FRAGMENT = "profileFragment";
     public static final String CREATE_PLACE_FRAGMENT = "createPlace";
+    public static final String INVITE_FRIENDS_FRAGMENT = "inviteFriends";
 
     //URLs
     public static final String UPDATE_LOCATION_URL = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/updateuserlocation";
@@ -40,5 +41,7 @@ public class Constants {
     public static final String IGNORE_REQUEST = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejectfriendrequest";
     public static final String CREATE_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createlocation";
     public static final String CREATE_AREA = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createarea";
+    public static final String GET_PARTICIPANTS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/listofuserstoinvit";
+    public static final String INVITE_TO_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/sendinvitation";
 
 }

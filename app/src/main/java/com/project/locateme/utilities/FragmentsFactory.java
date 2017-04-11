@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.project.locateme.fragments.CreateEventFragment;
 import com.project.locateme.fragments.EventChatFragment;
+import com.project.locateme.fragments.InviteFriendsFragment;
 import com.project.locateme.fragments.allFriendsFragment.AllFriendsFragment;
 import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.googleMap.AddZoneFragment;
@@ -59,6 +60,8 @@ public class FragmentsFactory {
             fragment = new UserProfileFragment();
         else if(name.equals(Constants.CREATE_PLACE_FRAGMENT))
             fragment = new CreatePlace();
+        else if(name.equals(Constants.INVITE_FRIENDS_FRAGMENT))
+            fragment = new InviteFriendsFragment();
         //add more as we go ahead in the application
         return fragment;
     }

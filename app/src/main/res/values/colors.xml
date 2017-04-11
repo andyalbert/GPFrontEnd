@@ -22,4 +22,5 @@
     <color name="secondary_text">#c0000000</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
+    <color name="pending_color">#726d6e</color>
 </resources>
