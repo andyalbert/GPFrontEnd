@@ -293,6 +293,7 @@ public class CreateEventFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), HolderActivity.class);
                     HashMap<String, Object> params = new HashMap<String, Object>();
                     params.put("eventModel", model);
+                    params.put("userStatus", EventFragment.UserState.OWNER);
                     intent.putExtra(Constants.HASHMAP, params);
                     intent.putExtra(getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
                     startActivity(intent);

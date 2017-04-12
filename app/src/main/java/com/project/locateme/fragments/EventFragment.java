@@ -3,7 +3,7 @@ package com.project.locateme.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,10 +30,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.project.locateme.HolderActivity;
-import com.project.locateme.ImagePickerActivity;
 import com.project.locateme.R;
 import com.project.locateme.dataHolder.eventsManager.Event;
-import com.project.locateme.dataHolder.locationManager.Area;
 import com.project.locateme.dataHolder.userManagement.Account;
 import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.utilities.Constants;
@@ -68,7 +66,7 @@ public class EventFragment extends Fragment {
     @BindView(R.id.fragment_event_accept_event)
     Button acceptEvent;
     @BindView(R.id.fragment_event_decline_even)
-    Button declineEvent;
+    Button ignoreEvent;
     @BindView(R.id.fragment_event_delete)
     Button deleteEvent;
     @BindView(R.id.fragment_event_chat_button)
@@ -81,20 +79,29 @@ public class EventFragment extends Fragment {
     FloatingActionButton inviteActionButton;
     @BindView(R.id.fragment_event_transparent_layout)
     LinearLayout transparentLinearLayout;
+    @BindView(R.id.fragment_event_notification_action)
+    LinearLayout notificationActionLinearLayout;
     private View view;
-    private Event model;
+    private Event event;
     private EventUsersAdapter eventUsersAdapter;
     private ArrayList<Profile> eventUsersArray;
     private HashMap<String, Object> params;
     private boolean isOwner = false;
-    private StringRequest stringRequest;
+    private StringRequest stringRequest, deleteReqest, ignoreRequest, acceptRequest;
     private RequestQueue requestQueue ;
+    private SharedPreferences preferences;
+    private final String REQUEST_TAG = "tag";
+    private UserState userState;
+    public enum UserState {
+        OWNER, PARTICIPANT, INVITED
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_event, container, false);
         ButterKnife.bind(this, view);
+        preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
         //collapsingToolbar.setTitle("EventName");
         //collapsingToolbar.setBackgroundColor();
@@ -106,28 +113,29 @@ public class EventFragment extends Fragment {
 //            }
 //        });
         initializeEvent();
-        setupAdminView();
         //initializeUsersListItems();
-        acceptEvent.setVisibility(View.GONE);
-        declineEvent.setVisibility(View.GONE);
-        deleteEvent.setVisibility(View.GONE);
         chatEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 HashMap<String, Object> params = new HashMap<String , Object>();
-                params.put("eventName", model.getName());
+                params.put("eventName", event.getName());
                 Intent intent = new Intent(getActivity(), HolderActivity.class);
                 intent.putExtra(getString(R.string.fragment_name), Constants.Event_CHAT_FRAGMENT);
                 intent.putExtra(Constants.HASHMAP , params);
                 startActivity(intent);
             }
         });
+
+        return view;
+    }
+
+    private void initializeActionButtonsListeners() {
         mainActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 transparentLinearLayout.setVisibility(View.VISIBLE);
                 editActionButton.setVisibility(View.VISIBLE);
-                if(isOwner)
+                if(userState == UserState.OWNER)
                     inviteActionButton.setVisibility(View.VISIBLE);
                 mainActionButton.setClickable(false);
             }
@@ -148,20 +156,19 @@ public class EventFragment extends Fragment {
                 intent.putExtra(getString(R.string.fragment_name), Constants.INVITE_FRIENDS_FRAGMENT);
                 intent.putExtra(Constants.HASHMAP, new HashMap(){
                     {
-                        put("eventId", model.getId());
+                        put("eventId", event.getId());
                     }
                 });
                 startActivity(intent);
             }
         });
-        return view;
     }
-    //TODO : Accept and decline Event Invitation ? ?
 
+    @Deprecated
     public void setupAdminView() {
         Uri uri = Uri.parse(Constants.GET_OWNERS_EVENT).buildUpon()
-                //TODO : get user ID from shared preferences
-                .appendQueryParameter("ownerid", "1")
+                .appendQueryParameter("ownerid", preferences.getString(getString(R.string.user_id), ""))
+                .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
                 .build();
 
         stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
@@ -178,7 +185,7 @@ public class EventFragment extends Fragment {
                 } else {
                     isOwner = true;
                     //acceptEvent.setVisibility(View.VISIBLE);
-                    //declineEvent.setVisibility(View.VISIBLE);
+                    //ignoreEvent.setVisibility(View.VISIBLE);
                     deleteEvent.setVisibility(View.VISIBLE);
                 }
                 initializeUsersListItems();
@@ -195,14 +202,104 @@ public class EventFragment extends Fragment {
     }
 
     public void initializeEvent() {
-        //TODO: Dont forget to initialize Event Users List
         params = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
-        model = (Event) params.get("eventModel");
-        collapsingToolbar.setTitle(model.getName());
+        event = (Event) params.get("eventModel");
+        userState = (UserState) params.get("userStatus");
+
+        switch (userState){
+            case OWNER:
+                deleteEvent.setVisibility(View.VISIBLE);
+                deleteEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri uri = Uri.parse(Constants.DELETE_EVENT).buildUpon()
+                                .appendQueryParameter("eventid", event.getId())
+                                .appendQueryParameter("userid", preferences.getString(getString(R.string.user_id), ""))
+                                .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
+                                .build();
+                        deleteReqest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                getActivity().finish();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getActivity(), "Couldn't delete right now, please try again later", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        deleteReqest.setTag(REQUEST_TAG);
+                        requestQueue.add(deleteReqest);
+                    }
+                });
+            case PARTICIPANT:
+                mainActionButton.setVisibility(View.VISIBLE);
+                chatEvent.setEnabled(true);
+                break;
+            case INVITED:
+                notificationActionLinearLayout.setVisibility(View.VISIBLE);
+                ignoreEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri uri = Uri.parse(Constants.IGNORE_EVENT_INVITATION).buildUpon()
+                                .appendQueryParameter("eventid", event.getId())
+                                .appendQueryParameter("userid", preferences.getString(getString(R.string.user_id), ""))
+                                .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
+                                .build();
+
+                        ignoreRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                getActivity().finish();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getActivity(), "Couldn't complete your request, please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        ignoreRequest.setTag(REQUEST_TAG);
+                        requestQueue.add(ignoreRequest);
+                    }
+                });
+                acceptEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri uri = Uri.parse(Constants.ACCEPT_EVENT_INVITATION).buildUpon()
+                                .appendQueryParameter("eventid", event.getId())
+                                .appendQueryParameter("userid", preferences.getString(getString(R.string.user_id), ""))
+                                .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
+                                .build();
+
+                        acceptRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                notificationActionLinearLayout.setVisibility(View.INVISIBLE);
+                                chatEvent.setEnabled(true);
+                                mainActionButton.setVisibility(View.VISIBLE);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getActivity(), "Couldn't complete your request, please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        acceptRequest.setTag(REQUEST_TAG);
+                        requestQueue.add(acceptRequest);
+                    }
+                });
+        }
+
+        initializeActionButtonsListeners();
+        initializeUsersListItems();
+
+        collapsingToolbar.setTitle(event.getName());
         collapsingToolbar.setBackgroundColor(15);
-        description.setText(model.getDescription());
-        dateTextview.setText(General.convertTimeatampToString(model.getDateOfEvent()));
-        Glide.with(getActivity()).load(model.getArea().getImageURL()).into(eventImage);
+        description.setText(event.getDescription());
+        dateTextview.setText(General.convertTimeatampToString(event.getDateOfEvent()));
+        Glide.with(getActivity()).load(event.getArea().getImageURL()).into(eventImage);
     }
 
     public void initializeUsersListItems() {
@@ -211,7 +308,7 @@ public class EventFragment extends Fragment {
                 getActivity());
         eventUsersListView.setAdapter(eventUsersAdapter);
         Uri usersUri = Uri.parse(Constants.GET_EVENT_USERS).buildUpon()
-                .appendQueryParameter("eventid" , String.valueOf(model.getId())).build();
+                .appendQueryParameter("eventid" , String.valueOf(event.getId())).build();
 
         //TODO : Updater list from backend
         StringRequest usersRequest = new StringRequest(Request.Method.POST, usersUri.toString(), new Response.Listener<String>() {
@@ -260,16 +357,21 @@ public class EventFragment extends Fragment {
         requestQueue.add(usersRequest);
     }
 
-    class EventUsersAdapter extends ArrayAdapter<Profile> {
+    @Override
+    public void onDestroyView() {
+        if(requestQueue != null)
+            requestQueue.cancelAll(REQUEST_TAG);
+        super.onDestroyView();
+    }
+
+    private class EventUsersAdapter extends ArrayAdapter<Profile> {
         private ArrayList<Profile> profileArrayList;
         private Context context;
-        private int resource;
 
         public EventUsersAdapter(ArrayList<Profile> profileArrayList, int resource, Context context) {
             super(context, resource);
             this.profileArrayList = profileArrayList;
             this.context = context;
-            this.resource = resource;
         }
 
         @Override
@@ -289,7 +391,7 @@ public class EventFragment extends Fragment {
                 convertView.setTag(holder);
             } else {
                 holder = (Holder) convertView.getTag();
-                holder = new Holder();
+                //holder = new Holder();
                 holder.name.setText(profileArrayList.get(position).getName());
                 Glide.with(context).load(profileArrayList.get(position).getPictureURL()).into(holder.image);
           }

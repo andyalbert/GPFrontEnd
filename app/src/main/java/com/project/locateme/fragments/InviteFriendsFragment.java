@@ -68,7 +68,7 @@ public class InviteFriendsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_invite_friends, container, false);
         ButterKnife.bind(this, view);
-        
+
         eventId = (String) ((HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP)).get("eventId");
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
 

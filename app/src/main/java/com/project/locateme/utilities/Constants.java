@@ -28,7 +28,7 @@ public class Constants {
     public static final String GET_CLOSEST_FRIENDS = "";//// TODO: 1/29/2017 same
     public static final String GET_UPCOMING_EVENTS = ""; //// TODO: 1/29/2017 same
     public static final String CREATE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createevent";
-    public static final String GET_OWNERS_EVENT = " http://firstapp-fciswpro.rhcloud.com/restapi/rest/getownersevent";
+    public static final String GET_OWNERS_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getownersevent";
     public static final String GET_EVENT_USERS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventusers";
     public static final String GET_USERS_ON_MAP_REGION = ""; //// TODO: 23/02/17 Updater this
     public static final String GET_ZONES = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserareas";
@@ -43,5 +43,7 @@ public class Constants {
     public static final String CREATE_AREA = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createarea";
     public static final String GET_PARTICIPANTS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/listofuserstoinvit";
     public static final String INVITE_TO_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/sendinvitation";
-
+    public static final String DELETE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/deleteevent";
+    public static final String IGNORE_EVENT_INVITATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejecteventinvitation";
+    public static final String ACCEPT_EVENT_INVITATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/accepteventinvitation";
 }

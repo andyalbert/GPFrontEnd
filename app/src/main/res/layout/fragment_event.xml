@@ -48,6 +48,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
+                android:animateLayoutChanges="true"
                 android:id="@+id/fragment_event_main_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,6 +59,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -101,6 +104,8 @@
                     android:background="@color/red"
                     android:text="Delete"
                     android:textAllCaps="false"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -150,6 +155,7 @@
                     android:textColor="@color/white"
                     android:background="@drawable/button_shape_chat"
                     android:text="Go to chat room"
+                    android:enabled="false"
                     android:textAllCaps="false" />
             </LinearLayout>
 
@@ -162,7 +168,6 @@
         android:clickable="true"
         android:orientation="vertical"
         android:id="@+id/fragment_event_transparent_layout"
-        android:background="@drawable/transparent_layout"
         android:visibility="gone"
         />
     <LinearLayout
@@ -200,9 +205,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabSize="normal"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:src="@drawable/image_list"
             android:id="@+id/fragment_event_list_floating_button"
-            android:clickable="true"
             />
     </LinearLayout>
 
