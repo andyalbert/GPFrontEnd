@@ -51,6 +51,23 @@
                 android:padding="10dp" />
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/fragment_event_location_name_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin"
+            android:paddingRight="@dimen/margin">
+
+            <EditText
+                android:id="@+id/fragment_create_event_location_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event location name"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:padding="10dp" />
+        </android.support.design.widget.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

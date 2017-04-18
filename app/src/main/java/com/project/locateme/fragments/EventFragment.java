@@ -119,6 +119,7 @@ public class EventFragment extends Fragment {
             public void onClick(View view) {
                 HashMap<String, Object> params = new HashMap<String , Object>();
                 params.put("eventName", event.getName());
+                params.put("deadline", event.getDeadline());
                 Intent intent = new Intent(getActivity(), HolderActivity.class);
                 intent.putExtra(getString(R.string.fragment_name), Constants.Event_CHAT_FRAGMENT);
                 intent.putExtra(Constants.HASHMAP , params);
@@ -162,43 +163,6 @@ public class EventFragment extends Fragment {
                 startActivity(intent);
             }
         });
-    }
-
-    @Deprecated
-    public void setupAdminView() {
-        Uri uri = Uri.parse(Constants.GET_OWNERS_EVENT).buildUpon()
-                .appendQueryParameter("ownerid", preferences.getString(getString(R.string.user_id), ""))
-                .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
-                .build();
-
-        stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JSONArray data = null;
-                try {
-                    data = new JSONArray(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (data.length() == 0) {
-                    isOwner = false;
-                } else {
-                    isOwner = true;
-                    //acceptEvent.setVisibility(View.VISIBLE);
-                    //ignoreEvent.setVisibility(View.VISIBLE);
-                    deleteEvent.setVisibility(View.VISIBLE);
-                }
-                initializeUsersListItems();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "An Error Occurred. Try Again Later", Toast.LENGTH_LONG);
-                error.printStackTrace();
-            }
-        });
-        requestQueue.add(stringRequest);
-
     }
 
     public void initializeEvent() {
@@ -293,7 +257,7 @@ public class EventFragment extends Fragment {
         }
 
         initializeActionButtonsListeners();
-        initializeUsersListItems();
+        //initializeUsersListItems();
 
         collapsingToolbar.setTitle(event.getName());
         collapsingToolbar.setBackgroundColor(15);
@@ -368,7 +332,7 @@ public class EventFragment extends Fragment {
         private ArrayList<Profile> profileArrayList;
         private Context context;
 
-        public EventUsersAdapter(ArrayList<Profile> profileArrayList, int resource, Context context) {
+        private EventUsersAdapter(ArrayList<Profile> profileArrayList, int resource, Context context) {
             super(context, resource);
             this.profileArrayList = profileArrayList;
             this.context = context;

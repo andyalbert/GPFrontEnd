@@ -3,6 +3,7 @@ package com.project.locateme.utilities;
 
 import android.support.v4.app.Fragment;
 
+import com.project.locateme.fragments.AllEventsFragment;
 import com.project.locateme.fragments.CreateEventFragment;
 import com.project.locateme.fragments.EventChatFragment;
 import com.project.locateme.fragments.InviteFriendsFragment;
@@ -62,6 +63,8 @@ public class FragmentsFactory {
             fragment = new CreatePlace();
         else if(name.equals(Constants.INVITE_FRIENDS_FRAGMENT))
             fragment = new InviteFriendsFragment();
+        else if(name.equals(Constants.ALL_EVENTS_FRAGMENT))
+            fragment = new AllEventsFragment();
         //add more as we go ahead in the application
         return fragment;
     }

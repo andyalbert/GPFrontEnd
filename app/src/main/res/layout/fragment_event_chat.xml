@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="@dimen/margin"
     >
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="5dp"
         android:dividerHeight="8dp"
         android:divider="@android:color/transparent"
         android:id="@+id/fragment_event_chat_list_of_messages"/>
@@ -18,6 +19,9 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginBottom="5dp"
         android:background="?android:colorBackground"
         android:layout_height="wrap_content">
         <EditText
@@ -32,14 +36,14 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
+            android:clickable="false"
+            app:backgroundTint="@color/pending_color"
             android:id="@+id/fragment_event_chat_send"
             android:tint="@android:color/white"
-            android:elevation="12dp"
-            android:translationZ="6dp"
+            app:elevation="12dp"
             app:fabSize="mini" />
     </LinearLayout>
 
 
 
-</FrameLayout>
+</LinearLayout>

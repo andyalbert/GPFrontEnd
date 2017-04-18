@@ -66,7 +66,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * @author khaled, andrew
  * @since 2/2/2017
- * @version 1.2
+ * @version 1.3
  */
 public class CreateEventFragment extends Fragment {
     static final int DATE_DIALOG_ID = 999;
@@ -86,6 +86,8 @@ public class CreateEventFragment extends Fragment {
     Button pickDate;
     @BindView(R.id.fragment_create_event_image)
     ImageView eventImage;
+    @BindView(R.id.fragment_create_event_location_name)
+    EditText eventLocationName;
     int year, month, day;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
@@ -102,6 +104,8 @@ public class CreateEventFragment extends Fragment {
     private static boolean isFirstTime = true;
     private static Calendar firstTime;
     private static Calendar secondTime;
+    private static boolean isTimePicked;
+    private boolean isLocationPicked;
     private static View view;
 
     public CreateEventFragment() {
@@ -168,7 +172,8 @@ public class CreateEventFragment extends Fragment {
     }
 
     private void createEvent() {
-        initializeModel();
+        if(!isInitialized())
+            return;
         Uri uri = Uri.parse(Constants.CREATE_LOCATION).buildUpon()
                 .appendQueryParameter("longitude", String.valueOf(eventLocationObject.getLongitude()))
                 .appendQueryParameter("latitude", String.valueOf(eventLocationObject.getLatitude()))
@@ -227,7 +232,10 @@ public class CreateEventFragment extends Fragment {
                 longitude = data.getDoubleExtra("long", 0.0);
                 latitude = data.getDoubleExtra("lat", 0.0);
                 radius = data.getDoubleExtra("radius", 0.0);
-                Toast.makeText(getActivity(), "Location Added", Toast.LENGTH_LONG);
+                if(radius == 0.0)
+                    isLocationPicked = false;
+                else
+                    isLocationPicked = true;
             }
         }
     }
@@ -313,10 +321,13 @@ public class CreateEventFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    public void initializeModel() {
-
+    public boolean isInitialized() {
+        if(isInfoMissing()){
+            Toast.makeText(getActivity(), "Please complete all the data", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         //TODO : get it from the add zone
-        eventLocationObject = new Location(longitude, latitude, eventName.getText().toString());
+        eventLocationObject = new Location(longitude, latitude, eventLocationName.getText().toString());
         model.setName(eventName.getText().toString());
         model.setDescription(eventDescription.getText().toString());
         // get current Date ( Date of creation)
@@ -327,6 +338,11 @@ public class CreateEventFragment extends Fragment {
         model.setState(false);
         model.setDeadline(General.convertStringToTimestamp(deadline));
         model.setArea(eventArea);
+        return true;
+    }
+
+    private boolean isInfoMissing(){
+        return eventLocationName.getText().toString().equals("") || eventName.getText().toString().equals("") || eventDescription.getText().toString().equals("") || !isTimePicked || !isLocationPicked;
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -341,7 +357,7 @@ public class CreateEventFragment extends Fragment {
             //edit: just disable the past days
             DatePickerDialog da = new DatePickerDialog(getActivity(), this,
                     year, month, day);
-            c.add(Calendar.DATE, 1);
+           c.add(Calendar.DATE, 1);
             Date newDate = c.getTime();
             da.getDatePicker().setMinDate(newDate.getTime());
 
@@ -370,7 +386,7 @@ public class CreateEventFragment extends Fragment {
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
-            return new TimePickerDialog(getActivity(), this, hour, minute, false);
+            return new TimePickerDialog(getActivity(), this, 0, 0, false);
         }
 
         @Override
@@ -397,6 +413,7 @@ public class CreateEventFragment extends Fragment {
                 if(secondTime.compareTo(firstTime) <= 0){
                     Toast.makeText(getActivity(), "Event end time must be after start time", Toast.LENGTH_SHORT).show();
                     layout.setVisibility(View.INVISIBLE);
+                    isTimePicked = false;
                 } else{
                     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm"), dateFormat = new SimpleDateFormat("yyyy:MM:dd");
 
@@ -404,6 +421,7 @@ public class CreateEventFragment extends Fragment {
                     startTime.setText(timeFormat.format(CreateEventFragment.firstTime.getTime()));
                     finishTime.setText(timeFormat.format(CreateEventFragment.secondTime.getTime()));
                     layout.setVisibility(View.VISIBLE);
+                    isTimePicked = true;
                 }
             }
             isFirstTime = !isFirstTime;

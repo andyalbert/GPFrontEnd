@@ -20,9 +20,8 @@
                 android:text="My zones"
                 android:textSize="@dimen/text_size"
                 android:layout_marginLeft="@dimen/margin"
-                android:layout_marginTop="5dp"
                 android:id="@+id/fragment_places_zones_text"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="20dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -80,14 +79,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Upcoming events"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/margin"
             android:layout_marginLeft="@dimen/margin"
             android:layout_below="@+id/fragment_places_separator"
             android:id="@+id/fragment_places_event_text"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="20dp"
             android:textSize="@dimen/text_size"
             />
         <TextView
+            android:id="@+id/fragment_places_no_events"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -105,15 +105,14 @@
               android:id="@+id/fragment_places_events_list"
               />-->
         <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_places_event_text"
             android:id="@+id/fragment_places_events_list"
             android:scrollbars="none"
-            android:dividerHeight="3dp"
             android:visibility="invisible"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
+            android:dividerHeight="1dp"
+            android:divider="?android:colorBackground"
+            android:layout_marginBottom="@dimen/margin"
             />
         <!--
         <android.support.v7.widget.RecyclerView

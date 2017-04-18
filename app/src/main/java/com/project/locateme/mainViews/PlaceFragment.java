@@ -6,8 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,31 +16,29 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.project.locateme.R;
 import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.dataHolder.locationManager.Area;
 import com.project.locateme.dataHolder.locationManager.Location;
 import com.project.locateme.dataHolder.userManagement.Profile;
+import com.project.locateme.fragments.EventFragment;
+import com.project.locateme.mainViews.homeFragment.EventsAdapter;
 import com.project.locateme.mainViews.homeFragment.ZonesAdapter;
 import com.project.locateme.utilities.Constants;
+import com.project.locateme.utilities.General;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +51,7 @@ import butterknife.ButterKnife;
 public class PlaceFragment extends Fragment {
 
     private ArrayAdapter<Event> eventArrayAdapter;
-    private ArrayList<Event> events;
+    private ArrayList<Pair<Event, EventFragment.UserState>> events;
     private ArrayList<Area> zones;
     private ZonesAdapter areaArrayAdapter;
     private View view;
@@ -63,11 +61,13 @@ public class PlaceFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private final String VOLLEY_TAG = "placeFragment";
     @BindView(R.id.fragment_places_events_list)
-    ListView eventsListView;
+    ExpandableHeightListView eventsListView;
     @BindView(R.id.fragment_places_no_zones)
-    TextView noZoesText;
+    TextView noZonesText;
+    @BindView(R.id.fragment_places_no_events)
+    TextView noEventsText;
     @BindView(R.id.fragment_places_zones_list)
-    ListView zonesListView;
+    ExpandableHeightListView zonesListView;
 
 
     @Nullable
@@ -102,7 +102,7 @@ public class PlaceFragment extends Fragment {
                     e.printStackTrace();
                 }
                 if(array != null || array.length() > 0){
-                    noZoesText.setVisibility(View.GONE);
+                    noZonesText.setVisibility(View.GONE);
                     zonesListView.setVisibility(View.VISIBLE);
                     zones = new ArrayList<>();
 
@@ -160,6 +160,7 @@ public class PlaceFragment extends Fragment {
                     }
                     areaArrayAdapter = new ZonesAdapter(getActivity(), R.id.fragment_places_zones_list, zones);
                     zonesListView.setAdapter(areaArrayAdapter);
+                    zonesListView.setExpanded(true);
                 }
             }
         }, new Response.ErrorListener() {
@@ -174,32 +175,70 @@ public class PlaceFragment extends Fragment {
     }
 
     private void setEventListViewItems() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
-            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
-        } catch (JSONException exception) {
-            exception.printStackTrace();
-        }
+        Uri uri = Uri.parse(Constants.GET_UPCOMING_EVENTS).buildUpon()
+                .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
+                .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
+                .build();
 
-//        eventObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.GET_UPCOMING_EVENTS, jsonObject, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                //// TODO: 1/29/2017 fill here the event list
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                return new HashMap(){{put("Content-Type", "application/x-www-form-urlencoded");}};
-//            }
-      //  };
-       // requestQueue.add(eventObjectRequest);
+        eventObjectRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject mainObj = new JSONObject(response);
+                    JSONArray array = mainObj.getJSONArray("object");
+                    if(array.length() > 0) {
+                        noEventsText.setVisibility(View.INVISIBLE);
+                        eventsListView.setVisibility(View.VISIBLE);
+                    }
+                    int moreExist = mainObj.getInt("moreExist"), state;
+                    events = new ArrayList<>();
+                    Event event;
+                    Location location;
+                    Area area;
+                    JSONObject object, locationObject, areaObject;
+                    for(int i = 0;i < array.length();i++){
+                        object = array.getJSONObject(i);
+                        areaObject = object.getJSONObject("area");
+                        locationObject = areaObject.getJSONObject("location");
+                        event = new Event();
+                        location = new Location();
+                        area = new Area();
+
+                        location.setLongitude(locationObject.getDouble("longitude"));
+                        location.setLatitude(locationObject.getDouble("latitude"));
+                        location.setId(locationObject.getString("location_id"));
+                        location.setName(locationObject.getString("name"));
+                        area.setLocation(location);
+                        area.setRadius(areaObject.getDouble("redius"));
+                        area.setId(areaObject.getString("area_id"));
+
+                        event.setArea(area);
+                        event.setId(object.getString("event_id"));
+                        event.setName(object.getString("name"));
+                        event.setDescription(object.getString("description"));
+                        event.setDateOfEvent(General.convertStringToTimestamp(object.getString("dateOfEvent")));
+                        event.setDeadline(General.convertStringToTimestamp(object.getString("deadline")));
+                        event.setState(object.getInt("eventState") == 2);
+
+                        state = object.getInt("userStatus");
+                        events.add(new Pair<>(event, state == 2 ? EventFragment.UserState.OWNER : EventFragment.UserState.PARTICIPANT));
+                    }
+                    eventArrayAdapter = new EventsAdapter(getActivity(), R.layout.fragment_places, events, moreExist == 2, EventsAdapter.EventList.SMALL);
+                    eventsListView.setAdapter(eventArrayAdapter);
+                    eventsListView.setExpanded(true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "error loading your events, please try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        eventObjectRequest.setTag(VOLLEY_TAG);
+        requestQueue.add(eventObjectRequest);
     }
 
     @Override

@@ -2,14 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="55dp"
+    android:baselineAligned="false"
     >
     <LinearLayout
-        android:layout_width="0dp" android:layout_weight="2"
-        android:layout_height="wrap_content" android:gravity="center">
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:gravity="center">
         <ImageView
             android:id="@+id/list_item_event_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@mipmap/ic_event"
             />
         <TextView
@@ -26,7 +30,9 @@
 
     <LinearLayout
         android:layout_width="wrap_content" android:layout_gravity="bottom"
-        android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="5dp">
+        android:layout_height="wrap_content" android:orientation="vertical"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginBottom="5dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
