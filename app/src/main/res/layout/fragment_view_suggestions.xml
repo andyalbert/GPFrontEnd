@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.locateme.fragments.ViewSuggestions">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ListView
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="6dp"
+        android:divider="@android:color/transparent"
+        android:id="@+id/fragment_suggestions_listview" />
+
+</FrameLayout>
