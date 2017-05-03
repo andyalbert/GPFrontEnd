@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.health.TimerStat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -69,14 +70,18 @@ public class General {
     public static Timestamp convertStringToTimestamp(String date) {
         try {
             DateFormat formatter;
-            formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            if(date.contains("T")){
+            formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");}
+            else {
+                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            }
             // you can change format of date
             Date dateObject = formatter.parse(date);
             java.sql.Timestamp timeStampDate = new Timestamp(dateObject.getTime());
 
             return timeStampDate;
         } catch (ParseException e) {
-            System.out.println("Exception :" + e);
+            Log.e("ExceptionParse :"  , e.toString());
             return null;
 
         }

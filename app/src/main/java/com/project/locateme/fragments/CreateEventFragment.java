@@ -281,12 +281,10 @@ public class CreateEventFragment extends Fragment {
                 .appendQueryParameter("description", model.getDescription())
                 .appendQueryParameter("radius", String.valueOf(eventArea.getRadius()))
                 .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
-                .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
                 .appendQueryParameter("dateofevent", startTime)
                 .appendQueryParameter("deadline", deadline)
-                .appendQueryParameter("imageurl", imagePath)
-                .appendQueryParameter("state", "true") //// TODO: 27/03/17 really ? are you kidding me -_-
-                .appendQueryParameter("locationid", eventLocationObject.getId())
+                .appendQueryParameter("img", imagePath)
+                .appendQueryParameter("locationid", eventArea.getLocation().getId())
                 .build();
 
         stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {

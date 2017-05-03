@@ -185,12 +185,12 @@ public class PlaceFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONObject mainObj = new JSONObject(response);
+                    int moreExist = mainObj.getInt("moreExist"), state;
                     JSONArray array = mainObj.getJSONArray("object");
                     if(array.length() > 0) {
                         noEventsText.setVisibility(View.INVISIBLE);
                         eventsListView.setVisibility(View.VISIBLE);
                     }
-                    int moreExist = mainObj.getInt("moreExist"), state;
                     events = new ArrayList<>();
                     Event event;
                     Location location;

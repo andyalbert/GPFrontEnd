@@ -25,6 +25,8 @@ public class Constants {
     public static final String CREATE_PLACE_FRAGMENT = "createPlace";
     public static final String INVITE_FRIENDS_FRAGMENT = "inviteFriends";
     public static final String VIEW_PARTICIPANTS_LOCATION_FRAGMENT = "participantsFragment";
+    public static final String VIEW_SUGGESTIONS = "viewSuggestions";
+
 
     //URLs
     public static final String UPDATE_LOCATION_URL = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/updateuserlocation";
@@ -46,11 +48,15 @@ public class Constants {
     public static final String CREATE_AREA = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createarea";
     public static final String GET_PARTICIPANTS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/listofuserstoinvit";
     public static final String INVITE_TO_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/sendinvitation";
-    public static final String DELETE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/deleteevent";
     public static final String IGNORE_EVENT_INVITATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejecteventinvitation";
     public static final String ACCEPT_EVENT_INVITATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/accepteventinvitation";
     public static final String GET_SERVER_REAL_TIME = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/gettimestamp";
     public static final String GET_EVENT_PARTICIPANTS_AND_OWNER_CURRENT_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventuserswithlocation";
+    public static final String ADD_SUGGESTION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/addsuggestion";
+    public static final String GET_ALL_SUGGESTION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getsuggestions";
+    public static final String ACCEPT_SUGGESTION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/acceptsuggestion";
+    public static final String DECLINE_SUGGESTION="http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejectsuggestion";
+    public static final String DELETE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/deleteevent";
 
 
     public static final int STROKE_COLOR = Color.BLACK;
