@@ -1,16 +1,24 @@
 package com.project.locateme.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,11 +43,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author andrew
@@ -48,23 +54,48 @@ import butterknife.ButterKnife;
  */
 
 public class AllEventsFragment extends Fragment {
+    private Unbinder unbinder;
     private View view;
-    private ArrayList<Pair<Event, EventFragment.UserState>> events;
-    private ArrayAdapter<Event> eventArrayAdapter;
+    private ArrayList<Pair<Event, EventFragment.UserState>> events, filteredEvents;
+    private EventsAdapter eventArrayAdapter;
     private StringRequest request;
     private RequestQueue requestQueue;
     private SharedPreferences preferences;
     @BindView(R.id.fragment_all_events_list_view)
     ListView listView;
+    @BindView(R.id.fragment_all_events_search_view)
+    SearchView searchView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_all_events, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         requestQueue = Volley.newRequestQueue(getActivity());
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.length() == 0) {
+                    eventArrayAdapter.setData(events);
+                } else{
+                    filteredEvents = new ArrayList<>();
+                    for(Pair<Event, EventFragment.UserState> p : events)
+                        if(p.first.getName().contains(newText))
+                            filteredEvents.add(p);
+                    eventArrayAdapter.setData(filteredEvents);
+                }
+                eventArrayAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
 
         setEventsListView();
         return view;
@@ -137,5 +168,6 @@ public class AllEventsFragment extends Fragment {
         if(requestQueue != null)
             requestQueue.cancelAll("tag");
         super.onDestroyView();
+        unbinder.unbind();
     }
 }

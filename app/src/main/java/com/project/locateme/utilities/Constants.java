@@ -1,5 +1,7 @@
 package com.project.locateme.utilities;
 
+import android.graphics.Color;
+
 /**
  * @author Andrew
  * @since 26/1/2017
@@ -22,16 +24,16 @@ public class Constants {
     public static final String PROFILE_FRAGMENT = "profileFragment";
     public static final String CREATE_PLACE_FRAGMENT = "createPlace";
     public static final String INVITE_FRIENDS_FRAGMENT = "inviteFriends";
+    public static final String VIEW_PARTICIPANTS_LOCATION_FRAGMENT = "participantsFragment";
 
     //URLs
     public static final String UPDATE_LOCATION_URL = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/updateuserlocation";
     public static final String GET_ALL_FRIENDS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getfriends";
-    public static final String GET_CLOSEST_FRIENDS = "";//// TODO: 1/29/2017 same
     public static final String GET_UPCOMING_EVENTS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getnearbyevents";
     public static final String CREATE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createevent";
     public static final String GET_OWNERS_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getownersevent";
     public static final String GET_EVENT_USERS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventusers";
-    public static final String GET_USERS_ON_MAP_REGION = ""; //// TODO: 23/02/17 Updater this
+    public static final String GET_USERS_ON_MAP_REGION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getfriendsonmap";
     public static final String GET_ZONES = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserareas";
     public static final String GET_ALL_EVENTS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserevents";
     public static final String GET_ZONE_FRIENDS_CURRENT_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getareauserswithlocation";
@@ -48,4 +50,10 @@ public class Constants {
     public static final String IGNORE_EVENT_INVITATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejecteventinvitation";
     public static final String ACCEPT_EVENT_INVITATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/accepteventinvitation";
     public static final String GET_SERVER_REAL_TIME = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/gettimestamp";
+    public static final String GET_EVENT_PARTICIPANTS_AND_OWNER_CURRENT_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventuserswithlocation";
+
+
+    public static final int STROKE_COLOR = Color.BLACK;
+    public static final int STROKE_WIDTH = 5;
+    public static final int FILL_COLOR = 0X553F51B5;
 }

@@ -45,11 +45,12 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author khaled, andrew
  * @since 28/1/2017
- * @version 1.2
+ * @version 1.3
  */
 
 public class EventFragment extends Fragment {
@@ -57,8 +58,10 @@ public class EventFragment extends Fragment {
     ImageView eventImage;
     @BindView(R.id.fragment_event_description)
     TextView description;
-    @BindView(R.id.fragment_event_date_view)
+    @BindView(R.id.fragment_event_start_date)
     TextView dateTextview;
+    @BindView(R.id.fragment_event_deadline)
+    TextView deadlineDate;
     @BindView(R.id.fragment_event_collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.fragment_event_users_list)
@@ -69,24 +72,26 @@ public class EventFragment extends Fragment {
     Button ignoreEvent;
     @BindView(R.id.fragment_event_delete)
     Button deleteEvent;
-    @BindView(R.id.fragment_event_chat_button)
-    Button chatEvent;
+    @BindView(R.id.fragment_event_participants_locations)
+    Button participantsCurrentLocation;
     @BindView(R.id.fragment_event_list_floating_button)
     FloatingActionButton mainActionButton;
     @BindView(R.id.fragment_event_edit_floating_button)
     FloatingActionButton editActionButton;
     @BindView(R.id.fragment_event_invite_floating_button)
     FloatingActionButton inviteActionButton;
+    @BindView(R.id.fragment_event_send_message_floating_button)
+    FloatingActionButton sendMessageButton;
     @BindView(R.id.fragment_event_transparent_layout)
     LinearLayout transparentLinearLayout;
     @BindView(R.id.fragment_event_notification_action)
     LinearLayout notificationActionLinearLayout;
+    private Unbinder unbinder;
     private View view;
     private Event event;
     private EventUsersAdapter eventUsersAdapter;
     private ArrayList<Profile> eventUsersArray;
     private HashMap<String, Object> params;
-    private boolean isOwner = false;
     private StringRequest stringRequest, deleteReqest, ignoreRequest, acceptRequest;
     private RequestQueue requestQueue ;
     private SharedPreferences preferences;
@@ -100,7 +105,7 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_event, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
         //collapsingToolbar.setTitle("EventName");
@@ -113,8 +118,38 @@ public class EventFragment extends Fragment {
 //            }
 //        });
         initializeEvent();
+        participantsCurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), HolderActivity.class);
+                intent.putExtra(getString(R.string.fragment_name), Constants.VIEW_PARTICIPANTS_LOCATION_FRAGMENT);
+                intent.putExtra(Constants.HASHMAP, new HashMap(){
+                    {
+                        put("eventId", event.getId());
+                        put("location", event.getArea().getLocation());
+                        put("radius", event.getArea().getRadius());
+                    }
+                });
+                startActivity(intent);
+            }
+        });
         //initializeUsersListItems();
-        chatEvent.setOnClickListener(new View.OnClickListener() {
+        return view;
+    }
+
+    private void initializeActionButtonsListeners() {
+        mainActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transparentLinearLayout.setVisibility(View.VISIBLE);
+                editActionButton.setVisibility(View.VISIBLE);
+                sendMessageButton.setVisibility(View.VISIBLE);
+                if(userState == UserState.OWNER)
+                    inviteActionButton.setVisibility(View.VISIBLE);
+                mainActionButton.setClickable(false);
+            }
+        });
+        sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 HashMap<String, Object> params = new HashMap<String , Object>();
@@ -126,27 +161,13 @@ public class EventFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        return view;
-    }
-
-    private void initializeActionButtonsListeners() {
-        mainActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                transparentLinearLayout.setVisibility(View.VISIBLE);
-                editActionButton.setVisibility(View.VISIBLE);
-                if(userState == UserState.OWNER)
-                    inviteActionButton.setVisibility(View.VISIBLE);
-                mainActionButton.setClickable(false);
-            }
-        });
         transparentLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.setVisibility(View.GONE);
                 mainActionButton.setClickable(true);
                 editActionButton.setVisibility(View.GONE);
+                sendMessageButton.setVisibility(View.GONE);
                 inviteActionButton.setVisibility(View.GONE);
             }
         });
@@ -198,7 +219,7 @@ public class EventFragment extends Fragment {
                 });
             case PARTICIPANT:
                 mainActionButton.setVisibility(View.VISIBLE);
-                chatEvent.setEnabled(true);
+                sendMessageButton.setEnabled(true);
                 break;
             case INVITED:
                 notificationActionLinearLayout.setVisibility(View.VISIBLE);
@@ -240,7 +261,7 @@ public class EventFragment extends Fragment {
                             @Override
                             public void onResponse(String response) {
                                 notificationActionLinearLayout.setVisibility(View.INVISIBLE);
-                                chatEvent.setEnabled(true);
+                                sendMessageButton.setEnabled(true);
                                 mainActionButton.setVisibility(View.VISIBLE);
                             }
                         }, new Response.ErrorListener() {
@@ -263,6 +284,7 @@ public class EventFragment extends Fragment {
         collapsingToolbar.setBackgroundColor(15);
         description.setText(event.getDescription());
         dateTextview.setText(General.convertTimeatampToString(event.getDateOfEvent()));
+        deadlineDate.setText(General.convertTimeatampToString(event.getDateOfEvent()));
         Glide.with(getActivity()).load(event.getArea().getImageURL()).into(eventImage);
     }
 
@@ -274,7 +296,7 @@ public class EventFragment extends Fragment {
         Uri usersUri = Uri.parse(Constants.GET_EVENT_USERS).buildUpon()
                 .appendQueryParameter("eventid" , String.valueOf(event.getId())).build();
 
-        //TODO : Updater list from backend
+        //TODO : Update list from backend
         StringRequest usersRequest = new StringRequest(Request.Method.POST, usersUri.toString(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -326,6 +348,7 @@ public class EventFragment extends Fragment {
         if(requestQueue != null)
             requestQueue.cancelAll(REQUEST_TAG);
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     private class EventUsersAdapter extends ArrayAdapter<Profile> {

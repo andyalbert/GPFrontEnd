@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,6 +40,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.project.locateme.R;
+import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.utilities.Constants;
 import com.project.locateme.utilities.General;
 
@@ -51,6 +54,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrew
@@ -59,7 +63,9 @@ import butterknife.ButterKnife;
  */
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnCameraIdleListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMarkerClickListener {
+    private Unbinder unbinder;
     private View view;
+    private final String VOLLEY_TAG = "tag";
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
     private GoogleMap map;
@@ -72,14 +78,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         MapsInitializer.initialize(getActivity());
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
-
 
         return view;
     }
@@ -104,7 +109,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.getUiSettings().setMapToolbarEnabled(false);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        googleMap.getUiSettings().setRotateGesturesEnabled(false); //// TODO: 24/02/17 to be removed if the backend succeeded in writing the equation for triangle rotation
+        googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.getUiSettings().setTiltGesturesEnabled(false);
         googleMap.setOnCameraIdleListener(this);
         googleMap.setOnMyLocationButtonClickListener(this);
@@ -124,85 +129,75 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onCameraIdle() {
-      //  updateMarkers();
+        updateMarkers();
        // Log.e("test", map.getProjection().getVisibleRegion().toString());
-        Toast.makeText(getActivity(), map.getProjection().getVisibleRegion().farLeft.latitude + "  " +
-        map.getProjection().getVisibleRegion().farRight.latitude, Toast.LENGTH_SHORT).show();
-       // Toast.makeText(getActivity(), "changed", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), map.getProjection().getVisibleRegion().farLeft.latitude + "  " +
+//        map.getProjection().getVisibleRegion().farRight.latitude, Toast.LENGTH_SHORT).show();
     }
 
     private void updateMarkers() {
-        //// TODO: 24/02/17 an error may occur if a previous volley request is still running, need to check
+        requestQueue.cancelAll(VOLLEY_TAG); //stop any previous requests
         VisibleRegion region = map.getProjection().getVisibleRegion();
-        JSONObject jsonObject = new JSONObject();
+        Uri uri = Uri.parse(Constants.GET_USERS_ON_MAP_REGION).buildUpon()
+                .appendQueryParameter("lat1", String.valueOf(region.nearLeft.latitude))
+                .appendQueryParameter("lat2", String.valueOf(region.farLeft.latitude))
+                .appendQueryParameter("lat3", String.valueOf(region.farRight.latitude))
+                .appendQueryParameter("lat4", String.valueOf(region.nearRight.latitude))
+                .appendQueryParameter("lon1", String.valueOf(region.nearLeft.longitude))
+                .appendQueryParameter("lon2", String.valueOf(region.farLeft.longitude))
+                .appendQueryParameter("lon3", String.valueOf(region.farRight.longitude))
+                .appendQueryParameter("lon4", String.valueOf(region.nearRight.longitude))
+                .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
+                .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
+                .build();
 
-        try{
-            jsonObject.put("id", sharedPreferences.getString(getString(R.string.user_id), ""));
-            jsonObject.put("pass", sharedPreferences.getString(getString(R.string.user_password), ""));
-
-            jsonObject.put("farLeftLat", region.farLeft.latitude);
-            jsonObject.put("farLeftLong", region.farLeft.longitude);
-            jsonObject.put("farRightLat", region.farRight.latitude);
-            jsonObject.put("farRightLong", region.farRight.longitude);
-
-            jsonObject.put("nearLeftLat", region.nearLeft.latitude);
-            jsonObject.put("nearLeftLong", region.nearLeft.longitude);
-            jsonObject.put("nearRightLat", region.nearRight.latitude);
-            jsonObject.put("nearRightLong", region.nearRight.longitude);
-
-            //this doesn't support rotation
-//            double latMin, latMax, longMin, longMax;
-//            latMax = region.farRight.latitude;
-//            latMin = region.nearRight.latitude;
-//            longMax = region.farRight.longitude;
-//            longMin = region.nearLeft.longitude;
-           // jsonObject.put("min")
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.GET_USERS_ON_MAP_REGION, jsonObject, new Response.Listener<JSONObject>() {
+        StringRequest request = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 map.clear();
-                JSONArray array = null;
-                JSONObject object;
-                Bitmap bitmap;
-                try {
-                    array = response.getJSONArray("array");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
-                for (int i = 0;array != null && i < array.length(); i++) {
-                    try {
-                        object = array.getJSONObject(i);
+                try{
+                    JSONArray array = new JSONArray(response);
+                    JSONObject object;
+                    Bitmap bitmap;
 
-                        Glide.with(getActivity().getApplicationContext())
-                        .load(object.getString(""))
-                        .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
+                    View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
+                    for(int i = 0;i < array.length();i++){
+                        object = array.getJSONObject(i);
+                        Profile profile = new Profile();
+                        profile.setUserId(object.getInt("user_Id"));
+                        profile.setFirstName(object.getString("firstName"));
+                        profile.setLastName(object.getString("lastName"));
+                        profile.setEmail(object.getString("email"));
+                        profile.setHomeTown(object.getString("homeTown"));
+                        profile.setName(object.getString("name"));
+//                        profile.setBirthday(object.getString("birthday"));
+                        profile.setPictureURL(object.getString("pictureURL"));
+
+                        //// TODO: 25/04/17 uncomment when the shit pictures is done
+//                    Glide.with(getActivity().getApplicationContext())
+//                            .load(profile.getPictureURL())
+//                            .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
 
                         bitmap = General.loadBitmapFromView(myView);
                         map.addMarker(new MarkerOptions()
-                                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                                        .position(new LatLng(object.getDouble("lat"), object.getDouble("long"))))
-                                .setTag(object.getString("id"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                                .position(new LatLng(object.getDouble("latitude"), object.getDouble("longitude"))))
+                                .setTag(profile);
                     }
+
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
+
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "an error has occurred during Updater, please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "an error has occurred during updating, please try again", Toast.LENGTH_SHORT).show();
             }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return new HashMap(){{put("Content-Type", "application/x-www-form-urlencoded");}};
-            }
-        };
+        });
+        request.setTag(VOLLEY_TAG);
         requestQueue.add(request);
     }
 
@@ -250,7 +245,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 }
             }
         }
-    } //todo this is useless tell now
+    } //todo this is useless till now
 
     @Override
     public void onStart() {
@@ -294,6 +289,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         if(requestQueue != null)
             requestQueue.stop();
         super.onDestroy();
+        unbinder.unbind();
     }
 
 }

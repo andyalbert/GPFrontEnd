@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrew
@@ -21,13 +22,15 @@ import butterknife.ButterKnife;
 
 public class LoadingFragment extends Fragment {
 
+    private Unbinder unbinder;
+
     @BindView(R.id.loading_image) ImageView loadingImage;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view =  inflater.inflate(R.layout.fragment_loading, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_loading_image);
         loadingImage.startAnimation(animation);
 //        animation.setAnimationListener(new Animation.AnimationListener() {
@@ -48,5 +51,11 @@ public class LoadingFragment extends Fragment {
 //        });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

@@ -16,6 +16,7 @@ import com.project.locateme.dataHolder.userManagement.Profile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrew
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
  */
 
 public class FillUserDataFragment extends Fragment {
+    private Unbinder unbinder;
     private View view;
     private Account account;
     private Profile profile;
@@ -51,7 +53,7 @@ public class FillUserDataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_fill_user_details, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         account = (Account) getArguments().getSerializable("account");
         profile = account.getProfile();
         Glide.with(getActivity()).load(profile.getPictureURL()).into(profileImage);
@@ -73,5 +75,11 @@ public class FillUserDataFragment extends Fragment {
         //Log.i("profile" , profile.getEmail()+profile.getFirstName()+profile.getHomeTown()+profile.getPictureURL());
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

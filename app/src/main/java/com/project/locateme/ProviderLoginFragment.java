@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import retrofit2.Call;
 
 import static java.util.Arrays.asList;
@@ -46,7 +47,7 @@ import static java.util.Arrays.asList;
  */
 
 public class ProviderLoginFragment extends Fragment {
-
+    private Unbinder unbinder;
     @BindView(R.id.login_button)
     LoginButton loginButton;
     @BindView(R.id.twitter_login_button)
@@ -88,7 +89,7 @@ public class ProviderLoginFragment extends Fragment {
 
         //Log.i("Fab" , String.valueOf(Fabric.isInitialized()));
         view = inflater.inflate(R.layout.fragment_provider_login, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         facebookSetupAndLogin();
         twitterSetupAndLogin();
         return view;
@@ -207,4 +208,9 @@ public class ProviderLoginFragment extends Fragment {
         void startLoading();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

@@ -59,6 +59,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -69,6 +70,7 @@ import static android.content.Context.MODE_PRIVATE;
  * @version 1.3
  */
 public class CreateEventFragment extends Fragment {
+    private Unbinder unbinder;
     static final int DATE_DIALOG_ID = 999;
     public static String startTime;
     public static String deadline;
@@ -130,13 +132,12 @@ public class CreateEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_create_event, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), MODE_PRIVATE);
         eventLocation = (Button) view.findViewById(R.id.fragment_create_event_location);
         eventLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO : Open Map for Location
                 startActivityForResult(new Intent(getActivity(), HolderActivity.class).putExtra(getString(R.string.fragment_name), Constants.SELECT_ZONE_FRAGMENT),
                         REQUEST_MAP_LOCATION);
             }
@@ -357,7 +358,7 @@ public class CreateEventFragment extends Fragment {
             //edit: just disable the past days
             DatePickerDialog da = new DatePickerDialog(getActivity(), this,
                     year, month, day);
-           c.add(Calendar.DATE, 1);
+            c.add(Calendar.DATE, 1);
             Date newDate = c.getTime();
             da.getDatePicker().setMinDate(newDate.getTime());
 
@@ -426,6 +427,12 @@ public class CreateEventFragment extends Fragment {
             }
             isFirstTime = !isFirstTime;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override

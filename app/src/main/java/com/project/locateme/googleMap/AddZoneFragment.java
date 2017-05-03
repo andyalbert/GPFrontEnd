@@ -35,12 +35,14 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-public class AddZoneFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapClickListener, View.OnClickListener {
+public class AddZoneFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener, View.OnClickListener {
 
     public static final int STROKE_COLOR = Color.BLACK;
     public static final int STROKE_WIDTH = 5;
     public static final int FILL_COLOR = 0X553F51B5;
+    private Unbinder unbinder;
     private View view;
     private GoogleMap mMap;
     private DraggableCircle draggableCircle;
@@ -172,7 +174,7 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_add_zone, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         MapsInitializer.initialize(getActivity());
 
         //this won't be used here, but to be sent to the following fragment/activity
@@ -219,7 +221,6 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setOnMapClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerDragListener(this);
     }
@@ -235,12 +236,6 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        draggableCircle.addMarker(latLng);
-    }
-
-    //// TODO: 01/02/17 remove this on mobile, it's just to come over emulator shortage
-    @Override
-    public void onMapClick(LatLng latLng) {
         draggableCircle.addMarker(latLng);
     }
 
@@ -306,6 +301,12 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         mapView.onDestroy();
+        unbinder.unbind();
     }
 }

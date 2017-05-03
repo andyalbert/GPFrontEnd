@@ -71,7 +71,7 @@ public class Event  implements Serializable {
         this.deadline = deadline;
     }
 
-    public boolean isState() {
+    public boolean getState() {
         return state;
     }
 

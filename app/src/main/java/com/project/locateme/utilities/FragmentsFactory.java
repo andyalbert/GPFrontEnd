@@ -10,9 +10,10 @@ import com.project.locateme.fragments.InviteFriendsFragment;
 import com.project.locateme.fragments.allFriendsFragment.AllFriendsFragment;
 import com.project.locateme.fragments.EventFragment;
 import com.project.locateme.googleMap.AddZoneFragment;
+import com.project.locateme.googleMap.EventParticipantsLocationFragment;
 import com.project.locateme.googleMap.UserLocationFragment;
 import com.project.locateme.googleMap.ViewZoneFragment;
-import com.project.locateme.mainViews.CreatePlace;
+import com.project.locateme.mainViews.CreatePlaceFragment;
 import com.project.locateme.mainViews.PlaceFragment;
 import com.project.locateme.mainViews.PrefFragment;
 import com.project.locateme.mainViews.UserProfileFragment;
@@ -60,11 +61,13 @@ public class FragmentsFactory {
         else if(name.equals(Constants.PROFILE_FRAGMENT))
             fragment = new UserProfileFragment();
         else if(name.equals(Constants.CREATE_PLACE_FRAGMENT))
-            fragment = new CreatePlace();
+            fragment = new CreatePlaceFragment();
         else if(name.equals(Constants.INVITE_FRIENDS_FRAGMENT))
             fragment = new InviteFriendsFragment();
         else if(name.equals(Constants.ALL_EVENTS_FRAGMENT))
             fragment = new AllEventsFragment();
+        else if(name.equals(Constants.VIEW_PARTICIPANTS_LOCATION_FRAGMENT))
+            fragment = new EventParticipantsLocationFragment();
         //add more as we go ahead in the application
         return fragment;
     }

@@ -35,6 +35,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrew
@@ -43,6 +44,7 @@ import butterknife.ButterKnife;
  */
 
 public class AllFriendsFragment extends Fragment {
+    private Unbinder unbinder;
     private View view;
     private ArrayList<Profile> profiles;
     private ArrayAdapter<Profile> profileArrayAdapter;
@@ -59,7 +61,7 @@ public class AllFriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_all_friends, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         pref = getActivity().getSharedPreferences((getString(R.string.shared_preferences_name)), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
         loadFriendsProfiles();
@@ -116,6 +118,7 @@ public class AllFriendsFragment extends Fragment {
         if(requestQueue != null)
             requestQueue.cancelAll(VOLLEY_TAG);
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void setFriendsListView() {

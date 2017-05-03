@@ -42,6 +42,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrew
@@ -49,7 +50,7 @@ import butterknife.ButterKnife;
  * @version 1.0
  */
 public class PlaceFragment extends Fragment {
-
+    private Unbinder unbinder;
     private ArrayAdapter<Event> eventArrayAdapter;
     private ArrayList<Pair<Event, EventFragment.UserState>> events;
     private ArrayList<Area> zones;
@@ -75,7 +76,7 @@ public class PlaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_places, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
         setPlaceListViewItems();
@@ -144,8 +145,7 @@ public class PlaceFragment extends Fragment {
                                 profile.setFirstName(currentProfile.getString("firstName"));
                                 profile.setLastName(currentProfile.getString("lastName"));
                                 profile.setHomeTown(currentProfile.getString("homeTown"));
-                                //// TODO: 10/03/17 uncomment
-//                                profile.setBirthday(currentProfile.getString("birthday"));
+                                profile.setBirthday(currentProfile.getString("birthday"));
                                 profile.setState(Profile.FriendShipState.FRIEND);
 
                                 accounts.add(profile);
@@ -246,5 +246,6 @@ public class PlaceFragment extends Fragment {
         if(requestQueue != null)
             requestQueue.cancelAll(VOLLEY_TAG);
         super.onDestroyView();
+        unbinder.unbind();
     }
 }

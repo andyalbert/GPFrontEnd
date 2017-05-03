@@ -36,8 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @since 25/2/2017
  */
 
-public class UserProfileFragment extends Fragment
-{
+public class UserProfileFragment extends Fragment {
     private SharedPreferences preferences;
     private HashMap<String, Object> parameters;
 //    private Account account = new Account(); // TODO : get an account from intent
@@ -84,7 +83,7 @@ public class UserProfileFragment extends Fragment
 
         birthdate = (TextView) view.findViewById(R.id.birthdate);
         // TODO: 17/03/17 edit this shit
-//        birthdate.setText(profile.getBirthday().toString());
+        birthdate.setText(profile.getBirthday().toString());
         return view;
     }
 

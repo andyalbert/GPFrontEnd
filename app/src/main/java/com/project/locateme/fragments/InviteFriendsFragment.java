@@ -40,6 +40,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -51,6 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class InviteFriendsFragment extends Fragment {
 
     public static final String ERROR_MESSAGE = "Couldn't load your friends, please try again";
+    private Unbinder unbinder;
     private View view;
     private StringRequest request, invitationRequest;
     private RequestQueue queue;
@@ -67,7 +69,7 @@ public class InviteFriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_invite_friends, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         eventId = (String) ((HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP)).get("eventId");
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
@@ -137,6 +139,7 @@ public class InviteFriendsFragment extends Fragment {
         if(queue != null)
             queue.cancelAll(TAG);
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     class FriendsAdapter extends ArrayAdapter<FriendInvitationState>{

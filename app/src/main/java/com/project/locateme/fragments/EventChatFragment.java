@@ -55,6 +55,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class EventChatFragment extends Fragment {
     FirebaseListAdapter<MessageModel> myAdapter;
@@ -63,6 +64,7 @@ public class EventChatFragment extends Fragment {
     EditText messageText;
     @BindView(R.id.fragment_event_chat_send)
     FloatingActionButton sendMessage;
+    private Unbinder unbinder;
     private View view;
     private DatabaseReference mDatabase;
     private String eventName;
@@ -76,20 +78,7 @@ public class EventChatFragment extends Fragment {
     private final String VOLLEY_TAG = "tag";
     private int trialTimes = 0;
     private final int MAX_CONNECTION_TRIALS = 3;
-    private BroadcastReceiver minutePassedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
-                currentTime.add(Calendar.MINUTE, 1);
-                if(currentTime.compareTo(eventDeadLine) >= 0){
-                    sendMessage.setEnabled(false);
-                    sendMessage.setBackgroundTintList(getResources().getColorStateList(R.color.pending_color));
-                    getActivity().unregisterReceiver(minutePassedReceiver);
-                }
-            }
-        }
-    };
-
+    private BroadcastReceiver minutePassedReceiver;
 
     public EventChatFragment() {
         // Required empty public constructor
@@ -100,7 +89,7 @@ public class EventChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_event_chat, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         isRegistered = false;
         sendMessage.setEnabled(false);
 
@@ -183,6 +172,7 @@ public class EventChatFragment extends Fragment {
 
                         return;
                     }
+                    minutePassedReceiver = getReceiver();
                     getActivity().registerReceiver(minutePassedReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
                     isRegistered = true;
                     sendMessage.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
@@ -217,6 +207,24 @@ public class EventChatFragment extends Fragment {
         eventDeadLine.setTimeInMillis(((Timestamp) parameters.get("deadline")).getTime());
     }
 
+    private BroadcastReceiver getReceiver(){
+         return new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
+                    currentTime.add(Calendar.MINUTE, 1);
+                    if(currentTime.compareTo(eventDeadLine) >= 0){
+                        sendMessage.setEnabled(false);
+                        sendMessage.setBackgroundTintList(getResources().getColorStateList(R.color.pending_color));
+                        isRegistered = false;
+                        getActivity().unregisterReceiver(minutePassedReceiver);
+                        minutePassedReceiver = null;
+                    }
+                }
+            }
+        };
+    }
+
     @Override
     public void onDestroyView() {
         if(queue != null)
@@ -224,5 +232,6 @@ public class EventChatFragment extends Fragment {
         if(isRegistered)
             getActivity().unregisterReceiver(minutePassedReceiver);
         super.onDestroyView();
+        unbinder.unbind();
     }
 }

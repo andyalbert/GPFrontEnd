@@ -16,7 +16,7 @@ public class Profile implements Serializable {
     private String email;
     private String homeTown;
     private String name;
-    private Calendar birthday;
+    private String birthday;
     private String pictureURL;
     private History history;
     private FriendShipState state;
@@ -82,7 +82,7 @@ public class Profile implements Serializable {
         this.name = name;
     }
 
-    public Calendar getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
@@ -99,18 +99,19 @@ public class Profile implements Serializable {
     public void setBirthday(String birthday){
         if(birthday == null)
             return;
-        String[] dateInString = birthday.split("/");
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.YEAR, Integer.parseInt(dateInString[2]));
-        calendar.set(Calendar.MONTH, Integer.parseInt(dateInString[1]));
-        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInString[0]));
-
-        this.birthday = calendar;
-    }
-
-    public void setBirthday(Calendar birthday) {
         this.birthday = birthday;
+//        String[] dateInString = birthday.split("/");
+//        Calendar calendar = new GregorianCalendar();
+//        calendar.set(Calendar.YEAR, Integer.parseInt(dateInString[2]));
+//        calendar.set(Calendar.MONTH, Integer.parseInt(dateInString[1]));
+//        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInString[0]));
+//
+//        this.birthday = calendar;
     }
+
+//    public void setBirthday(Calendar birthday) {
+//        this.birthday = birthday;
+//    }
 
     public String getPictureURL() {
         return pictureURL;

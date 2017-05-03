@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrew
@@ -33,6 +34,7 @@ import butterknife.ButterKnife;
  * @since 25/1/2017
  */
 public class SettingsFragment extends Fragment {
+    private Unbinder unbinder;
     private View view;
     //// TODO: 20/03/17 add an option to allow the user to edit the update time
 
@@ -41,7 +43,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_settings, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         Log.e("tokk" ,FirebaseInstanceId.getInstance().getToken());
 
         //// TODO: 1/28/2017 remove this, it's just for testing
@@ -143,5 +145,11 @@ public class SettingsFragment extends Fragment {
 
     public void test(){
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

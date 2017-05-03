@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -54,7 +55,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @since 13/3/2017
  */
 
-public class CreatePlace extends Fragment {
+public class CreatePlaceFragment extends Fragment {
+    private Unbinder unbinder;
     private View view;
     private FriendsAdapter adapter;
     private StringRequest friendsReqeust;
@@ -85,7 +87,7 @@ public class CreatePlace extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_create_place, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         queue = Volley.newRequestQueue(getActivity());
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         LayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -192,8 +194,7 @@ public class CreatePlace extends Fragment {
                         profile.setName(object.getString("name"));
                         profile.setPictureURL(object.getString("pictureURL"));
                         profile.setUserId(object.getInt("user_Id"));
-                        //// TODO: 14/03/17 fix the birthday
-                        //profile.setBirthday(object.getString("birthday"));
+                        profile.setBirthday(object.getString("birthday"));
                         profile.setState(Profile.FriendShipState.FRIEND);
 
                         profiles.add(profile);
@@ -222,6 +223,7 @@ public class CreatePlace extends Fragment {
         if(queue != null)
             queue.cancelAll(FRIENDS_VOLLEY_TAG);
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override

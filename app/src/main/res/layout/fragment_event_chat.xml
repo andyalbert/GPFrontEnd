@@ -37,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
+            android:src="@drawable/image_send"
             app:backgroundTint="@color/pending_color"
             android:id="@+id/fragment_event_chat_send"
             android:tint="@android:color/white"

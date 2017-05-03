@@ -67,6 +67,10 @@ public class EventsAdapter extends ArrayAdapter<Event> {
             VIEW_COUNTS = 1;
     }
 
+    public void setData(ArrayList<Pair<Event, EventFragment.UserState>> events){
+        this.events = events;
+    }
+
     @Override
     public int getCount() {
         return events.size() + (moreExists ? 1 : 0);
@@ -99,6 +103,8 @@ public class EventsAdapter extends ArrayAdapter<Event> {
     private void setEventDetailsAndListener(ViewHolder holder, final int position, View view) {
         holder.date.setText(events.get(position).first.getDateOfEvent().toString());
         holder.name.setText(events.get(position).first.getName());
+        //if(events.get(position).first.getDeadline().compareTo())
+           // view.setBackgroundColor(context.getResources().getColor(R.color.white));
         if(events.get(position).second.equals(EventFragment.UserState.OWNER))
             holder.name.append("[Owner]");
         if(events.get(position).first.getArea().getImageURL() != null) //first, check if it exists

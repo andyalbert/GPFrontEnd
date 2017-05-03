@@ -167,35 +167,7 @@ public class MainUserActivity extends AppCompatActivity implements
         tabLayout.getTabAt(2).setIcon(R.mipmap.ic_notification);
         tabLayout.getTabAt(3).setIcon(R.mipmap.ic_settings);//// TODO: 20/03/17 remove this
         tabLayout.getTabAt(4).setIcon(R.mipmap.ic_settings);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Toast.makeText(getApplicationContext(), "selected", Toast.LENGTH_SHORT).show();
-                if(tab.getPosition() == 1)//// TODO: 1/25/2017 to be done later, after fixing the mipmap overload
-                    tab.setIcon(R.mipmap.ic_message_selected);
-//                switch(tab.getPosition()){
-//                    case 0: tab.setIcon(R.d);
-//                        break;
-//                    case 1: tab.setIcon();
-//                        break;
-//                    case 2: tab.setIcon();
-//                        break;
-//                    case 3: tab.setIcon();
-//                }
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                if(tab.getPosition() == 1)
-                    tab.setIcon(R.mipmap.ic_message);
-                Toast.makeText(getApplicationContext(), "unselected", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
     //used for updating the google maps tab and the places/events tabs

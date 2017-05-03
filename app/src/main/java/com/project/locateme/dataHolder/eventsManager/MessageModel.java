@@ -9,8 +9,6 @@ public class MessageModel {
     private String userId;
     private long messageTime;
 
-
-
     public MessageModel(String messageText, String messageUser, String userId) {
         this.messageText = messageText;
         this.messageUser = messageUser;

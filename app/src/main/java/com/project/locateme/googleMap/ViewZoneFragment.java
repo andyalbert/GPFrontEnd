@@ -53,6 +53,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @since 2/2/2017
@@ -61,6 +62,7 @@ import butterknife.ButterKnife;
  */
 
 public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+    private Unbinder unbinder;
     private GoogleMap map;
     private View view;
     private HashMap<String, Object> parameters;
@@ -70,19 +72,16 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
     private SharedPreferences preferences;
     private ArrayList<UserLocation> usersLocation;
 
-    public static final int STROKE_COLOR = Color.BLACK;
-    public static final int STROKE_WIDTH = 5;
-    public static final int FILL_COLOR = 0X553F51B5;
-
     @BindView(R.id.fragment_view_zone_map)
     MapView mapView;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_view_zone, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
@@ -128,7 +127,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
-                //now Updater the users you have with their locations
+                //now Update the users you have with their locations
                 for(int j = 0;j < area.getAccounts().size();j++)
                     match(area.getAccounts().get(j));
                 drawAndFocus();
@@ -178,9 +177,9 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
         //first, draw the area itself
         LatLng circleLatLong = new LatLng(area.getLocation().getLatitude(), area.getLocation().getLongitude());
         map.addCircle(new CircleOptions()
-                        .strokeColor(STROKE_COLOR)
-                        .strokeWidth(STROKE_WIDTH)
-                        .fillColor(FILL_COLOR)
+                        .strokeColor(Constants.STROKE_COLOR)
+                        .strokeWidth(Constants.STROKE_WIDTH)
+                        .fillColor(Constants.FILL_COLOR)
                         .radius(area.getRadius())
                         .center(circleLatLong));
 
@@ -250,7 +249,6 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
     }
 
     /**
@@ -265,5 +263,12 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
         intent.putExtra(Constants.HASHMAP, new HashMap(){{put("profile", (Profile)marker.getTag());}});
         startActivity(intent);
         return false;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mapView.onDestroy();
+        unbinder.unbind();
     }
 }

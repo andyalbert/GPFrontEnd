@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Andrew
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 = */
 
 public class UserLocationFragment extends Fragment implements OnMapReadyCallback {
-
+    private Unbinder unbinder;
     private View view;
     private GoogleMap mMap;
     private double lat;
@@ -43,12 +44,13 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
     @BindView(R.id.fragment_user_location_map)
     MapView mapView;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_user_location, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         HashMap<String, Object> parameters = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
         lat = (double) parameters.get("lat");
@@ -59,7 +61,6 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
         MapsInitializer.initialize(this.getActivity());
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        //// TODO: 31/01/17 remove that silly status bar !
 
         return view;
     }
@@ -92,7 +93,6 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
     }
 
     @Override
@@ -126,5 +126,12 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 12.0f));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mapView.onDestroy();
+        unbinder.unbind();
     }
 }
