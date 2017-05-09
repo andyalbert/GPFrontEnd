@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
@@ -178,6 +179,7 @@
 
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton
+        tools:visibility="visible"
         android:src="@mipmap/ic_done"
         app:fabSize="normal"
         android:layout_width="wrap_content"
@@ -185,15 +187,14 @@
         app:backgroundTint="@color/button_pressed"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_gravity="bottom"
         app:layout_anchorGravity="bottom|end"
         android:layout_margin="16dp"
-        app:layout_behavior="com.project.locateme.Utilities.FloatingActionButtonAnimation"
-        android:elevation="6dp"
+        app:layout_behavior="com.project.locateme.utilities.FloatingActionButtonAnimation"
+        app:elevation="6dp"
         app:borderWidth="0dp"
         android:clickable="true"
-        android:translationZ="12dp"
         android:visibility="invisible"
+        android:id="@+id/fragment_fill_user_details_floating_button"
         />
 </android.support.design.widget.CoordinatorLayout>

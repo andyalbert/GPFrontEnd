@@ -1,10 +1,12 @@
 package com.project.locateme;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.project.locateme.mainViews.MainUserActivity;
 import com.project.locateme.utilities.FirebaseInstanceIDService;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -25,9 +27,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+        //// TODO: 08/05/17 uncomment this
+        //Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
-
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_name), MODE_PRIVATE);
+        if(preferences.getBoolean(getString(R.string.is_signed_in), false))
+            startActivity(new Intent(this, MainUserActivity.class));
+        else
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        this.finish();
     }
 }

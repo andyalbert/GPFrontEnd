@@ -35,7 +35,11 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             <!-- this is the main and launcher, just kept like this now -->
         </activity>
         <activity
@@ -50,11 +54,8 @@
             android:name=".mainViews.MainUserActivity"
             android:screenOrientation="portrait"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!-- paste the login filter back here ! -->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -62,13 +63,13 @@
             android:screenOrientation="portrait" />
         <activity android:name=".HolderActivity" android:windowSoftInputMode="stateHidden" />
         <service
-            android:name=".updatingUserLocation.AlarmReceiver"
+            android:name=".updatingUserLocation.AlarmService"
             android:enabled="true"
             android:exported="false"/>
 
         <receiver
             android:name=".updatingUserLocation.ProviderNetworkStateBroadcastReceiver"
-            android:enabled="true">
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

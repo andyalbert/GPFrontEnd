@@ -15,6 +15,7 @@
             android:title="Update frequency"
             android:summary="Location update rate"
             android:dialogTitle="Select time"
+            android:defaultValue="1"
             android:entryValues="@array/times_values"
             android:entries="@array/times"
             android:key="@string/update_frequency_key"
@@ -28,7 +29,8 @@
             android:key="@string/do_not_disturb_key"
             android:summary="Switch off all notifications" />
     </PreferenceCategory>
-
-
-
+    <Preference
+        android:title="Log out"
+        android:key="@string/log_out_key"
+        />
 </PreferenceScreen>

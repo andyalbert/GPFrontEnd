@@ -11,7 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -32,9 +31,10 @@ import java.util.TimerTask;
  * @version 1.0
  * @since 20/3/2017
  */
-public class AlarmReceiver extends Service implements LocationListener {
+public class AlarmService extends Service implements LocationListener {
     private LocationManager mLocationManager;
-    public AlarmReceiver() {
+    private RequestQueue queue;
+    public AlarmService() {
     }
 
     @Override
@@ -44,7 +44,7 @@ public class AlarmReceiver extends Service implements LocationListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        getLocation(AlarmReceiver.this);
+        getLocation(AlarmService.this);
         Log.d("hi", "onStartCommand: ");
         return super.onStartCommand(intent, flags, startId);
     }
@@ -58,7 +58,9 @@ public class AlarmReceiver extends Service implements LocationListener {
         new Timer().schedule(new TimerTask() {//close the service in case of bad network
             @Override
             public void run() {
-                mLocationManager.removeUpdates(AlarmReceiver.this);
+                if(queue != null)
+                    queue.cancelAll("tag");
+                mLocationManager.removeUpdates(AlarmService.this);
                 stopSelf();
             }
         }, 10000);
@@ -99,8 +101,9 @@ public class AlarmReceiver extends Service implements LocationListener {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+        queue = Volley.newRequestQueue(this);
+        request.setTag("tag");
+        queue.add(request);
     }
 
     @Override

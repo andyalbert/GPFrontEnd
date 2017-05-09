@@ -25,12 +25,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
 import com.project.locateme.R;
 import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
 
-import java.security.Provider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +45,7 @@ import static com.project.locateme.utilities.General.isOnline;
 public class MainUserActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener, SearchView.OnCloseListener{
     private SearchView search;
-
+    private SharedPreferences preferences;
     private MainViewsAdapter mainViewsAdapter;
     private final int START_UPDATER_TIMER = 300000;//first update to be after 5 minutes
     private final int UPDATE_INTERVAL = 600000;// update each 10 minutes, can be added to pref and changed later
@@ -85,6 +84,10 @@ public class MainUserActivity extends AppCompatActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        preferences = getSharedPreferences(getString(R.string.shared_preferences_name), MODE_PRIVATE);
+
+
         mainViewsAdapter = new MainViewsAdapter(getSupportFragmentManager());
 
         //For SearchView
@@ -107,22 +110,6 @@ public class MainUserActivity extends AppCompatActivity implements
 
         checkPermission();
         callBroadcast();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // TODO: 1/27/2017 remove this from here and insert it in the after login activity so it got fixed every time
-        // this is used to set the not enabled broadcast receiver of the updating user location into true
-//        PackageManager pm  = MainUserActivity.this.getPackageManager();
-//        ComponentName componentName = new ComponentName(MainUserActivity.this, ProviderNetworkStateBroadcastReceiver.class);
-//        pm.setComponentEnabledSetting(componentName,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-//                PackageManager.DONT_KILL_APP);
-
-        //// TODO: 1/28/2017 transfer this to login
-        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
-        preferences.edit().putString(getString(R.string.user_id), "3").apply();//// TODO: 1/28/2017 this id is static for testing
-        preferences.edit().putString(getString(R.string.user_password), "00000000").apply(); //// TODO: 1/28/2017 also static, must be changed
     }
 
     @Override
@@ -239,10 +226,6 @@ public class MainUserActivity extends AppCompatActivity implements
     }
 
     private void callBroadcast() {
-        //// TODO: 21/03/17 remove in between comments
-        //
-        ComponentName componentName = new ComponentName(this, ProviderNetworkStateBroadcastReceiver.class);
-        Log.d("mystate", "callBroadcast: " + getPackageManager().getComponentEnabledSetting(componentName));
         Intent intent = new Intent("Initiate");
         sendBroadcast(intent);
     }

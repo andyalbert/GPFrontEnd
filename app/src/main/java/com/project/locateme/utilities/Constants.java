@@ -5,7 +5,7 @@ import android.graphics.Color;
 /**
  * @author Andrew
  * @since 26/1/2017
- * @version 1.0
+ * @version 10
  *
  * this class should carry all the constants within the application
  */
@@ -57,9 +57,14 @@ public class Constants {
     public static final String ACCEPT_SUGGESTION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/acceptsuggestion";
     public static final String DECLINE_SUGGESTION="http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejectsuggestion";
     public static final String DELETE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/deleteevent";
+    public static final String REGISTER_ACCOUNT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/register";
+    public static final String CHECK_REGISTRATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/checkregiseration";
 
 
     public static final int STROKE_COLOR = Color.BLACK;
     public static final int STROKE_WIDTH = 5;
     public static final int FILL_COLOR = 0X553F51B5;
+
+    public static final int FACEBOOK_LOGIN = 1;
+    public static final int TWITTER_LOGIN = 0;
 }

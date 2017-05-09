@@ -9,23 +9,56 @@ import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 
+import com.facebook.login.LoginManager;
+import com.project.locateme.MainActivity;
 import com.project.locateme.R;
 import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
+import com.project.locateme.utilities.Constants;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 /**
  * @author andrew
  * @since 20/3/2017
- * @version 1.1
+ * @version 1.5
  */
 
 public class PrefFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private SharedPreferences preferences;
+   // private SharedPreferences preference;
 
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey)  {
         addPreferencesFromResource(R.xml.preferences);
-    //    preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Preference logOut = findPreference(getString(R.string.log_out_key));
+        logOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+                if(preferences.getInt(getString(R.string.provider), 0) == Constants.FACEBOOK_LOGIN)
+                    LoginManager.getInstance().logOut();
+                else{
+                    //todo handle twitter logout
+                }
+
+                preferences.edit().putBoolean(getString(R.string.is_signed_in), false).apply();
+
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().clear().apply();
+
+
+                getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).edit().putInt(getString(R.string.location_update_duration), 300000).apply();
+                //now disable the location updater
+                PackageManager pm = getActivity().getPackageManager();
+                ComponentName componentName = new ComponentName(getActivity(), ProviderNetworkStateBroadcastReceiver.class);
+                Intent intent = new Intent("Initiate");
+                intent.putExtra("disable", 1);
+                getActivity().sendBroadcast(intent);
+                pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP);
+
+                startActivity(new Intent(getActivity(), MainActivity.class));
+                getActivity().finish();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -77,4 +110,6 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
             //// TODO: 21/03/17 load user profile, ?allow him to edit ??
         }
     }
+
+
 }
