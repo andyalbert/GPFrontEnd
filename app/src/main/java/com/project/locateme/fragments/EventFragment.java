@@ -43,6 +43,7 @@ import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.dataHolder.eventsManager.Suggestion;
 import com.project.locateme.dataHolder.userManagement.Account;
 import com.project.locateme.dataHolder.userManagement.Profile;
+import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.utilities.Constants;
 import com.project.locateme.utilities.General;
 
@@ -109,9 +110,6 @@ public class EventFragment extends Fragment {
     private Unbinder unbinder;
     private View view;
     private Event event;
-
-    private Event model;
-
     private EventUsersAdapter eventUsersAdapter;
     private ArrayList<Profile> eventUsersArray;
     private HashMap<String, Object> params;
@@ -131,72 +129,73 @@ public class EventFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_event, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
-        requestQueue = Volley.newRequestQueue(getActivity());
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            super.onCreateView(inflater, container, savedInstanceState);
+            view = inflater.inflate(R.layout.fragment_event, container, false);
+            unbinder = ButterKnife.bind(this, view);
+            preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+            requestQueue = Volley.newRequestQueue(getActivity());
+            initializeEvent();
+            participantsCurrentLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), HolderActivity.class);
+                    intent.putExtra(getString(R.string.fragment_name), Constants.VIEW_PARTICIPANTS_LOCATION_FRAGMENT);
+                    intent.putExtra(Constants.HASHMAP, new HashMap() {
+                        {
+                            put("eventId", event.getId());
+                            put("location", event.getArea().getLocation());
+                            put("radius", event.getArea().getRadius());
+                        }
+                    });
 
-        initializeEvent();
-        participantsCurrentLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), HolderActivity.class);
-                intent.putExtra(getString(R.string.fragment_name), Constants.VIEW_PARTICIPANTS_LOCATION_FRAGMENT);
-                intent.putExtra(Constants.HASHMAP, new HashMap() {
-                    {
-                        put("eventId", event.getId());
-                        put("location", event.getArea().getLocation());
-                        put("radius", event.getArea().getRadius());
-                    }
-                });
 
+                    acceptEvent.setVisibility(View.GONE);
+                    deleteEvent.setVisibility(View.GONE);
+                    deleteEvent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //TODO : network call
+                            //StringRequest deleteRequest = new StringRequest(Request.Method.POST , )
+                            //if successful
+                            Uri deleteuri = Uri.parse(Constants.DELETE_EVENT).
+                                    buildUpon().appendQueryParameter("eventid", event.getId())
+                                    .build();
+                            StringRequest request = new StringRequest(Request.Method.POST, deleteuri.toString(),
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            try {
+                                                JSONObject result = null;
+                                                result = new JSONObject(response);
+                                                if (result.getString("operation").equals("Done")) {
+                                                    Toast.makeText(getActivity(), "Event Deleted Successfuly", Toast.LENGTH_SHORT).show();
 
-                acceptEvent.setVisibility(View.GONE);
-                deleteEvent.setVisibility(View.GONE);
-                deleteEvent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //TODO : network call
-                        //StringRequest deleteRequest = new StringRequest(Request.Method.POST , )
-                        //if successful
-                        Uri deleteuri = Uri.parse(Constants.DELETE_EVENT).
-                                buildUpon().appendQueryParameter("eventid", model.getId())
-                                .build();
-                        StringRequest request = new StringRequest(Request.Method.POST, deleteuri.toString(),
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            JSONObject result = null;
-                                            result = new JSONObject(response);
-                                            if (result.getString("operation").equals("Done")) {
-                                                Toast.makeText(getActivity(), "Event Deleted Successfuly", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(getActivity(), "An error occurred please try again later", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(getActivity(), "An error occurred please try again later", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
                                         }
-                                    }
 
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        error.printStackTrace();
-                                    }
-                                });
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            error.printStackTrace();
+                                        }
+                                    });
 
-                        //TODO :Direct to Homepage ?
-                    }
-                });
-            }
-        });
-        //initializeUsersListItems();
-        return view;
-    }
+                            //TODO :Direct to Homepage ?
+
+                        }
+                    });
+                }
+            });
+            //initializeUsersListItems();
+            return view;
+        }
 
     private void initializeActionButtonsListeners() {
         mainActionButton.setOnClickListener(new View.OnClickListener() {
@@ -304,7 +303,6 @@ public class EventFragment extends Fragment {
         params = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
         event = (Event) params.get("eventModel");
         userState = (UserState) params.get("userStatus");
-
         switch (userState) {
             case OWNER:
                 deleteEvent.setVisibility(View.VISIBLE);

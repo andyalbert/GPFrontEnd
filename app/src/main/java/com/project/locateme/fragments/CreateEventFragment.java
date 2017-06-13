@@ -125,6 +125,7 @@ public class CreateEventFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(getActivity());
         reference = FirebaseStorage.getInstance().getReference();
         eventArea = new Area();
+        eventLocationObject = new Location();
         super.onCreate(savedInstanceState);
     }
 
@@ -195,6 +196,7 @@ public class CreateEventFragment extends Fragment {
                     e.printStackTrace();
                 }
                 //call create area
+
                 createAreaNetworkcall();
             }
         }, new Response.ErrorListener() {
@@ -258,7 +260,10 @@ public class CreateEventFragment extends Fragment {
                     e.printStackTrace();
                 }
                 try {
+
                     eventArea.setId(json.getString("area_id"));
+                    eventArea.setLocation(eventLocationObject);
+                    model.setArea(eventArea);
                     //call create event fun
                     createEventNetworkcall();
                 } catch (JSONException e) {
@@ -283,8 +288,8 @@ public class CreateEventFragment extends Fragment {
                 .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
                 .appendQueryParameter("dateofevent", startTime)
                 .appendQueryParameter("deadline", deadline)
-                .appendQueryParameter("img", imagePath)
                 .appendQueryParameter("locationid", eventArea.getLocation().getId())
+                .appendQueryParameter("img", imagePath)
                 .build();
 
         stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
@@ -293,9 +298,7 @@ public class CreateEventFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONObject returnedData = new JSONObject(response);
-
                     model.setId(returnedData.getString("event_id"));
-
                     Toast.makeText(getActivity(), "Event created Successfuly", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getActivity(), HolderActivity.class);
                     HashMap<String, Object> params = new HashMap<String, Object>();

@@ -53,7 +53,7 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), HolderActivity.class);
-                    Location loc = new Location(1.2 , 2.2 , "AAA");
+                    /*Location loc = new Location(1.2 , 2.2 , "AAA");
                     loc.setId("1");
                     Area area = new Area();
                     area.setId("1");
@@ -66,11 +66,11 @@ public class SettingsFragment extends Fragment {
                     event.setDescription("A5 5ara");
                     event.setState(true);
                     event.setDateOfEvent(new Timestamp(1244512154));
-                    event.setDeadline(new Timestamp(544546));
+                    event.setDeadline(new Timestamp(544546));*/
                     HashMap<String , Object> params = new HashMap<String, Object>();
-                    params.put("eventModel" , event);
-                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
-                    //intent.putExtra(getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);
+                    //params.put("eventModel" , event);
+                    intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.CREATE_EVENT_FRAGMENT);
+                    //intent.putExtra(getString(R.string.fragment_name), Constants.EVENT_FRAGMENT);*/
                     intent.putExtra(Constants.HASHMAP, params);
                     startActivity(intent);
                 }
