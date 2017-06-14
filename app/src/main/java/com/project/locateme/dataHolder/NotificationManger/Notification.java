@@ -1,0 +1,54 @@
+package com.project.locateme.dataHolder.NotificationManger;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import java.sql.Timestamp;
+
+/**
+ * @author andrew
+ * @since 13/6/2017
+ * @version 1.0
+ */
+
+public abstract class Notification {
+    private Timestamp timestamp;
+    private int id;
+    private boolean isRead;
+
+    public Notification(){
+        isRead = false;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public abstract View getView(Context context);
+
+    public abstract void setViewTag(View convertView);
+
+    public abstract void setViewListener(View convertView);
+}
