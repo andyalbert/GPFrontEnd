@@ -1,15 +1,26 @@
 package com.project.locateme;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
+
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.project.locateme.mainViews.MainUserActivity;
 import com.project.locateme.utilities.FirebaseInstanceIDService;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -23,9 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TWITTER_KEY = "Qcwv4vyvEMZTjwWQSjpLhJsGU";
     private static final String TWITTER_SECRET = " KlopfY41uRZaMU5a1b025qS4W8qoVjCokkMcbUkyew2UHld2Oe";
+    private static final String TAG = "facebookKey";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //this is used to get the facebook hashkey to be used on android device
+        printHashKey(this);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         //// TODO: 08/05/17 uncomment this
         //Fabric.with(this, new Twitter(authConfig));
@@ -36,5 +50,21 @@ public class MainActivity extends AppCompatActivity {
         else
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         this.finish();
+    }
+
+    public static void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
+        }
     }
 }

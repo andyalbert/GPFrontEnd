@@ -7,5 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_notification_list_view"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:dividerHeight="1dp"
+        android:divider="@color/white"
         />
 </LinearLayout>

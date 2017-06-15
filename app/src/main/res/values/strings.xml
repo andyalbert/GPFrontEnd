@@ -28,4 +28,6 @@
     <string name="friend_request">has added you as a friend</string>
     <string name="friend_accepted">has accepted your friend request</string>
     <string name="event_invitation">You have been invited to join </string>
+    <string name="event_arrival"> has arrived at event </string>
+    <string name="event_editing"> event time has changed to </string>
 </resources>

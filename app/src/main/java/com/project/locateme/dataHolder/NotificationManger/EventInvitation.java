@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * @author andrew
  * @since 13/6/2017
- * @version 1.0
+ * @version 1.1
  */
 
 public class EventInvitation extends Notification {

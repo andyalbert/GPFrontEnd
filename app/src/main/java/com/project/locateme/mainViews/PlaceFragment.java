@@ -186,7 +186,11 @@ public class PlaceFragment extends Fragment {
                 try {
                     JSONObject mainObj = new JSONObject(response);
                     int moreExist = mainObj.getInt("moreExist"), state;
-                    JSONArray array = mainObj.getJSONArray("object");
+                    JSONArray array;
+                    if(mainObj.has("object"))//// TODO: 15/06/17 test this
+                     array = mainObj.getJSONArray("object");
+                    else
+                        array = new JSONArray();
                     if(array.length() > 0) {
                         noEventsText.setVisibility(View.INVISIBLE);
                         eventsListView.setVisibility(View.VISIBLE);

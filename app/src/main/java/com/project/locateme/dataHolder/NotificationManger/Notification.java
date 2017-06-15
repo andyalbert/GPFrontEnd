@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 /**
  * @author andrew
  * @since 13/6/2017
- * @version 1.0
+ * @version 1.2
  */
 
 public abstract class Notification {
