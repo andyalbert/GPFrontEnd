@@ -1,5 +1,6 @@
 package com.project.locateme.mainViews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -11,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,12 +93,27 @@ public class NotificationFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView == null){
-                convertView = notifications.get(position).getView(context);
-                notifications.get(position).setViewTag(convertView);
+                convertView = ((Activity)context).getLayoutInflater().inflate(R.layout.list_item_notification, null);
+                convertView.setTag(new ViewHolder(convertView));
             }
-            notifications.get(position).setViewListener(convertView);
+            notifications.get(position).setViewListener((ViewHolder) convertView.getTag(), context);
 
             return convertView;
+        }
+
+    }
+    public class ViewHolder{
+        @BindView(R.id.list_item_notification)
+        public LinearLayout layout;
+        @BindView(R.id.list_item_notification_image)
+        public ImageView image;
+        @BindView(R.id.list_item_notification_text)
+        public TextView text;
+        @BindView(R.id.list_item_notification_time)
+        public TextView time;
+
+        public ViewHolder(View view){
+            ButterKnife.bind(this, view);
         }
     }
 }

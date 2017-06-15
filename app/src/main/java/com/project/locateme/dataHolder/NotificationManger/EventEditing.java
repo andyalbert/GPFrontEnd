@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.project.locateme.dataHolder.eventsManager.Event;
 import com.project.locateme.dataHolder.eventsManager.Suggestion;
+import com.project.locateme.mainViews.NotificationFragment;
 
 /**
  * @author andrew
@@ -33,17 +34,7 @@ public class EventEditing extends Notification {
     }
 
     @Override
-    public View getView(Context context) {
-        return null;
-    }
-
-    @Override
-    public void setViewTag(View convertView) {
-
-    }
-
-    @Override
-    public void setViewListener(View convertView) {
+    public void setViewListener(NotificationFragment.ViewHolder viewHolder, Context context) {
 
     }
 }

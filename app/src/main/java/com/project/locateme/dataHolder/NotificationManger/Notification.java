@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.project.locateme.mainViews.NotificationFragment;
+
 import java.sql.Timestamp;
 
 /**
@@ -46,9 +48,5 @@ public abstract class Notification {
         this.id = id;
     }
 
-    public abstract View getView(Context context);
-
-    public abstract void setViewTag(View convertView);
-
-    public abstract void setViewListener(View convertView);
+    public abstract void setViewListener(NotificationFragment.ViewHolder viewHolder, Context context);
 }

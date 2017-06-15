@@ -27,4 +27,5 @@
     <string name="is_incognito">incognito</string>
     <string name="friend_request">has added you as a friend</string>
     <string name="friend_accepted">has accepted your friend request</string>
+    <string name="event_invitation">You have been invited to join </string>
 </resources>

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
 import com.project.locateme.dataHolder.userManagement.Profile;
+import com.project.locateme.mainViews.NotificationFragment;
 import com.project.locateme.utilities.Constants;
 import com.project.locateme.utilities.General;
 
@@ -43,48 +44,23 @@ public class FriendRequest extends Notification {
 
     //adapter related functions
     @Override
-    public View getView(Context context) {
-        return ((Activity)context).getLayoutInflater().inflate(R.layout.list_item_friend_request, null);
-    }
-
-    @Override
-    public void setViewTag(View convertView) {
-        convertView.setTag(new ViewHolder(convertView));
-    }
-
-    @Override
-    public void setViewListener(final View convertView) {
-        ViewHolder holder = (ViewHolder) convertView.getTag();
-
+    public void setViewListener(NotificationFragment.ViewHolder holder, final Context context) {
         //add bold name to the text, using android native class
-        SpannableStringBuilder str = new SpannableStringBuilder(senderProfile.getName() + " " + convertView.getContext().getString(R.string.friend_request));
+        SpannableStringBuilder str = new SpannableStringBuilder(senderProfile.getName() + " " + context.getString(R.string.friend_request));
         str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, senderProfile.getName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        Glide.with(convertView.getContext()).load(senderProfile.getPictureURL()).into(holder.image);
+        Glide.with(context).load(senderProfile.getPictureURL()).into(holder.image);
         holder.text.setText(str);
         holder.time.setText(General.convertTimeatampToString(getTimestamp()));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(convertView.getContext(), HolderActivity.class);
+                Intent intent = new Intent(context, HolderActivity.class);
                 intent.putExtra(Constants.HASHMAP, new HashMap(){{put("profile", senderProfile);}});
-                intent.putExtra(convertView.getContext().getString(R.string.fragment_name), Constants.PROFILE_FRAGMENT);
-                convertView.getContext().startActivity(intent);
+                intent.putExtra(context.getString(R.string.fragment_name), Constants.PROFILE_FRAGMENT);
+                context.startActivity(intent);
             }
         });
     }
 
-    class ViewHolder{
-        @BindView(R.id.list_item_friend_request)
-        LinearLayout layout;
-        @BindView(R.id.list_item_friend_request_image)
-        ImageView image;
-        @BindView(R.id.list_item_friend_request_text)
-        TextView text;
-        @BindView(R.id.list_item_friend_request_time)
-        TextView time;
-        public ViewHolder(View view){
-            ButterKnife.bind(this, view);
-        }
-    }
 }
