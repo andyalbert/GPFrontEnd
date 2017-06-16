@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/list_item_friend_request"
+    android:layout_height="80dp">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/list_item_friend_request_image"
+            tools:src="@mipmap/ic_profile_original"
+            android:layout_gravity="center_vertical"
+            />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="this is it, how_w_man_i_wish_everything"
+            android:textColor="?android:textColorPrimary"
+            android:id="@+id/list_item_friend_request_text"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            tools:text="time"
+            android:gravity="center_vertical"
+            android:drawablePadding="3dp"
+            android:drawableLeft="@drawable/image_time"
+            android:id="@+id/list_item_friend_request_time"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

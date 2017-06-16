@@ -25,4 +25,9 @@
     <string name="update_frequency_key">update_frequency</string>
     <string name="log_out_key">log_out</string>
     <string name="is_incognito">incognito</string>
+    <string name="friend_request">has added you as a friend</string>
+    <string name="friend_accepted">has accepted your friend request</string>
+    <string name="event_invitation">You have been invited to join </string>
+    <string name="event_arrival"> has arrived at event </string>
+    <string name="event_editing"> event time has changed to </string>
 </resources>
