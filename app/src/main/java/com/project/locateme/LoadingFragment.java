@@ -33,22 +33,6 @@ public class LoadingFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_loading_image);
         loadingImage.startAnimation(animation);
-//        animation.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
 
         return view;
     }

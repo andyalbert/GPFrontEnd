@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.project.locateme.R;
 import com.project.locateme.dataHolder.userManagement.Profile;
 
@@ -85,8 +86,8 @@ public class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
         CircleImageView user_profile_pic = (CircleImageView) convertView.findViewById(R.id.user_profile_pic);
         TextView user_first_name = (TextView) convertView.findViewById(R.id.user_first_name);
         TextView user_last_name = (TextView) convertView.findViewById(R.id.user_last_name);
-        user_profile_pic.setImageResource(R.mipmap.ic_profile); // TODO : Load the image profile pic from the database
-        user_first_name.setText(searchGroup.getArr().get(childPosition).getFirstName()); // TODO : Load the first name from the database
+        Glide.with(context).load(searchGroup.getArr().get(childPosition).getPictureURL()).into(user_profile_pic);
+        user_first_name.setText(searchGroup.getArr().get(childPosition).getFirstName()+" "); // TODO : Load the first name from the database
         user_last_name.setText(searchGroup.getArr().get(childPosition).getLastName()); // TODO : Load the last name from the database
         return convertView;
     }
@@ -95,25 +96,9 @@ public class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-    public void filterData(String query)
+    public void filterData(String query , ArrayList<Profile> newList)
     {
-        query = query.toLowerCase();
-        if(query.isEmpty())
-        {
-            searchGroup = new SearchGroup();
-            searchGroup = originalSearchGroup;
-        }
-        else
-        {
-            ArrayList<Profile> oldList = originalSearchGroup.getArr();
-            ArrayList<Profile> newList = new ArrayList<>();
-            for(Profile profile: oldList)
-            {
-                if((profile.getFirstName() + " " + profile.getLastName()).contains(query))
-                    newList.add(profile);
-            }
             searchGroup = new SearchGroup(newList);
-        }
         notifyDataSetChanged();
     }
 }

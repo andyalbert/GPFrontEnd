@@ -109,13 +109,13 @@ public class EventFragment extends Fragment {
     LinearLayout notificationActionLinearLayout;
     private Unbinder unbinder;
     private View view;
-    private Event event;
+    private static Event event;
     private EventUsersAdapter eventUsersAdapter;
     private ArrayList<Profile> eventUsersArray;
     private HashMap<String, Object> params;
 
     private StringRequest stringRequest, deleteReqest, ignoreRequest, acceptRequest;
-    private SharedPreferences preferences;
+    private static SharedPreferences preferences;
     private final String REQUEST_TAG = "tag";
     private UserState userState;
 
@@ -193,7 +193,7 @@ public class EventFragment extends Fragment {
                     });
                 }
             });
-            //initializeUsersListItems();
+            initializeUsersListItems();
             return view;
         }
 
@@ -214,7 +214,7 @@ public class EventFragment extends Fragment {
                         public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), HolderActivity.class);
                             HashMap<String, Object> params = new HashMap<String, Object>();
-                            params.put("eventId", "1");
+                            params.put("eventId", event.getId());
                             intent.putExtra(Constants.HASHMAP, params);
                             intent.putExtra(getString(R.string.fragment_name), Constants.VIEW_SUGGESTIONS);
                             startActivity(intent);
@@ -262,8 +262,8 @@ public class EventFragment extends Fragment {
         suggestion.setState(false);
         suggestion.setDate(General.convertStringToTimestamp(deadline));
         Uri uri = Uri.parse(Constants.ADD_SUGGESTION).buildUpon()
-                .appendQueryParameter("userid", "3")//ToDo: replace with real id
-                .appendQueryParameter("eventid", "1")
+                .appendQueryParameter("userid", preferences.getString("user userId", ""))//Note : cant access getString from resource (static)
+                .appendQueryParameter("eventid", event.getId())
                 .appendQueryParameter("date", suggestion.getDate().toString())
                 .build();
         StringRequest suggestionRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
@@ -390,7 +390,8 @@ public class EventFragment extends Fragment {
         }
 
         initializeActionButtonsListeners();
-        //initializeUsersListItems();
+        ///Error may happen here
+        initializeUsersListItems();
 
         collapsingToolbar.setTitle(event.getName());
         collapsingToolbar.setBackgroundColor(15);

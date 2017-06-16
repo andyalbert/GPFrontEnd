@@ -35,7 +35,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -72,6 +77,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class CreateEventFragment extends Fragment {
     private Unbinder unbinder;
     static final int DATE_DIALOG_ID = 999;
+    private SharedPreferences preferences;
     public static String startTime;
     public static String deadline;
     private final int REQUEST_GALLERY_IMAGE = 2;
@@ -109,7 +115,7 @@ public class CreateEventFragment extends Fragment {
     private static boolean isTimePicked;
     private boolean isLocationPicked;
     private static View view;
-
+    private FirebaseAuth mAuth;
     public CreateEventFragment() {
 
     }
@@ -124,8 +130,10 @@ public class CreateEventFragment extends Fragment {
         day = calender.get(Calendar.DAY_OF_MONTH);
         requestQueue = Volley.newRequestQueue(getActivity());
         reference = FirebaseStorage.getInstance().getReference();
+        preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         eventArea = new Area();
         eventLocationObject = new Location();
+        mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
     }
 
@@ -214,19 +222,24 @@ public class CreateEventFragment extends Fragment {
         if (requestCode == REQUEST_GALLERY_IMAGE) {
             if (resultCode == RESULT_OK) {
                 imagePath = data.getStringExtra("path");
-                Log.e("ImagePathCreate", imagePath);
                 Uri imagePathUri = Uri.fromFile(new File(imagePath));
-                reference.child(eventName.getText().toString());
-                UploadTask uploadTask = reference.child(eventName.getText().toString()).putFile(imagePathUri);
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                reference.child(eventName.getText().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
                         eventArea.setImageURL(downloadImage.toString());
+                        Log.e("Path", eventArea.getImageURL());
+                        Glide.with(getActivity()).load(eventArea.getImageURL()).into(eventImage);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Fail" , "ure");
+                        e.printStackTrace();
                     }
                 });
-                Log.i("Path", imagePath);
-                Glide.with(getActivity()).load(imagePathUri).into(eventImage);
+
+
 
             }
         } else if (requestCode == REQUEST_MAP_LOCATION) {
@@ -245,7 +258,7 @@ public class CreateEventFragment extends Fragment {
 
     public void createAreaNetworkcall() {
         Uri uri = Uri.parse(Constants.CREATE_AREA).buildUpon()
-                .appendQueryParameter("ownerid", "1")
+                .appendQueryParameter("ownerid",preferences.getString(getString(R.string.user_id) , ""))
                 .appendQueryParameter("locationid", eventLocationObject.getId())
                 .appendQueryParameter("redius", String.valueOf(radius))
                 .build();
@@ -289,7 +302,7 @@ public class CreateEventFragment extends Fragment {
                 .appendQueryParameter("dateofevent", startTime)
                 .appendQueryParameter("deadline", deadline)
                 .appendQueryParameter("locationid", eventArea.getLocation().getId())
-                .appendQueryParameter("img", imagePath)
+                .appendQueryParameter("img", eventArea.getImageURL())
                 .build();
 
         stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
@@ -461,6 +474,13 @@ public class CreateEventFragment extends Fragment {
                 createEvent();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        mAuth.signInAnonymously();
+        FirebaseUser user = mAuth.getCurrentUser();
+        super.onStart();
     }
 }
 

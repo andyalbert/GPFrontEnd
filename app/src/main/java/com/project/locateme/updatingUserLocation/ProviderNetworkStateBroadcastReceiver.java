@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
@@ -47,7 +46,7 @@ public class ProviderNetworkStateBroadcastReceiver extends BroadcastReceiver {
         if(intent.getAction().equals("Initiate") && alarmManager != null){
             alarmManager.cancel(pendingIntent);
             pendingIntent.cancel();
-            pendingIntent = PendingIntent.getService(context, 0, new Intent(context, AlarmReceiver.class), 0);
+            pendingIntent = PendingIntent.getService(context, 0, new Intent(context, AlarmService.class), 0);
             durationBetweenUpdates = getDurationBetweenUpdates(context);
             alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 1, durationBetweenUpdates, pendingIntent);
             return;
@@ -57,10 +56,10 @@ public class ProviderNetworkStateBroadcastReceiver extends BroadcastReceiver {
         if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && General.isOnline(context) && alarmManager == null){//gps is turned on, and the mobile is online
             //getting data saved on the device by the user pref
             durationBetweenUpdates = getDurationBetweenUpdates(context);
-            pendingIntent = PendingIntent.getService(context, 0, new Intent(context, AlarmReceiver.class), 0);
+            pendingIntent = PendingIntent.getService(context, 0, new Intent(context, AlarmService.class), 0);
             alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 1, durationBetweenUpdates, pendingIntent);
-        } else if(!General.isOnline(context) && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && alarmManager != null){ //gps is turned off
+        } else if((!General.isOnline(context) || !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) && alarmManager != null){ //gps is turned off
             alarmManager.cancel(pendingIntent);
             pendingIntent.cancel();
             alarmManager = null;
@@ -68,7 +67,8 @@ public class ProviderNetworkStateBroadcastReceiver extends BroadcastReceiver {
     }
 
     private int getDurationBetweenUpdates(Context context){
-        return context.getSharedPreferences(context.getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getInt(context.getString(R.string.location_update_duration), 300000);
+        return context.getSharedPreferences(context.getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).
+                getInt(context.getString(R.string.location_update_duration), 300000);
     }
 
     private boolean isPermissionGranted(Context context){

@@ -5,7 +5,7 @@ import android.graphics.Color;
 /**
  * @author Andrew
  * @since 26/1/2017
- * @version 1.0
+ * @version 10
  *
  * this class should carry all the constants within the application
  */
@@ -26,6 +26,8 @@ public class Constants {
     public static final String INVITE_FRIENDS_FRAGMENT = "inviteFriends";
     public static final String VIEW_PARTICIPANTS_LOCATION_FRAGMENT = "participantsFragment";
     public static final String VIEW_SUGGESTIONS = "viewSuggestions";
+    public static final String SEARCH_FRAGMENT = "searchFragment";
+
 
 
     //URLs
@@ -57,9 +59,15 @@ public class Constants {
     public static final String ACCEPT_SUGGESTION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/acceptsuggestion";
     public static final String DECLINE_SUGGESTION="http://firstapp-fciswpro.rhcloud.com/restapi/rest/rejectsuggestion";
     public static final String DELETE_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/deleteevent";
-
+    public static final String REGISTER_ACCOUNT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/register";
+    public static final String CHECK_REGISTRATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/checkregiseration";
+    public static final String SEARCH_USER_BY_NAME = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/searchuserbyname";
+    public static final String GET_USER_DETAILS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserdetails";
 
     public static final int STROKE_COLOR = Color.BLACK;
     public static final int STROKE_WIDTH = 5;
     public static final int FILL_COLOR = 0X553F51B5;
+
+    public static final int FACEBOOK_LOGIN = 1;
+    public static final int TWITTER_LOGIN = 0;
 }

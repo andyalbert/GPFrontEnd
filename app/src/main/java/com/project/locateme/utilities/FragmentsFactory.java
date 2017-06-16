@@ -17,6 +17,7 @@ import com.project.locateme.googleMap.ViewZoneFragment;
 import com.project.locateme.mainViews.CreatePlaceFragment;
 import com.project.locateme.mainViews.PlaceFragment;
 import com.project.locateme.mainViews.PrefFragment;
+import com.project.locateme.mainViews.SearchView.SearchFragment;
 import com.project.locateme.mainViews.UserProfileFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.mainViews.NotificationFragment;
@@ -71,6 +72,8 @@ public class FragmentsFactory {
             fragment = new EventParticipantsLocationFragment();
         else if(name.equals(Constants.VIEW_SUGGESTIONS))
             fragment = new ViewSuggestions();
+        else if(name.equals(Constants.SEARCH_FRAGMENT))
+            fragment = new SearchFragment();
 
         //add more as we go ahead in the application
         return fragment;
