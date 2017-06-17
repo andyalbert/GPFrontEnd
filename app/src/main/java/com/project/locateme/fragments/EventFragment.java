@@ -397,7 +397,7 @@ public class EventFragment extends Fragment {
         collapsingToolbar.setBackgroundColor(15);
         description.setText(event.getDescription());
         dateTextview.setText(General.convertTimeatampToString(event.getDateOfEvent()));
-        deadlineDate.setText(General.convertTimeatampToString(event.getDateOfEvent()));
+        deadlineDate.setText(General.convertTimeatampToString(event.getDeadline()));
         Glide.with(getActivity()).load(event.getArea().getImageURL()).into(eventImage);
     }
 

@@ -227,7 +227,8 @@ public class CreateEventFragment extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
-                        eventArea.setImageURL(downloadImage.toString());
+                        imagePath = downloadImage.toString();
+                        eventArea.setImageURL(imagePath);
                         Log.e("Path", eventArea.getImageURL());
                         Glide.with(getActivity()).load(eventArea.getImageURL()).into(eventImage);
                     }
@@ -261,6 +262,7 @@ public class CreateEventFragment extends Fragment {
                 .appendQueryParameter("ownerid",preferences.getString(getString(R.string.user_id) , ""))
                 .appendQueryParameter("locationid", eventLocationObject.getId())
                 .appendQueryParameter("redius", String.valueOf(radius))
+                .appendQueryParameter("imageurl" , eventArea.getImageURL())
                 .build();
 
         stringRequest = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
@@ -273,7 +275,7 @@ public class CreateEventFragment extends Fragment {
                     e.printStackTrace();
                 }
                 try {
-
+                    Log.e("Areais" , response);
                     eventArea.setId(json.getString("area_id"));
                     eventArea.setLocation(eventLocationObject);
                     model.setArea(eventArea);

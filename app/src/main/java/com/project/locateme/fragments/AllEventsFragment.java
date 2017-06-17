@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,6 +112,7 @@ public class AllEventsFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 try{
+                    Log.e("All" , response);
                     JSONArray array = new JSONArray(response);
                     int state;
                     events = new ArrayList<>();
@@ -133,7 +135,7 @@ public class AllEventsFragment extends Fragment {
                         area.setLocation(location);
                         area.setRadius(areaObject.getDouble("redius"));
                         area.setId(areaObject.getString("area_id"));
-
+                        area.setImageURL(areaObject.getString("image"));
                         event.setArea(area);
                         event.setId(object.getString("event_id"));
                         event.setName(object.getString("name"));
