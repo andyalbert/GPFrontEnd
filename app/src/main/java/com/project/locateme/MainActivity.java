@@ -19,7 +19,7 @@ import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.firebase.client.Firebase;
+//import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TWITTER_KEY = "Qcwv4vyvEMZTjwWQSjpLhJsGU";
     private static final String TWITTER_SECRET = " KlopfY41uRZaMU5a1b025qS4W8qoVjCokkMcbUkyew2UHld2Oe";
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
 
     private static final String TAG = "facebookKey";
 

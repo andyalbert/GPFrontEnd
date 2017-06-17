@@ -235,7 +235,6 @@ public class CreateEventFragment extends Fragment {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e("Fail" , "ure");
                         e.printStackTrace();
                     }
                 });

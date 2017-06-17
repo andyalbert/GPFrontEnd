@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GPFrontEnd.iml" filepath="$PROJECT_DIR$/GPFrontEnd.iml" />
-      <module fileurl="file://$PROJECT_DIR$/LocateMe.iml" filepath="$PROJECT_DIR$/LocateMe.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
