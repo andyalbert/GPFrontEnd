@@ -15,6 +15,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,49 +149,7 @@ public class EventFragment extends Fragment {
                             put("radius", event.getArea().getRadius());
                         }
                     });
-
-
-                    acceptEvent.setVisibility(View.GONE);
-                    deleteEvent.setVisibility(View.GONE);
-                    deleteEvent.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //TODO : network call
-                            //StringRequest deleteRequest = new StringRequest(Request.Method.POST , )
-                            //if successful
-                            Uri deleteuri = Uri.parse(Constants.DELETE_EVENT).
-                                    buildUpon().appendQueryParameter("eventid", event.getId())
-                                    .build();
-                            StringRequest request = new StringRequest(Request.Method.POST, deleteuri.toString(),
-                                    new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            try {
-                                                JSONObject result = null;
-                                                result = new JSONObject(response);
-                                                if (result.getString("operation").equals("Done")) {
-                                                    Toast.makeText(getActivity(), "Event Deleted Successfuly", Toast.LENGTH_SHORT).show();
-
-                                                } else {
-                                                    Toast.makeText(getActivity(), "An error occurred please try again later", Toast.LENGTH_SHORT).show();
-                                                }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-
-                                    },
-                                    new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            error.printStackTrace();
-                                        }
-                                    });
-
-                            //TODO :Direct to Homepage ?
-
-                        }
-                    });
+                    startActivity(intent);
                 }
             });
             initializeUsersListItems();
@@ -302,6 +261,7 @@ public class EventFragment extends Fragment {
     public void initializeEvent() {
         params = (HashMap<String, Object>) getArguments().getSerializable(Constants.HASHMAP);
         event = (Event) params.get("eventModel");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(event.getName() + " event");
         userState = (UserState) params.get("userStatus");
         switch (userState) {
             case OWNER:

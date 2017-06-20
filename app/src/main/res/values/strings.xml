@@ -22,6 +22,9 @@
     <string name="incognito_key">incognito</string>
     <string name="do_not_disturb_key">do_not_disturb</string>
     <string name="user_profile_key">user_profile</string>
+    <string name="all_friends_key">friends</string>
+    <string name="create_zone_key">create_zone</string>
+    <string name="create_event_key">create_event</string>
     <string name="update_frequency_key">update_frequency</string>
     <string name="log_out_key">log_out</string>
     <string name="is_incognito">incognito</string>

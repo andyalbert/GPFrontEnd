@@ -135,8 +135,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //        map.getProjection().getVisibleRegion().farRight.latitude, Toast.LENGTH_SHORT).show();
     }
 
-    private void updateMarkers() {
-        requestQueue.cancelAll(VOLLEY_TAG); //stop any previous requests
+    public void updateMarkers() {
+        requestQueue.cancelAll(VOLLEY_TAG); //stop any previous requests that is still online
         VisibleRegion region = map.getProjection().getVisibleRegion();
         Uri uri = Uri.parse(Constants.GET_USERS_ON_MAP_REGION).buildUpon()
                 .appendQueryParameter("lat1", String.valueOf(region.nearLeft.latitude))
@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "an error has occurred during updating, please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "an error has occurred during updating map, please try again", Toast.LENGTH_SHORT).show();
             }
         });
         request.setTag(VOLLEY_TAG);

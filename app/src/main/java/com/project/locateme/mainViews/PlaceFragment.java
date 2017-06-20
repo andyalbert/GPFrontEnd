@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,14 +79,14 @@ public class PlaceFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
         setPlaceListViewItems();
-        setEventListViewItems();
+        updateEventListViewItems();
 
         return view;
     }
 
     private void setPlaceListViewItems(){
         Uri uri = Uri.parse(Constants.GET_ZONES).buildUpon()
-                .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
+                .appendQueryParameter("ownerid", sharedPreferences.getString(getString(R.string.user_id), ""))
                 .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
                 .build();
         Log.d("shit i", uri.toString());
@@ -174,7 +173,7 @@ public class PlaceFragment extends Fragment {
         requestQueue.add(zoneObjectRequest);
     }
 
-    private void setEventListViewItems() {
+    public void updateEventListViewItems() {
         Uri uri = Uri.parse(Constants.GET_UPCOMING_EVENTS).buildUpon()
                 .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
                 .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
@@ -191,9 +190,12 @@ public class PlaceFragment extends Fragment {
                      array = mainObj.getJSONArray("object");
                     else
                         array = new JSONArray();
-                    if(array.length() > 0) {
+                    if(array.length() > 0 || moreExist == 2) {
                         noEventsText.setVisibility(View.INVISIBLE);
                         eventsListView.setVisibility(View.VISIBLE);
+                    } else{
+                        noEventsText.setVisibility(View.VISIBLE);
+                        eventsListView.setVisibility(View.INVISIBLE);
                     }
                     events = new ArrayList<>();
                     Event event;

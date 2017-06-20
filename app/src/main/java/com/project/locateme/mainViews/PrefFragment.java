@@ -9,10 +9,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceScreen;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.facebook.login.LoginManager;
+import com.project.locateme.HolderActivity;
 import com.project.locateme.MainActivity;
 import com.project.locateme.R;
 import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
@@ -21,6 +23,8 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
+
+import java.util.HashMap;
 
 /**
  * @author andrew
@@ -34,7 +38,54 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey)  {
         addPreferencesFromResource(R.xml.preferences);
+
+        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+
+        (findPreference(getString(R.string.user_profile_key))).setTitle(preferences.getString(getActivity().getString(R.string.user_name), ""));
+
+        Preference viewMyProfile = findPreference(getString(R.string.user_profile_key));
+        Preference viewAllFriends = findPreference(getString(R.string.all_friends_key));
+        Preference createZone = findPreference(getString(R.string.create_zone_key));
+        Preference createEvent = findPreference(getString(R.string.create_event_key));
         Preference logOut = findPreference(getString(R.string.log_out_key));
+
+        viewMyProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                return false;
+            }
+        });
+        viewAllFriends.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), HolderActivity.class);
+                intent.putExtra(getString(R.string.fragment_name), Constants.ALL_FRIENDS_FRAGMENT);
+                intent.putExtra(Constants.HASHMAP, new HashMap<>());
+                startActivity(intent);
+                return false;
+            }
+        });
+        createZone.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), HolderActivity.class);
+                intent.putExtra(getString(R.string.fragment_name), Constants.CREATE_PLACE_FRAGMENT);
+                intent.putExtra(Constants.HASHMAP, new HashMap<>());
+                startActivity(intent);
+                return false;
+            }
+        });
+        createEvent.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), HolderActivity.class);
+                intent.putExtra(getActivity().getString(R.string.fragment_name), Constants.CREATE_EVENT_FRAGMENT);
+                intent.putExtra(Constants.HASHMAP, new HashMap<>());
+                startActivity(intent);
+                return false;
+            }
+        });
         logOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
