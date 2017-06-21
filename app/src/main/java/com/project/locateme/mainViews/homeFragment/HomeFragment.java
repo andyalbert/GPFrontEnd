@@ -139,14 +139,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         requestQueue.cancelAll(VOLLEY_TAG); //stop any previous requests that is still online
         VisibleRegion region = map.getProjection().getVisibleRegion();
         Uri uri = Uri.parse(Constants.GET_USERS_ON_MAP_REGION).buildUpon()
-                .appendQueryParameter("lat1", String.valueOf(region.nearLeft.latitude))
-                .appendQueryParameter("lat2", String.valueOf(region.farLeft.latitude))
-                .appendQueryParameter("lat3", String.valueOf(region.farRight.latitude))
-                .appendQueryParameter("lat4", String.valueOf(region.nearRight.latitude))
-                .appendQueryParameter("lon1", String.valueOf(region.nearLeft.longitude))
-                .appendQueryParameter("lon2", String.valueOf(region.farLeft.longitude))
-                .appendQueryParameter("lon3", String.valueOf(region.farRight.longitude))
-                .appendQueryParameter("lon4", String.valueOf(region.nearRight.longitude))
+                .appendQueryParameter("lat1", String.valueOf(region.farLeft.latitude))
+                .appendQueryParameter("lat2", String.valueOf(region.nearRight.latitude))
+                .appendQueryParameter("lon1", String.valueOf(region.farLeft.longitude))
+                .appendQueryParameter("lon2", String.valueOf(region.nearRight.longitude))
                 .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
                 .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
                 .build();

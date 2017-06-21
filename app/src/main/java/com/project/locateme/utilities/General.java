@@ -116,4 +116,8 @@ public class General {
         return isInBackground;
     }
 
+    public String getFragmentTag(int viewPagerId, int fragmentPosition) {
+        return "android:switcher:" + viewPagerId + ":" + fragmentPosition;
+    }
+
 }

@@ -89,6 +89,9 @@ public class UserProfileFragment extends Fragment {
 
     private void setUpProfileState() {
         switch (profile.getState()){
+            case NONE:
+                FriendState.setVisibility(View.INVISIBLE);
+                break;
             case NOT_FRIEND:
                 FriendState.setOnClickListener(new View.OnClickListener() {
                     @Override

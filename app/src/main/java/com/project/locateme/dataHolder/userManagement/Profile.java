@@ -23,7 +23,7 @@ public class Profile implements Serializable {
     private int userId;
 
     public enum FriendShipState{
-        FRIEND, NOT_FRIEND, PENDING_REQUEST, ADD_REQUEST
+        FRIEND, NOT_FRIEND, PENDING_REQUEST, ADD_REQUEST, NONE //used for self profile view
     }
 
     public History getHistory() {

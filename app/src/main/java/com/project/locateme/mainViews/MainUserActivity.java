@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -60,8 +61,8 @@ public class MainUserActivity extends AppCompatActivity implements
     private BroadcastReceiver Updater = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ((HomeFragment) mainViewsAdapter.getItem(0)).updateMarkers();
-            ((PlaceFragment) mainViewsAdapter.getItem(1)).updateEventListViewItems();
+            ((HomeFragment) mainViewsAdapter.getFragment(0)).updateMarkers();
+            ((PlaceFragment) mainViewsAdapter.getFragment(1)).updateEventListViewItems();
             //((PlaceFragment) mainViewsAdapter.getItem(1)).;
             Log.e(MainUserActivity.this.getLocalClassName(), "update initiated");
         }
@@ -72,7 +73,7 @@ public class MainUserActivity extends AppCompatActivity implements
             if(isOnline(context) && alarmManager == null){
                 pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent("Update"), 0);
                 alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, System.currentTimeMillis() + START_UPDATER_TIMER, UPDATE_INTERVAL, pendingIntent);
+                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + /*START_UPDATER_TIMER*/ 30000, 30000/*UPDATE_INTERVAL*/, pendingIntent);
             } else if(alarmManager != null && !isOnline(context)){ //internet is turned off
                 alarmManager.cancel(pendingIntent);
                 alarmManager = null;

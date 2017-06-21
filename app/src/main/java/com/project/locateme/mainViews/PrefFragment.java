@@ -13,6 +13,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,12 +25,16 @@ import com.facebook.login.LoginManager;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.MainActivity;
 import com.project.locateme.R;
+import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
 import com.project.locateme.utilities.Constants;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -48,7 +53,7 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey)  {
         addPreferencesFromResource(R.xml.preferences);
         queue = Volley.newRequestQueue(getActivity());
-        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        final SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
 
         (findPreference(getString(R.string.user_profile_key))).setTitle(preferences.getString(getActivity().getString(R.string.user_name), ""));
 
@@ -60,23 +65,40 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
 
         viewMyProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 queue.cancelAll(REQUEST_TAG);
 
-               Uri uri = null;//Uri.parse().buildUpon()
-//                        .appendQueryParameter()
-//                        .appendQueryParameter()
-//                        .appendQueryParameter()
-//                        .build();
+               Uri uri = Uri.parse(Constants.GET_USER_BY_ID).buildUpon()
+                        .appendQueryParameter("userid", preferences.getString(getString(R.string.user_id), "0"))
+                        .appendQueryParameter("pass", preferences.getString(getString(R.string.user_password), ""))
+                        .build();
                 StringRequest request = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        final Profile profile = new Profile();
+                        try{
+                            JSONObject object = new JSONObject(response);
+                            profile.setUserId(object.getInt("user_Id"));
+                            profile.setFirstName(object.getString("firstName"));
+                            profile.setLastName(object.getString("lastName"));
+                            profile.setEmail(object.getString("email"));
+                            profile.setHomeTown(object.getString("homeTown"));
+                            profile.setName(object.getString("name"));
+                            profile.setBirthday(object.getString("birthday"));
+                            profile.setPictureURL(object.getString("pictureURL"));
+                            profile.setState(Profile.FriendShipState.NONE);
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                        Intent intent = new Intent(getActivity(), HolderActivity.class);
+                        intent.putExtra(getString(R.string.fragment_name), Constants.PROFILE_FRAGMENT);
+                        intent.putExtra(Constants.HASHMAP, new HashMap(){{put("profile", profile);}});
+                        startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(getActivity(), "Couldn't load your profile, please try again later", Toast.LENGTH_SHORT).show();
                     }
                 });
                 request.setTag(REQUEST_TAG);

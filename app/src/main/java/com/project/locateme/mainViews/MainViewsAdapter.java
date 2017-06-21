@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.project.locateme.utilities.FragmentsFactory;
 
+import java.util.ArrayList;
+
 /**
  * @author Andrew
  * @since 25/1/2017
@@ -14,16 +16,21 @@ import com.project.locateme.utilities.FragmentsFactory;
  */
 
 public class MainViewsAdapter extends FragmentPagerAdapter {
-
+    private ArrayList<Fragment> fragments;
 
     public MainViewsAdapter(FragmentManager fm) {
         super(fm);
+        fragments = new ArrayList<>();
     }
-
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentsFactory.getFragmentForTabs(position);
+        fragments.add(FragmentsFactory.getFragmentForTabs(position));
+        return fragments.get(fragments.size() - 1);
+    }
+
+    public Fragment getFragment(int position){
+        return fragments.get(position);
     }
 
     @Override
