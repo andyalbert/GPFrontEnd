@@ -33,4 +33,7 @@
     <string name="event_invitation">You have been invited to join </string>
     <string name="event_arrival"> has arrived at event </string>
     <string name="event_editing"> event time has changed to </string>
+    <string name="enter_area"> has entered area</string>
+    <string name="leave_area"> has left area</string>
+
 </resources>

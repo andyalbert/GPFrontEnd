@@ -136,6 +136,7 @@ public class EventFragment extends Fragment {
             unbinder = ButterKnife.bind(this, view);
             preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
             requestQueue = Volley.newRequestQueue(getActivity());
+            eventUsersArray = new ArrayList<>();
             initializeEvent();
             participantsCurrentLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,6 +168,18 @@ public class EventFragment extends Fragment {
                 if (userState == UserState.OWNER) {
 
                     inviteActionButton.setVisibility(View.VISIBLE);
+                    inviteActionButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent intent = new Intent(getActivity(), HolderActivity.class);
+                            intent.putExtra(getString(R.string.fragment_name), Constants.INVITE_FRIENDS_FRAGMENT);
+                            HashMap<String, Object> parameters = new HashMap<>();
+                            parameters.put("eventId" ,event.getId());
+                            intent.putExtra(Constants.HASHMAP , parameters);
+                            startActivity(intent);
+                        }
+                    });
                     //Open Suggestions Page
                     editActionButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -264,7 +277,8 @@ public class EventFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(event.getName() + " event");
         userState = (UserState) params.get("userStatus");
         switch (userState) {
-            case OWNER:
+            case OWNER:{
+                mainActionButton.setVisibility(View.VISIBLE);
                 deleteEvent.setVisibility(View.VISIBLE);
                 deleteEvent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -289,11 +303,13 @@ public class EventFragment extends Fragment {
                         requestQueue.add(deleteReqest);
                     }
                 });
-            case PARTICIPANT:
+
+            break;}
+            case PARTICIPANT:{
                 mainActionButton.setVisibility(View.VISIBLE);
                 sendMessageButton.setEnabled(true);
-                break;
-            case INVITED:
+                break;}
+            case INVITED:{
                 notificationActionLinearLayout.setVisibility(View.VISIBLE);
                 ignoreEvent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -347,25 +363,20 @@ public class EventFragment extends Fragment {
                         requestQueue.add(acceptRequest);
                     }
                 });
+            break;}
         }
 
         initializeActionButtonsListeners();
-        ///Error may happen here
-        initializeUsersListItems();
-
         collapsingToolbar.setTitle(event.getName());
         collapsingToolbar.setBackgroundColor(15);
         description.setText(event.getDescription());
         dateTextview.setText(General.convertTimeatampToString(event.getDateOfEvent()));
         deadlineDate.setText(General.convertTimeatampToString(event.getDeadline()));
         Glide.with(getActivity()).load(event.getArea().getImageURL()).into(eventImage);
+
     }
 
     public void initializeUsersListItems() {
-        eventUsersArray = new ArrayList<>();
-        eventUsersAdapter = new EventUsersAdapter(eventUsersArray, R.layout.fragment_event,
-                getActivity());
-        eventUsersListView.setAdapter(eventUsersAdapter);
         Uri usersUri = Uri.parse(Constants.GET_EVENT_USERS).buildUpon()
                 .appendQueryParameter("eventid", String.valueOf(event.getId())).build();
 
@@ -375,16 +386,18 @@ public class EventFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 JSONArray users = null;
+
                 try {
                     users = new JSONArray(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.e("jos", users.toString());
+                Log.e("jos", String.valueOf(users.length()));
                 for (int i = 0; i < users.length(); i++) {
                     Profile tempObject = new Profile();
                     Account tempAccount = new Account();
                     JSONObject iterator = null;
+                    Log.e("silly i" , String.valueOf(i));
                     try {
                         iterator = (JSONObject) users.get(i);
                     } catch (JSONException e) {
@@ -406,7 +419,11 @@ public class EventFragment extends Fragment {
                     }
                 }
                 Log.e("eventUsers", String.valueOf(eventUsersArray.size()));
-                eventUsersAdapter.notifyDataSetChanged();
+
+                eventUsersAdapter = new EventUsersAdapter(eventUsersArray, R.layout.fragment_event,
+                        getActivity());
+                eventUsersListView.setAdapter(eventUsersAdapter);
+                //eventUsersAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -532,9 +549,10 @@ public class EventFragment extends Fragment {
             } else {
                 holder = (Holder) convertView.getTag();
                 //holder = new Holder();
-                holder.name.setText(profileArrayList.get(position).getName());
-                Glide.with(context).load(profileArrayList.get(position).getPictureURL()).into(holder.image);
+
             }
+            holder.name.setText(profileArrayList.get(position).getName());
+            Glide.with(context).load(profileArrayList.get(position).getPictureURL()).into(holder.image);
             return convertView;
         }
 
