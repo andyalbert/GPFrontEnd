@@ -6,8 +6,24 @@
         android:icon="@mipmap/ic_profile_original"
         tools:title="user name"
         android:key="@string/user_profile_key"
-        android:summary="Edit your profile"
+        android:summary="View your profile"
         />
+    <PreferenceScreen
+        android:title="View all my friends"
+        android:icon="@drawable/image_friends"
+        android:key="@string/all_friends_key"
+        />
+    <PreferenceScreen
+        android:title="Create zone"
+        android:icon="@drawable/image_place"
+        android:key="@string/create_zone_key"
+        />
+    <PreferenceScreen
+        android:title="Create event"
+        android:icon="@mipmap/ic_event"
+        android:key="@string/create_event_key"
+        />
+
     <Preference android:layout="@layout/preference_divider"/>
     <PreferenceCategory
         android:title="Personalize your settings">

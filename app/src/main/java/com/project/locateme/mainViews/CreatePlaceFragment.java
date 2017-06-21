@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
@@ -86,6 +87,8 @@ public class CreatePlaceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create place");
+
         view = inflater.inflate(R.layout.fragment_create_place, container, false);
         unbinder = ButterKnife.bind(this, view);
         queue = Volley.newRequestQueue(getActivity());

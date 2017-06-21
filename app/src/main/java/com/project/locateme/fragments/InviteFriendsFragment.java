@@ -68,6 +68,7 @@ public class InviteFriendsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Invite friends");
         view = inflater.inflate(R.layout.fragment_invite_friends, container, false);
         unbinder = ButterKnife.bind(this, view);
 

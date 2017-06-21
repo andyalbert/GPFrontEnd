@@ -71,6 +71,7 @@ public class AllEventsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All events");
         view = inflater.inflate(R.layout.fragment_all_events, container, false);
         unbinder = ButterKnife.bind(this, view);
         requestQueue = Volley.newRequestQueue(getActivity());

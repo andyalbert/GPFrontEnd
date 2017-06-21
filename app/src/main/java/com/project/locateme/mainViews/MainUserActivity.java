@@ -29,6 +29,7 @@ import android.widget.SearchView;
 import com.facebook.FacebookSdk;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
+import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
 import com.project.locateme.utilities.Constants;
 
@@ -59,8 +60,8 @@ public class MainUserActivity extends AppCompatActivity implements
     private BroadcastReceiver Updater = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //// TODO: 17/03/17 update now
-          //  ((HomeFragment) mainViewsAdapter.getItem(0)).;
+            ((HomeFragment) mainViewsAdapter.getItem(0)).updateMarkers();
+            ((PlaceFragment) mainViewsAdapter.getItem(1)).updateEventListViewItems();
             //((PlaceFragment) mainViewsAdapter.getItem(1)).;
             Log.e(MainUserActivity.this.getLocalClassName(), "update initiated");
         }
@@ -71,8 +72,8 @@ public class MainUserActivity extends AppCompatActivity implements
             if(isOnline(context) && alarmManager == null){
                 pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent("Update"), 0);
                 alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, START_UPDATER_TIMER, UPDATE_INTERVAL, pendingIntent);
-            } else if(alarmManager != null && !isOnline(context)){ //gps is turned off
+                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, System.currentTimeMillis() + START_UPDATER_TIMER, UPDATE_INTERVAL, pendingIntent);
+            } else if(alarmManager != null && !isOnline(context)){ //internet is turned off
                 alarmManager.cancel(pendingIntent);
                 alarmManager = null;
             }
@@ -88,6 +89,7 @@ public class MainUserActivity extends AppCompatActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
+        getSupportActionBar().setTitle("Home");
         FacebookSdk.sdkInitialize(getApplicationContext());
         preferences = getSharedPreferences(getString(R.string.shared_preferences_name), MODE_PRIVATE);
 
