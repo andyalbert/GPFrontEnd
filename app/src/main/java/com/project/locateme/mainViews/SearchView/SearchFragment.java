@@ -196,6 +196,7 @@ public class SearchFragment extends Fragment implements
             public void onResponse(String response) {
                 Profile profile = new Profile();
                 try {
+                    Log.e("prof" , response);
                     JSONObject iterator = new JSONObject(response);
                     profile.setUserId(iterator.getInt("user_Id"));
                     profile.setFirstName(iterator.getString("firstName"));
@@ -207,10 +208,10 @@ public class SearchFragment extends Fragment implements
                     profile.setPictureURL(iterator.getString("pictureURL"));
                     int friendshipStatus = iterator.getInt("friendShipStatus");
                     switch (friendshipStatus){
-                        case 1 : profile.setState(Profile.FriendShipState.FRIEND );
-                        case 2 : profile.setState(Profile.FriendShipState.ADD_REQUEST);
-                        case 3 : profile.setState(Profile.FriendShipState.PENDING_REQUEST );
-                        case 4 : profile.setState(Profile.FriendShipState.NOT_FRIEND );
+                        case (1) : {profile.setState(Profile.FriendShipState.FRIEND );  break;}
+                        case (2) : {profile.setState(Profile.FriendShipState.ADD_REQUEST);break;}
+                        case (3) : {profile.setState(Profile.FriendShipState.PENDING_REQUEST );break;}
+                        case (4) : {profile.setState(Profile.FriendShipState.NOT_FRIEND );break;}
                     }
 
                 }catch (Exception e){
