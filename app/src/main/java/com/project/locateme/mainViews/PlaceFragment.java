@@ -101,7 +101,7 @@ public class PlaceFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(array != null || array.length() > 0){
+                if(array != null && array.length() > 0){
                     noZonesText.setVisibility(View.GONE);
                     zonesListView.setVisibility(View.VISIBLE);
                     zones = new ArrayList<>();

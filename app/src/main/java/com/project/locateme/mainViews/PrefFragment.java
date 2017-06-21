@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
@@ -13,6 +14,12 @@ import android.support.v7.preference.PreferenceScreen;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.login.LoginManager;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.MainActivity;
@@ -29,16 +36,18 @@ import java.util.HashMap;
 /**
  * @author andrew
  * @since 20/3/2017
- * @version 1.5
+ * @version 1.6
  */
 
 public class PrefFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
    // private SharedPreferences preference;
+    private RequestQueue queue;
+    private final String REQUEST_TAG = "tag";
 
     @Override
     public void onCreatePreferencesFix(Bundle savedInstanceState, String rootKey)  {
         addPreferencesFromResource(R.xml.preferences);
-
+        queue = Volley.newRequestQueue(getActivity());
         SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
 
         (findPreference(getString(R.string.user_profile_key))).setTitle(preferences.getString(getActivity().getString(R.string.user_name), ""));
@@ -52,6 +61,26 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
         viewMyProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                queue.cancelAll(REQUEST_TAG);
+
+               Uri uri = null;//Uri.parse().buildUpon()
+//                        .appendQueryParameter()
+//                        .appendQueryParameter()
+//                        .appendQueryParameter()
+//                        .build();
+                StringRequest request = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                request.setTag(REQUEST_TAG);
+                queue.add(request);
 
                 return false;
             }
@@ -182,10 +211,13 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
             } else{
 
             }
-        } else if(s.equals(getString(R.string.user_profile_key))){
-            //// TODO: 21/03/17 load user profile, ?allow him to edit ??
         }
     }
 
-
+    @Override
+    public void onDestroyView() {
+        if(queue != null)
+            queue.cancelAll(REQUEST_TAG);
+        super.onDestroyView();
+    }
 }
