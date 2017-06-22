@@ -51,7 +51,7 @@
             <LinearLayout
                 android:animateLayoutChanges="true"
                 android:id="@+id/fragment_event_main_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -168,11 +168,11 @@
 
                 <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                     android:id="@+id/fragment_event_users_list"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
-
-                </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:layout_marginTop="5dp"/>
 
                 <Button
                     android:id="@+id/fragment_event_participants_locations"

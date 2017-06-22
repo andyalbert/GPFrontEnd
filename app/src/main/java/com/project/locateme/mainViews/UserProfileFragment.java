@@ -71,7 +71,7 @@ public class UserProfileFragment extends Fragment {
         username_in_profile = (TextView) view.findViewById(R.id.username_in_profile);
         username_in_profile.setText(profile.getName());
         FriendState = (Button) view.findViewById(R.id.FriendState);
-        linearLayout = (LinearLayout) view.findViewById(R.id.fragment_places_zone_linear_layout);
+        linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_profile_respond_linear_view);
 
         setUpProfileState();
 

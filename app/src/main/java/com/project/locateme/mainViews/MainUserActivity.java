@@ -30,6 +30,7 @@ import android.widget.SearchView;
 import com.facebook.FacebookSdk;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.R;
+import com.project.locateme.dataHolder.NotificationManger.Notification;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.updatingUserLocation.ProviderNetworkStateBroadcastReceiver;
 import com.project.locateme.utilities.Constants;
@@ -53,8 +54,8 @@ public class MainUserActivity extends AppCompatActivity implements
     private SearchView search;
     private SharedPreferences preferences;
     private MainViewsAdapter mainViewsAdapter;
-    private final int START_UPDATER_TIMER = 300000;//first update to be after 5 minutes
-    private final int UPDATE_INTERVAL = 600000;// update each 10 minutes, can be added to pref and changed later
+    private final int START_UPDATER_TIMER = 40000;//first update to be after 40 seconds
+    private final int UPDATE_INTERVAL = 40000;// update each 40 seconds, can be added to pref and changed later
     private final int USER_LOCATION_REQUEST_CODE = 11112;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
@@ -63,7 +64,8 @@ public class MainUserActivity extends AppCompatActivity implements
         public void onReceive(Context context, Intent intent) {
             ((HomeFragment) mainViewsAdapter.getFragment(0)).updateMarkers();
             ((PlaceFragment) mainViewsAdapter.getFragment(1)).updateEventListViewItems();
-            //((PlaceFragment) mainViewsAdapter.getItem(1)).;
+            ((PlaceFragment) mainViewsAdapter.getItem(1)).updatePlaceListViewItems();
+            //((Notification) mainViewsAdapter.getFragment(2)).;
             Log.e(MainUserActivity.this.getLocalClassName(), "update initiated");
         }
     };
@@ -73,7 +75,7 @@ public class MainUserActivity extends AppCompatActivity implements
             if(isOnline(context) && alarmManager == null){
                 pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent("Update"), 0);
                 alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + /*START_UPDATER_TIMER*/ 30000, 30000/*UPDATE_INTERVAL*/, pendingIntent);
+                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + START_UPDATER_TIMER, UPDATE_INTERVAL, pendingIntent);
             } else if(alarmManager != null && !isOnline(context)){ //internet is turned off
                 alarmManager.cancel(pendingIntent);
                 alarmManager = null;

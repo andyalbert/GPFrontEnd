@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +62,8 @@ public class PlaceFragment extends Fragment {
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
     private final String VOLLEY_TAG = "placeFragment";
+    private AtomicInteger updateCompleted;
+    private String lastZoneId; //used to get only the new added places
     @BindView(R.id.fragment_places_events_list)
     ExpandableHeightListView eventsListView;
     @BindView(R.id.fragment_places_no_zones)
@@ -68,6 +72,8 @@ public class PlaceFragment extends Fragment {
     TextView noEventsText;
     @BindView(R.id.fragment_places_zones_list)
     ExpandableHeightListView zonesListView;
+    @BindView(R.id.fragment_places_swipe_refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
 
     @Nullable
@@ -78,16 +84,27 @@ public class PlaceFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         requestQueue = Volley.newRequestQueue(getActivity());
-        setPlaceListViewItems();
+        lastZoneId = "-1";
+        updatePlaceListViewItems();
         updateEventListViewItems();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateCompleted = new AtomicInteger(0);
+                updateEventListViewItems();
+                updatePlaceListViewItems();
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         return view;
     }
 
-    private void setPlaceListViewItems(){
+    public void updatePlaceListViewItems(){
         Uri uri = Uri.parse(Constants.GET_ZONES).buildUpon()
-                .appendQueryParameter("ownerid", sharedPreferences.getString(getString(R.string.user_id), ""))
+                .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
                 .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
+                .appendQueryParameter("areaid", lastZoneId)
                 .build();
         Log.d("shit i", uri.toString());
 
@@ -96,17 +113,17 @@ public class PlaceFragment extends Fragment {
             public void onResponse(String response) {
                 JSONArray array = null;
                 try {
-                    JSONObject temp = new JSONObject(response);
-                    array = temp.getJSONArray("object");
+                    array = new JSONArray(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 if(array != null && array.length() > 0){
                     noZonesText.setVisibility(View.GONE);
                     zonesListView.setVisibility(View.VISIBLE);
                     zones = new ArrayList<>();
 
-                    Area area;
+                    Area area = null;
                     Location location;
                     ArrayList<Profile> accounts;
                     Profile profile;
@@ -124,6 +141,7 @@ public class PlaceFragment extends Fragment {
                             profiles = currentObject.getJSONArray("users");
 
                             area.setId(currentObject.getString("area_id"));
+                            Log.i("zone_id", area.getId());
                             //// TODO: 10/03/17 uncomment when fixed
                             //area.setImageURL(currentObject.getString("image"));
                             area.setRadius(currentObject.getDouble("redius"));
@@ -157,15 +175,23 @@ public class PlaceFragment extends Fragment {
                         area.setLocation(location);
                         zones.add(area);
                     }
-                    areaArrayAdapter = new ZonesAdapter(getActivity(), R.id.fragment_places_zones_list, zones);
-                    zonesListView.setAdapter(areaArrayAdapter);
-                    zonesListView.setExpanded(true);
+                    if(lastZoneId.equals("-1")){
+                        areaArrayAdapter = new ZonesAdapter(getActivity(), R.id.fragment_places_zones_list, zones);
+                        zonesListView.setAdapter(areaArrayAdapter);
+                        zonesListView.setExpanded(true);
+                    } else{
+                        areaArrayAdapter.addAll(zones);
+                        areaArrayAdapter.notifyDataSetChanged();
+                    }
+                    lastZoneId = area.getId();
+                    incrementUpdaterIndicator();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "error loading your zones, please try again later", Toast.LENGTH_SHORT).show();
+                incrementUpdaterIndicator();
             }
         });
 
@@ -232,6 +258,7 @@ public class PlaceFragment extends Fragment {
                     eventArrayAdapter = new EventsAdapter(getActivity(), R.layout.fragment_places, events, moreExist == 2, EventsAdapter.EventList.SMALL);
                     eventsListView.setAdapter(eventArrayAdapter);
                     eventsListView.setExpanded(true);
+                    incrementUpdaterIndicator();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -240,11 +267,21 @@ public class PlaceFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "error loading your events, please try again later", Toast.LENGTH_SHORT).show();
+                incrementUpdaterIndicator();
             }
         });
 
         eventObjectRequest.setTag(VOLLEY_TAG);
         requestQueue.add(eventObjectRequest);
+    }
+
+    private void incrementUpdaterIndicator(){
+        if(updateCompleted != null){
+            if(updateCompleted.incrementAndGet() == 2){
+                refreshLayout.setRefreshing(false);
+                updateCompleted = null;
+            }
+        }
     }
 
     @Override

@@ -38,7 +38,7 @@ public class Constants {
     public static final String GET_OWNERS_EVENT = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getownersevent";
     public static final String GET_EVENT_USERS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/geteventusers";
     public static final String GET_USERS_ON_MAP_REGION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getfriendsonmap";
-    public static final String GET_ZONES = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserareas";
+    public static final String GET_ZONES = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getsomeareas";
     public static final String GET_ALL_EVENTS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserevents";
     public static final String GET_ZONE_FRIENDS_CURRENT_LOCATION = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getareauserswithlocation";
     public static final String CREATE_ZONE = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/createareawithusers";

@@ -19,6 +19,7 @@ import com.project.locateme.dataHolder.locationManager.Area;
 import com.project.locateme.utilities.Constants;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -73,6 +74,11 @@ public class ZonesAdapter extends ArrayAdapter<Event> {
 
         return convertView;
     }
+
+    public void addAll(ArrayList<Area> areas) {
+        this.areas.addAll(areas);
+    }
+
     class ViewHolder{
         @BindView(R.id.list_item_zone_assigned_number)
         TextView assignedNumber;

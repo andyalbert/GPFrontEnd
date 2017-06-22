@@ -1,131 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:fillViewport="true"
-    android:id="@+id/places_fragment">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/fragment_places_swipe_refresh_layout"
+ >
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:fillViewport="true"
+        android:id="@+id/places_fragment">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/fragment_places_zone_linear_layout">
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/fragment_places_zone_linear_layout">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My zones"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:id="@+id/fragment_places_zones_text"
+                    android:layout_marginBottom="20dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You don't have any yet"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="?colorAccent"
+                    android:textSize="@dimen/text_size_small"
+                    android:id="@+id/fragment_places_no_zones"
+                    android:layout_below="@id/fragment_places_zones_text"
+                    />
+                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fragment_places_zones_list"
+                    android:dividerHeight="1dp"
+                    android:divider="?android:colorBackground"
+                    android:visibility="invisible"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    />
+                <!--<ListView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+               android:id="@+id/fragment_places_friends_list"
+               android:layout_below="@id/fragment_places_friends_text"/>
+           -->
+
+                <!--
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/fragment_places_friends_list"
+                    android:layout_below="@id/fragment_places_friends_text"
+                    android:scrollbars="vertical"
+                    android:nestedScrollingEnabled="false"
+                    />
+                    -->
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:background="?colorAccent"
+                android:layout_below="@+id/fragment_places_zone_linear_layout"
+                android:id="@+id/fragment_places_separator"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My zones"
-                android:textSize="@dimen/text_size"
+                android:text="Upcoming events"
+                android:layout_marginTop="@dimen/margin"
                 android:layout_marginLeft="@dimen/margin"
-                android:id="@+id/fragment_places_zones_text"
+                android:layout_below="@+id/fragment_places_separator"
+                android:id="@+id/fragment_places_event_text"
                 android:layout_marginBottom="20dp"
+                android:textSize="@dimen/text_size"
                 />
             <TextView
+                android:id="@+id/fragment_places_no_events"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You don't have any yet"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:textColor="?colorAccent"
+                android:text="No upcoming events"
                 android:textSize="@dimen/text_size_small"
-                android:id="@+id/fragment_places_no_zones"
-                android:layout_below="@id/fragment_places_zones_text"
+                android:layout_below="@+id/fragment_places_event_text"
                 />
+
+            <!--  <ListView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="5dp"
+                  android:layout_below="@id/fragment_places_event_text"
+                  android:id="@+id/fragment_places_events_list"
+                  />-->
             <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fragment_places_zones_list"
+                android:id="@+id/fragment_places_events_list"
+                android:scrollbars="none"
+                android:visibility="invisible"
                 android:dividerHeight="1dp"
                 android:divider="?android:colorBackground"
-                android:visibility="invisible"
-                android:layout_marginLeft="@dimen/margin"
-                android:layout_marginRight="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"
                 />
-            <!--<ListView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="5dp"
-           android:id="@+id/fragment_places_friends_list"
-           android:layout_below="@id/fragment_places_friends_text"/>
-       -->
-
             <!--
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:id="@+id/fragment_places_friends_list"
-                android:layout_below="@id/fragment_places_friends_text"
+                android:visibility="invisible"
+                android:layout_below="@id/fragment_places_event_text"
+                android:id="@+id/fragment_places_events_list"
                 android:scrollbars="vertical"
-                android:nestedScrollingEnabled="false"
+
                 />
                 -->
         </LinearLayout>
+    </ScrollView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:background="?colorAccent"
-            android:layout_below="@+id/fragment_places_zone_linear_layout"
-            android:id="@+id/fragment_places_separator"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Upcoming events"
-            android:layout_marginTop="@dimen/margin"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_below="@+id/fragment_places_separator"
-            android:id="@+id/fragment_places_event_text"
-            android:layout_marginBottom="20dp"
-            android:textSize="@dimen/text_size"
-            />
-        <TextView
-            android:id="@+id/fragment_places_no_events"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="?colorAccent"
-            android:text="No upcoming events"
-            android:textSize="@dimen/text_size_small"
-            android:layout_below="@+id/fragment_places_event_text"
-            />
-
-        <!--  <ListView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="5dp"
-              android:layout_below="@id/fragment_places_event_text"
-              android:id="@+id/fragment_places_events_list"
-              />-->
-        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_places_events_list"
-            android:scrollbars="none"
-            android:visibility="invisible"
-            android:dividerHeight="1dp"
-            android:divider="?android:colorBackground"
-            android:layout_marginBottom="@dimen/margin"
-            />
-        <!--
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:visibility="invisible"
-            android:layout_below="@id/fragment_places_event_text"
-            android:id="@+id/fragment_places_events_list"
-            android:scrollbars="vertical"
-
-            />
-            -->
-    </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
 
