@@ -167,14 +167,13 @@ public class MainUserActivity extends AppCompatActivity implements
 
     private void setViewPagerTabs() {
         viewPager.setAdapter(mainViewsAdapter);
-        viewPager.setOffscreenPageLimit(4);//// TODO: 20/03/17 make this 3 back again
+        viewPager.setOffscreenPageLimit(3);//// TODO: 20/03/17 make this 3 back again
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.mipmap.ic_home);
         tabLayout.getTabAt(1).setIcon(R.mipmap.ic_message);
         tabLayout.getTabAt(2).setIcon(R.mipmap.ic_notification);
-        tabLayout.getTabAt(3).setIcon(R.mipmap.ic_settings);//// TODO: 20/03/17 remove this
-        tabLayout.getTabAt(4).setIcon(R.mipmap.ic_settings);
+        tabLayout.getTabAt(3).setIcon(R.mipmap.ic_settings);
 
     }
 

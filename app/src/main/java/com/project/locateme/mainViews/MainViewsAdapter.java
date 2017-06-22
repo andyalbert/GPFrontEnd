@@ -35,7 +35,6 @@ public class MainViewsAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5; //// TODO: 1/25/2017 check this number for any further modification
-        // TODO: 20/03/17 make this only 4 back
+        return 4;
     }
 }
