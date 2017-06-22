@@ -21,7 +21,6 @@ import com.project.locateme.mainViews.SearchView.SearchFragment;
 import com.project.locateme.mainViews.UserProfileFragment;
 import com.project.locateme.mainViews.homeFragment.HomeFragment;
 import com.project.locateme.mainViews.NotificationFragment;
-import com.project.locateme.mainViews.SettingsFragment;
 
 /**
  * @author Andrew
@@ -38,8 +37,6 @@ public class FragmentsFactory {
             fragment = new PlaceFragment();
         else if(position == 2)
             fragment = new NotificationFragment();
-        else if(position == 3)
-            fragment = new SettingsFragment();
         else
             fragment = new PrefFragment();
         return fragment;

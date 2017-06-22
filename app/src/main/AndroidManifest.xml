@@ -53,6 +53,7 @@
         <activity
             android:name=".mainViews.MainUserActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             >
             <!-- paste the login filter back here ! -->
 
