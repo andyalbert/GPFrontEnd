@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -241,7 +243,7 @@ public class FillUserDataFragment extends Fragment {
             profile.setPictureURL(data.getStringExtra("path"));
             Log.e("ImagePathCreate", data.getStringExtra("path"));
             Uri imagePathUri = Uri.fromFile(new File(data.getStringExtra("path")));
-            reference.child(account.getId().toString());
+            /*reference.child(account.getId().toString());
             UploadTask uploadTask = reference.child(account.getId().toString()).putFile(imagePathUri);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -251,7 +253,23 @@ public class FillUserDataFragment extends Fragment {
                 }
             });
             //Log.i("Path", imagePath);
-            Glide.with(getActivity()).load(imagePathUri).into(profileImage);
+            Glide.with(getActivity()).load(imagePathUri).into(profileImage);*/
+            reference.child(account.getId().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
+                    profile.setPictureURL(downloadImage.toString());
+                    Glide.with(getActivity()).load(profile.getPictureURL()).into(profileImage);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+
+
         }
     }
 

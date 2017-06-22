@@ -143,7 +143,7 @@ public class PlaceFragment extends Fragment {
                             area.setId(currentObject.getString("area_id"));
                             Log.i("zone_id", area.getId());
                             //// TODO: 10/03/17 uncomment when fixed
-                            //area.setImageURL(currentObject.getString("image"));
+                            area.setImageURL(currentObject.getString("image"));
                             area.setRadius(currentObject.getDouble("redius"));
 
                             location.setLatitude(currentLocation.getDouble("latitude"));
@@ -157,7 +157,7 @@ public class PlaceFragment extends Fragment {
 
                                 profile.setUserId(currentProfile.getInt("user_Id"));//// TODO: 08/03/17 string not int
                                 //// TODO: 10/03/17 uncomment
-                                //profile.setPictureURL(currentLocation.getString("pictureURL"));
+                                profile.setPictureURL(currentLocation.getString("pictureURL"));
                                 profile.setName(currentProfile.getString("name"));
                                 profile.setFirstName(currentProfile.getString("firstName"));
                                 profile.setLastName(currentProfile.getString("lastName"));
@@ -243,7 +243,7 @@ public class PlaceFragment extends Fragment {
                         area.setLocation(location);
                         area.setRadius(areaObject.getDouble("redius"));
                         area.setId(areaObject.getString("area_id"));
-
+                        area.setImageURL(areaObject.getString("image"));
                         event.setArea(area);
                         event.setId(object.getString("event_id"));
                         event.setName(object.getString("name"));

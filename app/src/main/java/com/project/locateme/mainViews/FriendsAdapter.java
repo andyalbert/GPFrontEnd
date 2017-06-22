@@ -47,8 +47,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        //// TODO: 14/03/17 uncomment this when the shitty image error is done
-       // Glide.with(context).load(profiles.get(position).getPictureURL()).into(viewHolder.friendImage);
+        //// TODO: 14/03/17 uncomment this when the image error is done
+        Glide.with(context).load(profiles.get(position).getPictureURL()).into(viewHolder.friendImage);
         viewHolder.friendImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

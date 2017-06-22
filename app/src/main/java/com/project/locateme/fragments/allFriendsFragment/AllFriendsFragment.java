@@ -89,7 +89,7 @@ public class AllFriendsFragment extends Fragment {
                         profile = new Profile();
                         object = array.getJSONObject(i);
 
-//                        profile.setBirthday(object.getString("birthday"));
+                        profile.setBirthday(object.getString("birthday"));
                         profile.setState(Profile.FriendShipState.FRIEND);
                         profile.setName(object.getString("name"));
                         profile.setEmail(object.getString("email"));

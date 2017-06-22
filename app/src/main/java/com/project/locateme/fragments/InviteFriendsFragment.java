@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.project.locateme.dataHolder.userManagement.Profile;
 import com.project.locateme.models.android.specific.FriendInvitationState;
 
@@ -169,8 +170,8 @@ public class InviteFriendsFragment extends Fragment {
             } else
                 holder = (ViewHolder) convertView.getTag();
             holder.name.setText(array.get(position).getProfile().getName());
-            //// TODO: 10/04/17 uncomment when it's working -_-
-            //Glide.with(context).load(array.get(position).getProfile().getPictureURL()).into(holder.image);
+            //// TODO: 10/04/17 uncomment when it's working  --->DONE
+            Glide.with(context).load(array.get(position).getProfile().getPictureURL()).into(holder.image);
             switch (array.get(position).getState()){
                 case INVITED:
                     holder.inviteFriend.setEnabled(false);

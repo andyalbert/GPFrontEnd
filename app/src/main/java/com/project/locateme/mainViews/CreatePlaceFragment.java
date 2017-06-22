@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.project.locateme.HolderActivity;
 import com.project.locateme.ImagePickerActivity;
 import com.project.locateme.R;
@@ -40,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -81,6 +89,7 @@ public class CreatePlaceFragment extends Fragment {
     CheckedTextView mapSelected;
     @BindView(R.id.fragment_create_place_photo)
     CircleImageView photo;
+    private StorageReference reference;
 
 
     @Nullable
@@ -93,6 +102,7 @@ public class CreatePlaceFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         queue = Volley.newRequestQueue(getActivity());
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        reference = FirebaseStorage.getInstance().getReference();
         LayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         friendsRecyclerView.setLayoutManager(manager);
         friendsRecyclerView.setAdapter(new FriendsAdapter(getActivity(), new ArrayList<Profile>()));
@@ -125,7 +135,7 @@ public class CreatePlaceFragment extends Fragment {
                 }
                 area.setAccounts(selected);
                 //// TODO: 14/03/17 set this after we fix it first
-                area.setImageURL("2.img");
+                //area.setImageURL("2.img");
 
                 Uri.Builder builder = Uri.parse(Constants.CREATE_ZONE).buildUpon()
                         .appendQueryParameter("ownerid", preferences.getString(getString(R.string.user_id), ""))
@@ -245,7 +255,21 @@ public class CreatePlaceFragment extends Fragment {
         } else if(requestCode == IMAGE_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
                 imagePath = data.getStringExtra("path");
-                Glide.with(getActivity()).load(imagePath).into(photo);
+                Uri imagePathUri = Uri.fromFile(new File(imagePath));
+                reference.child(placeName.getText().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
+                        imagePath = downloadImage.toString();
+                        area.setImageURL(imagePath);
+                        Glide.with(getActivity()).load(area.getImageURL()).into(photo);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         }
     }

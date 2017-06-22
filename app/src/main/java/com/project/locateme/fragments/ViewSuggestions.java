@@ -3,6 +3,7 @@ package com.project.locateme.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -49,6 +50,8 @@ import butterknife.ButterKnife;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ViewSuggestions extends Fragment {
 
     RequestQueue requestQueue ;
@@ -64,7 +67,7 @@ public class ViewSuggestions extends Fragment {
     private ListView suggestionListView;
     private SuggestionAdapter suggestionAdapter;
     private ArrayList<Suggestion> suggestionList;
-
+    private SharedPreferences sharedPreferences;
     public ViewSuggestions() {
         // Required empty public constructor
     }
@@ -82,6 +85,7 @@ public class ViewSuggestions extends Fragment {
         suggestionAdapter = new SuggestionAdapter(getActivity(), R.layout.fragment_view_suggestions, suggestionList);
         suggestionListView = (ListView) view.findViewById(R.id.fragment_suggestions_listview);
         suggestionListView.setAdapter(suggestionAdapter);
+        sharedPreferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), MODE_PRIVATE);
         getSuggestions();
 
 
@@ -90,7 +94,7 @@ public class ViewSuggestions extends Fragment {
 
     public void acceptSuggestion(String userId, String eventId , String suggId , final int index ){
         Uri uri = Uri.parse(Constants.ACCEPT_SUGGESTION).buildUpon()
-                .appendQueryParameter("userid" , "1")//TODO : replace with userID : Admin of event(Shared Pref)
+                .appendQueryParameter("userid" , sharedPreferences.getString(getString(R.string.user_id),""))//TODO : replace with userID : Admin of event(Shared Pref)
                 .appendQueryParameter("eventid" , eventId)
                 .appendQueryParameter("suggestionid" , suggId)
                 .build();
@@ -125,7 +129,7 @@ public class ViewSuggestions extends Fragment {
     }
     public void declineSuggestion(String userId, String eventId , String suggId , final int index){
         Uri uri = Uri.parse(Constants.DECLINE_SUGGESTION).buildUpon()
-                .appendQueryParameter("userid" , "1")//TODO : replace with userID : Admin of event(Shared Pref)
+                .appendQueryParameter("userid" , sharedPreferences.getString(getString(R.string.user_id),""))//TODO : replace with userID : Admin of event(Shared Pref)
                 .appendQueryParameter("eventid" , eventId)
                 .appendQueryParameter("suggestionid" , suggId)
                 .build();
