@@ -1,5 +1,6 @@
 package com.project.locateme;
 
+import android.*;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +43,7 @@ import com.project.locateme.utilities.Constants;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.security.Permission;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -116,8 +120,11 @@ public class FillUserDataFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isCorrectData())
-                    register();
+                if(isCorrectData()){
+                    FragmentCompat.requestPermissions(FillUserDataFragment.this,
+                            new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                }
+
             }
         });
 
@@ -271,6 +278,15 @@ public class FillUserDataFragment extends Fragment {
 
 
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            register();
+        else
+            Toast.makeText(getActivity(), "You can't continue without granting the permission", Toast.LENGTH_LONG).show();
     }
 
     @Override

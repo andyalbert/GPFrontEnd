@@ -223,6 +223,9 @@ public class AddZoneFragment extends Fragment implements OnMapReadyCallback, Goo
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setTiltGesturesEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerDragListener(this);
     }

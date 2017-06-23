@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             map.setMyLocationEnabled(true);
             }
 
-        //used on the app launch, to Updater to user location
+        //used on the app launch, to update the user location
         Location location = getLocation();
         if(location != null)
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.0f));

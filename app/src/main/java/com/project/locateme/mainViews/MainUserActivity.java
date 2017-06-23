@@ -46,7 +46,7 @@ import static com.project.locateme.utilities.General.isOnline;
 /**
  * @author Andrew
  * @since 25/1/2017
- * @version 1.0
+ * @version 1.6
  */
 
 public class MainUserActivity extends AppCompatActivity implements
@@ -64,7 +64,7 @@ public class MainUserActivity extends AppCompatActivity implements
         public void onReceive(Context context, Intent intent) {
             ((HomeFragment) mainViewsAdapter.getFragment(0)).updateMarkers();
             ((PlaceFragment) mainViewsAdapter.getFragment(1)).updateEventListViewItems();
-            ((PlaceFragment) mainViewsAdapter.getItem(1)).updatePlaceListViewItems();
+            ((PlaceFragment) mainViewsAdapter.getFragment(1)).updatePlaceListViewItems();
             //((Notification) mainViewsAdapter.getFragment(2)).;
             Log.e(MainUserActivity.this.getLocalClassName(), "update initiated");
         }
@@ -199,10 +199,8 @@ public class MainUserActivity extends AppCompatActivity implements
 
     //for checking the permission of accessing the network
     private void checkPermission(){
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 showExplanation("Permission Needed", "Location permission is important for updating your last position and for viewing your location on map, please provide");
             } else {
                 ActivityCompat.requestPermissions(this,
