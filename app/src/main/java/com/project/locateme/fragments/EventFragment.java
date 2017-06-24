@@ -409,7 +409,7 @@ public class EventFragment extends Fragment {
                         tempObject.setLastName(iterator.getString("lastName"));
                         tempObject.setPictureURL(iterator.getString("pictureURL"));
                         tempObject.setHomeTown(iterator.getString("homeTown"));
-                        //tempObject.setBirthday(General.convertStringToTimestamp(iterator.getString("birthday")));
+                        tempObject.setBirthday((iterator.getString("birthday")));
                         tempObject.setEmail(iterator.getString("email"));
                         tempObject.setName(iterator.getString("name"));
                         tempAccount.setProfile(tempObject);

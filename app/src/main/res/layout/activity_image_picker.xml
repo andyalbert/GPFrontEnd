@@ -33,6 +33,7 @@
             android:textSize="@dimen/medium_size"
             android:fontFamily="serif"
             android:textColor="@color/black"
+            android:id="@+id/camera_take"
             />
     </LinearLayout>
 

@@ -73,7 +73,7 @@ public class UserProfileFragment extends Fragment {
         FriendState = (Button) view.findViewById(R.id.FriendState);
         linearLayout = (LinearLayout) view.findViewById(R.id.fragment_user_profile_respond_linear_view);
 
-        setUpProfileState();
+
 
         email_address = (TextView) view.findViewById(R.id.email_address);
         email_address.setText(profile.getEmail());
@@ -84,6 +84,8 @@ public class UserProfileFragment extends Fragment {
         birthdate = (TextView) view.findViewById(R.id.birthdate);
         // TODO: 17/03/17 edit this shit
         birthdate.setText(profile.getBirthday().toString());
+        this.view = view;
+        setUpProfileState();
         return view;
     }
 
@@ -168,7 +170,8 @@ public class UserProfileFragment extends Fragment {
             case ADD_REQUEST:
                 FriendState.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.VISIBLE);
-                TextView acceptRequest = (TextView) view.findViewById(R.id.fragment_user_profile_accept);
+                TextView acceptRequest = (TextView) view.
+                        findViewById(R.id.fragment_user_profile_accept);
                 TextView ignoreRequest = (TextView) view.findViewById(R.id.fragment_user_profile_delete);
                 acceptRequest.setOnClickListener(new View.OnClickListener() {
                     @Override

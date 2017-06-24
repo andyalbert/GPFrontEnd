@@ -3,6 +3,7 @@ package com.project.locateme;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.io.ByteArrayOutputStream;
 
 import butterknife.BindView;
 
@@ -28,6 +31,7 @@ public class ImagePickerActivity extends AppCompatActivity {
     @BindView(R.id.activity_image_picker_exist_image)
     TextView existImage;
     String imagePath;
+    TextView cameraTake;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +53,15 @@ public class ImagePickerActivity extends AppCompatActivity {
                 startActivityForResult(i , 1);
             }
         });
+        cameraTake = (TextView) findViewById(R.id.camera_take);
+        cameraTake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 2);
+            }
+        });
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -75,8 +88,18 @@ public class ImagePickerActivity extends AppCompatActivity {
                 Log.i("PathPicker" , imagePath);
                 finish();
             }
-            else{
-                Log.i("error" , "request code");
+            else if(resultCode == 2){
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                String path = MediaStore.Images.Media.insertImage(getContentResolver(), photo, "image", null);
+                Uri returnPath =  Uri.parse(path);
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("path",path);
+                returnIntent.putExtra("URIPath" , returnPath);
+                setResult(Activity.RESULT_OK,returnIntent);
+                Log.i("PathPicker" , imagePath);
+                finish();
             }
         }
         else{

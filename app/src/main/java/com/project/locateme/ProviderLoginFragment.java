@@ -81,7 +81,7 @@ public class ProviderLoginFragment extends Fragment {
         Log.i("Activity rest" , "provider");
         callbackManager.onActivityResult(requestCode, resultCode, data);
         //// TODO: 08/05/17 uncomment this
-//        twitterLoginButton.onActivityResult(requestCode , resultCode , data);
+        twitterLoginButton.onActivityResult(requestCode , resultCode , data);
     }
     @Override
     public void onActivityCreated(Bundle bundle){

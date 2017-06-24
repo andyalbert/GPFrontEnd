@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         profile.setEmail(object.getString("email"));
                         profile.setHomeTown(object.getString("homeTown"));
                         profile.setName(object.getString("name"));
-//                        profile.setBirthday(object.getString("birthday"));
+                        profile.setBirthday(object.getString("birthday"));
                         profile.setPictureURL(object.getString("pictureURL"));
 
                         //// TODO: 25/04/17 uncomment when the shit pictures is done

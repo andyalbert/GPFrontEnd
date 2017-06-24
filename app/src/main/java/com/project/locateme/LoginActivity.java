@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements ProviderLoginFra
         FacebookSdk.sdkInitialize(getApplicationContext());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(getString(R.string.twitter_key), getString(R.string.twitter_secret));
         //// TODO: 08/05/17 uncomment this
-//        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig));
         Log.i("Fab" , String.valueOf(Fabric.isInitialized()));
         setContentView(R.layout.activity_login);
         if(savedInstanceState == null){

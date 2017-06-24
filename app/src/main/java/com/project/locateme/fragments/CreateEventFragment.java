@@ -224,6 +224,7 @@ public class CreateEventFragment extends Fragment {
         if (requestCode == REQUEST_GALLERY_IMAGE) {
             if (resultCode == RESULT_OK) {
                 imagePath = data.getStringExtra("path");
+                Log.e("aa" , imagePath);
                 Uri imagePathUri = Uri.fromFile(new File(imagePath));
                 reference.child(eventName.getText().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

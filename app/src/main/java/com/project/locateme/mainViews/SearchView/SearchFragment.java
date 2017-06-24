@@ -209,8 +209,8 @@ public class SearchFragment extends Fragment implements
                     int friendshipStatus = iterator.getInt("friendShipStatus");
                     switch (friendshipStatus){
                         case (1) : {profile.setState(Profile.FriendShipState.FRIEND );  break;}
-                        case (2) : {profile.setState(Profile.FriendShipState.ADD_REQUEST);break;}
-                        case (3) : {profile.setState(Profile.FriendShipState.PENDING_REQUEST );break;}
+                        case (2) : {profile.setState(Profile.FriendShipState.PENDING_REQUEST);break;}
+                        case (3) : {profile.setState(Profile.FriendShipState.ADD_REQUEST );break;}
                         case (4) : {profile.setState(Profile.FriendShipState.NOT_FRIEND );break;}
                     }
 

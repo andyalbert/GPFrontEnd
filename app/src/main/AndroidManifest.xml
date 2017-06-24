@@ -17,6 +17,9 @@
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
 
     <!-- used for supporting animation between activities -->
     <supports-screens
@@ -31,7 +34,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/LocateMeTheme"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:name="android.support.multidex.MultiDexApplication">
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

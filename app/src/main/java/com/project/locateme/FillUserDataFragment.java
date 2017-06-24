@@ -106,7 +106,7 @@ public class FillUserDataFragment extends Fragment {
         userName.setText(profile.getName());
         lastName.setText(profile.getLastName());
         firstName.setText(profile.getFirstName());
-//        birthday.setText(General.calendarToString(profile.getBirthday()));
+        birthday.setText(profile.getBirthday());
         homeTown.setText(profile.getHomeTown());
         email.setText(profile.getEmail());
         profileImage.setOnClickListener(new View.OnClickListener() {

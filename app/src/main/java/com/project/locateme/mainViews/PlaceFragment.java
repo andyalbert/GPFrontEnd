@@ -102,7 +102,6 @@ public class PlaceFragment extends Fragment {
 
     public void updatePlaceListViewItems(){
         Uri uri = Uri.parse(Constants.GET_ZONES).buildUpon()
-                .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
                 .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
                 .appendQueryParameter("areaid", lastZoneId)
                 .build();
