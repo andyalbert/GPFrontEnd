@@ -2,14 +2,11 @@ package com.project.locateme.mainViews;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +16,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.project.locateme.R;
 import com.project.locateme.dataHolder.NotificationManger.Notification;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Andrew
@@ -38,9 +39,13 @@ import java.util.List;
 public class NotificationFragment extends Fragment {
     private View view;
     private Unbinder unbinder;
+    private int firstNotification;
+    private int finalNotification;
     private NotificationAdapter adapter;
     @BindView(R.id.fragment_notification_list_view)
     ListView listView;
+    @BindView(R.id.fragment_notification_swipe_refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
     @Nullable
     @Override
@@ -48,14 +53,17 @@ public class NotificationFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_notifications, container, false);
         unbinder = ButterKnife.bind(this, view);
+        firstNotification = -1;
+        finalNotification = -1;
 
-        loadNotifications();
+  //      updateNotifications();
 
-        return view;
-    }
-
-    private void loadNotifications() {
-
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+      //          updateNotifications();
+            }
+        });
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -70,6 +78,29 @@ public class NotificationFragment extends Fragment {
                 }
             }
         });
+
+        return view;
+    }
+
+    private void updateNotifications() {
+        Uri uri = null;/*Uri.parse().buildUpon()
+                .appendQueryParameter()
+                .appendQueryParameter()
+                .build();*/
+
+        StringRequest request = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                refreshLayout.setRefreshing(false);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Couldn't load your notifications, please try again", Toast.LENGTH_SHORT).show();
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -78,7 +109,7 @@ public class NotificationFragment extends Fragment {
         unbinder.unbind();
     }
 
-    class NotificationAdapter extends ArrayAdapter<Notification>{
+    private class NotificationAdapter extends ArrayAdapter<Notification>{
         private ArrayList<Notification> notifications; //// TODO: 13/06/17 this may be changed to more efficient data structure
         private Context context;
 
