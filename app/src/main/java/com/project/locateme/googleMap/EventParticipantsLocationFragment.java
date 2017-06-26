@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -135,9 +137,9 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
 
                         View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
                         //// TODO: 31/01/17 uncomment this, it's only till connection with the profiles
-//        Glide.with(getApplicationContext())
-//                .load(imgUrl)
-//                .into((ImageView)myView.findViewById(R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
+        Glide.with(getActivity())
+                .load(profile.getPictureURL())
+                .into((ImageView)myView.findViewById(R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
 
                         Bitmap bitmap = General.loadBitmapFromView(myView);
 

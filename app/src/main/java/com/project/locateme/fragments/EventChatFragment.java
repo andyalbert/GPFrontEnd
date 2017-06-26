@@ -111,7 +111,7 @@ public class EventChatFragment extends Fragment {
                         .setValue(
                                 new MessageModel(
                                         messageText.getText().toString(),
-                                        "User Name", userId)
+                                        sharedPreferences.getString(getString(R.string.user_name), ""), userId)
                         );
 
                 // Clear the input

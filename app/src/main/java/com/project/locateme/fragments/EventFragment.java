@@ -512,9 +512,9 @@ public class EventFragment extends Fragment {
                     Toast.makeText(getActivity(), "Event end time must be after start time", Toast.LENGTH_SHORT).show();
                 } else {
                     // SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm"), dateFormat = new SimpleDateFormat("yyyy:MM:dd");
-
+                    suggestionNetworkCall(getActivity());
                 }
-                suggestionNetworkCall(getActivity());
+
             }
             isFirstTime = !isFirstTime;
         }

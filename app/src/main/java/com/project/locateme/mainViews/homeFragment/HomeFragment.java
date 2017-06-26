@@ -170,9 +170,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         profile.setPictureURL(object.getString("pictureURL"));
 
                         //// TODO: 25/04/17 uncomment when the shit pictures is done
-//                    Glide.with(getActivity().getApplicationContext())
-//                            .load(profile.getPictureURL())
-//                            .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
+                    Glide.with(getActivity().getApplicationContext())
+                            .load(profile.getPictureURL())
+                            .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
 
                         bitmap = General.loadBitmapFromView(myView);
                         map.addMarker(new MarkerOptions()
@@ -207,6 +207,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //        params.put("id", id);
 //        intent.putExtra(Constants.HASHMAP, params);
 //        startActivity(intent);
+        marker.setTitle(((Profile)marker.getTag()).getName());
         return false;
     }
 

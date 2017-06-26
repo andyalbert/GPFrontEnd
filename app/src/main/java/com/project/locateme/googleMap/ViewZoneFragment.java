@@ -195,9 +195,9 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
             LatLng latLng = new LatLng(profile.getHistory().getLocation().getLatitude(), profile.getHistory().getLocation().getLongitude());
             Bitmap bitmap = General.loadBitmapFromView(myView);
             //// TODO: 10/03/17 uncomment when image is ready
-//            Glide.with(getActivity())
-//                    .load(profile.getPictureURL())
-//                    .into((ImageView)myView.findViewById(R.id.map_marker_user_image));
+            Glide.with(getActivity())
+                    .load(profile.getPictureURL())
+                    .into((ImageView)myView.findViewById(R.id.map_marker_user_image));
             map.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
@@ -262,10 +262,12 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
      */
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        Intent intent = new Intent(getActivity(), HolderActivity.class);
-        intent.putExtra(getString(R.string.fragment_name), Constants.VIEW_ZONE_FRAGMENT);
-        intent.putExtra(Constants.HASHMAP, new HashMap(){{put("profile", (Profile)marker.getTag());}});
-        startActivity(intent);
+        //silly, so will be replaced with just the name
+//        Intent intent = new Intent(getActivity(), HolderActivity.class);
+//        intent.putExtra(getString(R.string.fragment_name), Constants.PROFILE_FRAGMENT);
+//        intent.putExtra(Constants.HASHMAP, new HashMap(){{put("profile", (Profile)marker.getTag());}});
+//        startActivity(intent);
+        marker.setTitle(((Profile)marker.getTag()).getName());
         return false;
     }
 
