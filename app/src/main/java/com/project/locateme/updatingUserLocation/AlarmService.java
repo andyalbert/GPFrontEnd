@@ -63,7 +63,7 @@ public class AlarmService extends Service implements LocationListener {
                 mLocationManager.removeUpdates(AlarmService.this);
                 stopSelf();
             }
-        }, 10000);
+        }, 20000);
     }
 
     @Override

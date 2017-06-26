@@ -157,7 +157,7 @@ public class PlaceFragment extends Fragment {
 
                                 profile.setUserId(currentProfile.getInt("user_Id"));//// TODO: 08/03/17 string not int
                                 //// TODO: 10/03/17 uncomment
-                                profile.setPictureURL(currentLocation.getString("pictureURL"));
+                                profile.setPictureURL(currentProfile.getString("pictureURL"));
                                 profile.setName(currentProfile.getString("name"));
                                 profile.setFirstName(currentProfile.getString("firstName"));
                                 profile.setLastName(currentProfile.getString("lastName"));

@@ -107,8 +107,10 @@ public class EventsAdapter extends ArrayAdapter<Event> {
            // view.setBackgroundColor(context.getResources().getColor(R.color.white));
         if(events.get(position).second.equals(EventFragment.UserState.OWNER))
             holder.name.append("[Owner]");
-        if(events.get(position).first.getArea().getImageURL() != null) //first, check if it exists
+        if(!events.get(position).first.getArea().getImageURL().equals("null")) //first, check if it exists
             Glide.with(context).load(events.get(position).first.getArea().getImageURL()).into(holder.image);
+        else
+            holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.image_event_small));
         holder.location.setText(events.get(position).first.getArea().getLocation().getName());
         view.setOnClickListener(new View.OnClickListener() {
             @Override

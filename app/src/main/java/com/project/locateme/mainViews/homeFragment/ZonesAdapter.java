@@ -58,8 +58,10 @@ public class ZonesAdapter extends ArrayAdapter<Event> {
             holder = (ViewHolder) convertView.getTag();
         holder.zoneName.setText(areas.get(position).getLocation().getName());
         //// TODO: 10/03/17 allow this when the images are uploaded
-        if(areas.get(position).getImageURL() != null)
+        if(!areas.get(position).getImageURL().equals("null"))
             Glide.with(context).load(areas.get(position).getImageURL()).into(holder.image);
+        else
+            holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.image_place));
         String assigned = String.valueOf(areas.get(position).getAccounts().size());
         holder.assignedNumber.setText(assigned);
         convertView.setOnClickListener(new View.OnClickListener() {

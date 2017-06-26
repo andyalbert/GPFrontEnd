@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +41,7 @@ public class UserProfileFragment extends Fragment {
     private SharedPreferences preferences;
     private HashMap<String, Object> parameters;
 //    private Account account = new Account(); // TODO : get an account from intent
-    private CircleImageView profile_pic;
+    private ImageView profile_pic;
     private TextView username_in_profile;
     private Button FriendState;
     private TextView email_address;
@@ -64,7 +65,7 @@ public class UserProfileFragment extends Fragment {
 
         profile = (Profile) parameters.get("profile");
 
-        profile_pic = (CircleImageView) view.findViewById(R.id.user_profile_pic);
+        profile_pic = (ImageView) view.findViewById(R.id.user_profile_pic);
         Glide.with(getContext()).load(profile.getPictureURL())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(profile_pic);
