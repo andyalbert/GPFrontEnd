@@ -104,6 +104,7 @@ public class PlaceFragment extends Fragment {
         Uri uri = Uri.parse(Constants.GET_ZONES).buildUpon()
                 .appendQueryParameter("pass", sharedPreferences.getString(getString(R.string.user_password), ""))
                 .appendQueryParameter("areaid", lastZoneId)
+                .appendQueryParameter("userid", sharedPreferences.getString(getString(R.string.user_id), ""))
                 .build();
         Log.d("shit i", uri.toString());
 

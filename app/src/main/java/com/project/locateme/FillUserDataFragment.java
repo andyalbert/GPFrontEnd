@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -121,8 +122,11 @@ public class FillUserDataFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(isCorrectData()){
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                     FragmentCompat.requestPermissions(FillUserDataFragment.this,
                             new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                    else
+                        register();
                 }
 
             }
