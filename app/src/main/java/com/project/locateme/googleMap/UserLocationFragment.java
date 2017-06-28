@@ -117,7 +117,7 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
         //// TODO: 31/01/17 uncomment this, it's only till connection with the profiles
 //        Glide.with(getApplicationContext())
 //                .load(imgUrl)
-//                .into((ImageView)myView.findViewById(R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
+//                .into((ImageView)myView.findViewById(R.id.map_marker_user_image));
 
         Bitmap bitmap = General.loadBitmapFromView(myView);
         MarkerOptions marker = new MarkerOptions()

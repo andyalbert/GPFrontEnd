@@ -21,6 +21,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -49,9 +56,8 @@ import butterknife.Unbinder;
 
 /**
  * @author andrew
- * @since 3/5/2017
  * @version 1.0
- *
+ * @since 3/5/2017
  */
 
 public class EventParticipantsLocationFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -64,6 +70,7 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
     private double radius;
     private GoogleMap map;
     private String VOLLEY_TAG = "tag";
+    private ImageView userProfileImageView;
 
     @BindView(R.id.fragment_view_zone_map)
     MapView mapView;
@@ -72,7 +79,7 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Participants locations");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Participants locations");
         view = inflater.inflate(R.layout.fragment_view_zone, container, false);
         unbinder = ButterKnife.bind(this, view);
 
@@ -102,11 +109,11 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
         map.getUiSettings().setMapToolbarEnabled(false);
         map.getUiSettings().setTiltGesturesEnabled(false);
         map.addCircle(new CircleOptions()
-                    .center(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .radius(radius)
-                    .strokeColor(Constants.STROKE_COLOR)
-                    .strokeWidth(Constants.STROKE_WIDTH)
-                    .fillColor(Constants.FILL_COLOR));
+                .center(new LatLng(location.getLatitude(), location.getLongitude()))
+                .radius(radius)
+                .strokeColor(Constants.STROKE_COLOR)
+                .strokeWidth(Constants.STROKE_WIDTH)
+                .fillColor(Constants.FILL_COLOR));
 
         getUsersCurrentLocation();
     }
@@ -124,8 +131,8 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
                 try {
                     JSONArray array = new JSONArray(response);
                     for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        Profile profile = new Profile();
+                        final JSONObject object = array.getJSONObject(i);
+                        final Profile profile = new Profile();
                         profile.setUserId(object.getInt("user_Id"));
                         profile.setFirstName(object.getString("firstName"));
                         profile.setLastName(object.getString("lastName"));
@@ -135,18 +142,24 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
                         profile.setBirthday(object.getString("birthday"));
                         profile.setPictureURL(object.getString("pictureURL"));
 
-                        View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
-                        //// TODO: 31/01/17 uncomment this, it's only till connection with the profiles
-        Glide.with(getActivity())
-                .load(profile.getPictureURL())
-                .into((ImageView)myView.findViewById(R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
+                        final View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
+                        final double lat = object.getDouble("latitude"), lon = object.getDouble("longitude");
+                        userProfileImageView = (ImageView) myView.findViewById(R.id.map_marker_user_image);
+                        Glide.with(getActivity())
+                                .load(profile.getPictureURL())
+                                .placeholder(getContext().getResources().getDrawable(R.mipmap.ic_profile_original))
+                                .into(new GlideDrawableImageViewTarget(userProfileImageView){
+                                    @Override
+                                    protected void setResource(GlideDrawable resource) {
+                                        super.setResource(resource);
+                                        Bitmap bitmap = General.loadBitmapFromView(myView);
 
-                        Bitmap bitmap = General.loadBitmapFromView(myView);
-
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(object.getDouble("latitude"), object.getDouble("longitude")))
-                                .title(profile.getName())
-                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))).setTag(profile);
+                                        map.addMarker(new MarkerOptions()
+                                                .position(new LatLng(lat, lon))
+                                                .title(profile.getName())
+                                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))).setTag(profile);
+                                    }
+                                });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -207,7 +220,7 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
 
     @Override
     public void onDestroy() {
-        if(queue != null)
+        if (queue != null)
             queue.cancelAll(VOLLEY_TAG);
         super.onDestroy();
     }

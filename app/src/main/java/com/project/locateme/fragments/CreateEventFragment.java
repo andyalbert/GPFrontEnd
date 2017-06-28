@@ -3,10 +3,12 @@ package com.project.locateme.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -58,6 +61,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +70,7 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import id.zelory.compressor.Compressor;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -117,6 +122,7 @@ public class CreateEventFragment extends Fragment {
     private boolean isLocationPicked;
     private static View view;
     private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
     public CreateEventFragment() {
 
     }
@@ -186,6 +192,12 @@ public class CreateEventFragment extends Fragment {
     private void createEvent() {
         if(!isInitialized())
             return;
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Creating " + eventName.getText().toString());
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
         Uri uri = Uri.parse(Constants.CREATE_LOCATION).buildUpon()
                 .appendQueryParameter("longitude", String.valueOf(eventLocationObject.getLongitude()))
                 .appendQueryParameter("latitude", String.valueOf(eventLocationObject.getLatitude()))
@@ -199,11 +211,13 @@ public class CreateEventFragment extends Fragment {
                     jsonObject = new JSONObject(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressDialog.cancel();
                 }
                 try {
                     eventLocationObject.setId(jsonObject.getString("location_id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressDialog.cancel();
                 }
                 //call create area
 
@@ -213,6 +227,7 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                progressDialog.cancel();
             }
         });
         requestQueue.add(stringRequest);
@@ -226,21 +241,52 @@ public class CreateEventFragment extends Fragment {
                 imagePath = data.getStringExtra("path");
                 Log.e("aa" , imagePath);
                 Uri imagePathUri = Uri.fromFile(new File(imagePath));
-                reference.child(eventName.getText().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
-                        imagePath = downloadImage.toString();
-                        eventArea.setImageURL(imagePath);
-                        Log.e("Path", eventArea.getImageURL());
-                        Glide.with(getActivity()).load(eventArea.getImageURL()).into(eventImage);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+
+                try {
+                    Uri compressedImagePathUri = Uri.parse(new Compressor(getActivity())
+                            .setMaxHeight(400)
+                            .setMaxWidth(700)
+                            .setQuality(50)
+                            .setCompressFormat(Bitmap.CompressFormat.PNG)
+                            .compressToFile(new File(imagePath)).toURI().toString());
+
+                    reference.child(eventName.getText().toString()).putFile(compressedImagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
+                            imagePath = downloadImage.toString();
+                            Glide.with(getActivity()).load(eventArea.getImageURL()).into(eventImage);
+                            eventArea.setImageURL(imagePath);
+                            Log.e("Path", eventArea.getImageURL());
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+//                reference.child(eventName.getText().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
+//                        imagePath = downloadImage.toString();
+//                        eventArea.setImageURL(imagePath);
+//                        Log.e("Path", eventArea.getImageURL());
+//                        Glide.with(getActivity()).load(eventArea.getImageURL()).into(eventImage);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                });
 
 
 
@@ -275,6 +321,7 @@ public class CreateEventFragment extends Fragment {
                     json = new JSONObject(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressDialog.cancel();
                 }
                 try {
                     Log.e("Areais" , response);
@@ -291,6 +338,7 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                progressDialog.cancel();
             }
         });
         requestQueue.add(stringRequest);
@@ -327,6 +375,7 @@ public class CreateEventFragment extends Fragment {
                     getActivity().finish();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    progressDialog.cancel();
                 }
             }
         }, new Response.ErrorListener() {
@@ -334,6 +383,7 @@ public class CreateEventFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "An Error occurred. Try Again Later ", Toast.LENGTH_LONG).show();
                 error.printStackTrace();
+                progressDialog.cancel();
             }
         });
 
