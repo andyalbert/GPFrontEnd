@@ -169,7 +169,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         profile.setBirthday(object.getString("birthday"));
                         profile.setPictureURL(object.getString("pictureURL"));
 
-                        //// TODO: 25/04/17 uncomment when the shit pictures is done
                     Glide.with(getActivity().getApplicationContext())
                             .load(profile.getPictureURL())
                             .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this

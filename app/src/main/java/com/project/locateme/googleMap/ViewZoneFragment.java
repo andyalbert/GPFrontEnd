@@ -24,6 +24,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -57,9 +61,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * @since 2/2/2017
- * @version 1.0
  * @author andrew
+ * @version 1.0
+ * @since 2/2/2017
  */
 
 public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -72,6 +76,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
     private RequestQueue queue;
     private SharedPreferences preferences;
     private ArrayList<UserLocation> usersLocation;
+    private ImageView userProfileImageView;
 
     @BindView(R.id.fragment_view_zone_map)
     MapView mapView;
@@ -88,7 +93,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         area = (Area) parameters.get("area");
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(area.getLocation().getName());
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(area.getLocation().getName());
 
         queue = Volley.newRequestQueue(getActivity());
 
@@ -113,10 +118,10 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
                 UserLocation currentUser;
                 Location location;
                 JSONObject currentObject;
-                try{
+                try {
                     JSONArray array = new JSONObject(response).getJSONArray("object");
 
-                    for(int i = 0;array != null && i < array.length();i++){
+                    for (int i = 0; array != null && i < array.length(); i++) {
                         currentObject = array.getJSONObject(i);
                         currentUser = new UserLocation();
 
@@ -128,11 +133,11 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
                         currentUser.setLocation(location);
                         usersLocation.add(currentUser);
                     }
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 //now Update the users you have with their locations
-                for(int j = 0;j < area.getAccounts().size();j++)
+                for (int j = 0; j < area.getAccounts().size(); j++)
                     match(area.getAccounts().get(j));
                 drawAndFocus();
             }
@@ -148,6 +153,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
 
     /**
      * this method is responsible for matching the profile with their current locations
+     *
      * @param profile
      */
     private void match(Profile profile) {
@@ -155,9 +161,9 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
         int lower, upper, mid = 0;
         lower = 0;
         upper = usersLocation.size() - 1;
-        while(lower <= upper){
+        while (lower <= upper) {
             mid = (lower + upper) / 2;
-            if(usersLocation.get(mid).getUserId() == id)
+            if (usersLocation.get(mid).getUserId() == id)
                 break;
             else if (usersLocation.get(mid).getUserId() > id)
                 upper = mid - 1;
@@ -181,28 +187,35 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
         //first, draw the area itself
         LatLng circleLatLong = new LatLng(area.getLocation().getLatitude(), area.getLocation().getLongitude());
         map.addCircle(new CircleOptions()
-                        .strokeColor(Constants.STROKE_COLOR)
-                        .strokeWidth(Constants.STROKE_WIDTH)
-                        .fillColor(Constants.FILL_COLOR)
-                        .radius(area.getRadius())
-                        .center(circleLatLong));
+                .strokeColor(Constants.STROKE_COLOR)
+                .strokeWidth(Constants.STROKE_WIDTH)
+                .fillColor(Constants.FILL_COLOR)
+                .radius(area.getRadius())
+                .center(circleLatLong));
 
         //second, draw the users locations
-        View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
-        Profile profile;
-        for(int i = 0;i < area.getAccounts().size();i++){
-            profile = area.getAccounts().get(i);
-            LatLng latLng = new LatLng(profile.getHistory().getLocation().getLatitude(), profile.getHistory().getLocation().getLongitude());
-            Bitmap bitmap = General.loadBitmapFromView(myView);
-            //// TODO: 10/03/17 uncomment when image is ready
+        final View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
+        userProfileImageView = (ImageView) myView.findViewById(R.id.map_marker_user_image);
+        for (int i = 0; i < area.getAccounts().size(); i++) {
+            final Profile profile = area.getAccounts().get(i);
+            final LatLng latLng = new LatLng(profile.getHistory().getLocation().getLatitude(), profile.getHistory().getLocation().getLongitude());
+
             Glide.with(getActivity())
                     .load(profile.getPictureURL())
-                    .into((ImageView)myView.findViewById(R.id.map_marker_user_image));
-            map.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-//                            .title(profile.getHistory().getTimestamp().toString()))//// TODO: 08/03/17 the timestamp should be more rational
-                    ).setTag(profile);
+
+                    .into(new GlideDrawableImageViewTarget(userProfileImageView) {
+                        @Override
+                        protected void setResource(GlideDrawable resource) {
+                            super.setResource(resource);
+
+                            Bitmap bitmap = General.loadBitmapFromView(myView);
+                            map.addMarker(new MarkerOptions()
+                                    .position(latLng)
+                                    .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                            ).setTag(profile);
+                        }
+                    });
+
         }
 
         //finally, set the map for the user
@@ -257,6 +270,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
 
     /**
      * opens the user account
+     *
      * @param marker
      * @return
      */
@@ -267,7 +281,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
 //        intent.putExtra(getString(R.string.fragment_name), Constants.PROFILE_FRAGMENT);
 //        intent.putExtra(Constants.HASHMAP, new HashMap(){{put("profile", (Profile)marker.getTag());}});
 //        startActivity(intent);
-        marker.setTitle(((Profile)marker.getTag()).getName());
+        marker.setTitle(((Profile) marker.getTag()).getName());
         return false;
     }
 

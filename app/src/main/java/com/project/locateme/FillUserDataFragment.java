@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import com.project.locateme.utilities.Constants;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.Permission;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,6 +53,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import id.zelory.compressor.Compressor;
 
 /**
  * @author Andrew
@@ -253,7 +256,35 @@ public class FillUserDataFragment extends Fragment {
         if(requestCode == IMAGE_REQUEST && resultCode == getActivity().RESULT_OK){
             profile.setPictureURL(data.getStringExtra("path"));
             Log.e("ImagePathCreate", data.getStringExtra("path"));
+
+            //deprecated, to use the compressed one instead
             Uri imagePathUri = Uri.fromFile(new File(data.getStringExtra("path")));
+
+            try {
+                Uri compressedImagePathUri = Uri.parse(new Compressor(getActivity())
+                                                .setMaxHeight(250)
+                                                .setMaxWidth(250)
+                                                .setCompressFormat(Bitmap.CompressFormat.PNG)
+                                                .compressToFile(new File(profile.getPictureURL())).toURI().toString());
+
+                reference.child(account.getId().toString()).putFile(compressedImagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
+                        Glide.with(getActivity()).load(new File(profile.getPictureURL())).into(profileImage);
+                        profile.setPictureURL(downloadImage.toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             /*reference.child(account.getId().toString());
             UploadTask uploadTask = reference.child(account.getId().toString()).putFile(imagePathUri);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -265,21 +296,7 @@ public class FillUserDataFragment extends Fragment {
             });
             //Log.i("Path", imagePath);
             Glide.with(getActivity()).load(imagePathUri).into(profileImage);*/
-            reference.child(account.getId().toString()).putFile(imagePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    @SuppressWarnings("VisibleForTests") Uri downloadImage = taskSnapshot.getDownloadUrl();
-                    profile.setPictureURL(downloadImage.toString());
-                    Glide.with(getActivity()).load(profile.getPictureURL()).into(profileImage);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-
+           ;
 
         }
     }
