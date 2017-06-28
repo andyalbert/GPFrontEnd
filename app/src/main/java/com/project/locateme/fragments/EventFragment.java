@@ -498,25 +498,25 @@ public class EventFragment extends Fragment {
             c.set(Calendar.MINUTE, minute);
 
             SimpleDateFormat sdf = new SimpleDateFormat("'T'HH:mm:ss.SSS");//yyyy-MM-dd'T'HH:mm:ss.SSS
-            if (isFirstTime) {
+            /*if (isFirstTime) {
                 startTime += sdf.format(c.getTime());
                 firstTime = c;
                 EventFragment.TimePickerFragment timePickerFragment = new EventFragment.TimePickerFragment();
                 timePickerFragment.show(getFragmentManager(), "timePicker");
-            } else {
+            } else {*/
                 deadline += sdf.format(c.getTime());
                 Calendar c2 = Calendar.getInstance();
                 secondTime = c;
 
-                if (secondTime.compareTo(firstTime) <= 0) {
+                /*if (secondTime.compareTo(firstTime) <= 0) {
                     Toast.makeText(getActivity(), "Event end time must be after start time", Toast.LENGTH_SHORT).show();
-                } else {
+                } else {*/
                     // SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm"), dateFormat = new SimpleDateFormat("yyyy:MM:dd");
                     suggestionNetworkCall(getActivity());
-                }
+                //}
 
-            }
-            isFirstTime = !isFirstTime;
+            //}
+            //isFirstTime = !isFirstTime;
         }
     }
 

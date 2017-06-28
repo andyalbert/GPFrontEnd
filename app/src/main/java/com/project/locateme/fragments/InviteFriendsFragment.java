@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,6 @@ public class InviteFriendsFragment extends Fragment {
                         profile = new Profile();
                         invitationState = new FriendInvitationState();
                         object = array.getJSONObject(i);
-
                         profile.setUserId(object.getInt("user_Id"));
                         profile.setFirstName(object.getString("firstName"));
                         profile.setLastName(object.getString("lastName"));
@@ -106,14 +106,15 @@ public class InviteFriendsFragment extends Fragment {
 
                         invitationState.setProfile(profile);
                         switch (object.getInt("eventStatus")){
-                            case 1:
+                            case (1):{
                                 invitationState.setState(FriendInvitationState.InvitationState.INVITED);
-                                break;
-                            case 2:
+                                break;}
+                            case (2):{
                                 invitationState.setState(FriendInvitationState.InvitationState.PARTICIPANT);
-                                break;
-                            default: invitationState.setState(FriendInvitationState.InvitationState.NONE);
+                                break;}
+                            default:{ invitationState.setState(FriendInvitationState.InvitationState.NONE);}
                         }
+                        Log.e("state" , invitationState.getState()+"");
                         invitedStatus.add(invitationState);
                     }
                     adapter = new FriendsAdapter(getActivity(), R.layout.fragment_invite_friends, invitedStatus);
@@ -170,17 +171,18 @@ public class InviteFriendsFragment extends Fragment {
             } else
                 holder = (ViewHolder) convertView.getTag();
             holder.name.setText(array.get(position).getProfile().getName());
-            //// TODO: 10/04/17 uncomment when it's working  --->DONE
             Glide.with(context).load(array.get(position).getProfile().getPictureURL()).into(holder.image);
             switch (array.get(position).getState()){
-                case INVITED:
+                case INVITED:{
                     holder.inviteFriend.setEnabled(false);
                     holder.inviteFriend.setText("Pending");
                     holder.inviteFriend.setBackgroundColor(context.getResources().getColor(R.color.pending_color));
-                    break;
-                case PARTICIPANT:
+                    break;}
+                case PARTICIPANT:{
                     holder.inviteFriend.setEnabled(false);
-                    break;
+                    holder.inviteFriend.setText("Participant");
+                    holder.inviteFriend.setBackgroundColor(context.getResources().getColor(R.color.pending_color));
+                    break;}
                 default:
                     holder.inviteFriend.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -211,6 +213,7 @@ public class InviteFriendsFragment extends Fragment {
                         }
                     });
             }
+            Log.e("Status2" , ""+array.get(position).getState());
             return convertView;
         }
 
