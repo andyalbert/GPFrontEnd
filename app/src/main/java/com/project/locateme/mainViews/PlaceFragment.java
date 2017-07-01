@@ -153,6 +153,7 @@ public class PlaceFragment extends Fragment {
 
                             for(int j = 0;profiles!= null && j < profiles.length();j++){
                                 currentProfile = profiles.getJSONObject(j);
+                                currentProfile = currentProfile.getJSONObject("profile");
                                 profile = new Profile();
 
                                 profile.setUserId(currentProfile.getInt("user_Id"));//// TODO: 08/03/17 string not int
