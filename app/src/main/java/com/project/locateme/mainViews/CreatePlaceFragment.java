@@ -1,6 +1,7 @@
 package com.project.locateme.mainViews;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -79,6 +80,7 @@ public class CreatePlaceFragment extends Fragment {
     private final String FRIENDS_VOLLEY_TAG = "friendsTag";
     private String imagePath;
     private SparseArray<Profile> selectedProfiles;
+    private ProgressDialog progressDialog;
     @BindView(R.id.fragment_create_place_friends)
     RecyclerView friendsRecyclerView;
     @BindView(R.id.fragment_create_place_name)
@@ -157,10 +159,16 @@ public class CreatePlaceFragment extends Fragment {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.cancel();
                         Toast.makeText(getActivity(), "error creating your area, please try again", Toast.LENGTH_SHORT).show();
                     }
                 });
                 createRequest.setTag(FRIENDS_VOLLEY_TAG);
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setCancelable(false);
+                progressDialog.setTitle("Creating your zone");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.show();
                 queue.add(createRequest);
             }
         });
