@@ -270,19 +270,19 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
                     ((FriendRequest) notification).setSenderProfile(profileParser(targetObject));
                 } else if (type.equals(NotificationType.AREA_ENTERED.toString())) {
                     notification = new EnterArea();
-                    ((EnterArea) notification).setPersonName(targetObject.getString("personName"));
+                    ((EnterArea) notification).setPersonName(targetObject.getJSONArray("users").getJSONObject(0).getString("firstName"));
                     ((EnterArea) notification).setArea(areaParser(targetObject));
                 } else if (type.equals(NotificationType.AREA_LEFT.toString())) {
                     notification = new LeaveArea();
-                    ((LeaveArea) notification).setPersonName(targetObject.getString("personName"));
+                    ((LeaveArea) notification).setPersonName(targetObject.getJSONArray("users").getJSONObject(0).getString("firstName"));
                     ((LeaveArea) notification).setArea(areaParser(targetObject));
                 } else if (type.equals(NotificationType.EVENT_DELETION.toString())) {
                     notification = new EventDeletion();
-                    ((EventDeletion) notification).setEventName(targetObject.getString("eventName"));
+                    ((EventDeletion) notification).setEventName(targetObject.getString("name"));
                 } else if (type.equals(NotificationType.EVENT_EDITING.toString())) {
                     notification = new EventEditing();
                     ((EventEditing) notification).setEvent(eventParser(targetObject, notification, EVENT_EDITING));
-                    ((EventEditing) notification).setSuggestion(suggestionParser(targetObject));
+                    ((EventEditing) notification).setSuggestion(suggestionParser(targetObject.getJSONObject("suggestion")));
                 } else { // event invitation
                     notification = new EventInvitation();
                     ((EventInvitation) notification).setEvent(eventParser(targetObject, notification, EVENT_INVITATION));
@@ -312,7 +312,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             JSONObject tempObject = object.getJSONObject("area");
             area.setId(tempObject.getString("area_id"));
             area.setRadius(tempObject.getDouble("radius"));
-            area.setImageURL(tempObject.getString("image"));
+            //area.setImageURL(tempObject.getString("image"));
 
             tempObject = tempObject.getJSONObject("location");
             Location location = new Location();
@@ -352,7 +352,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
     private Suggestion suggestionParser(JSONObject object) {
         Suggestion suggestion = new Suggestion();
         try {
-            suggestion.setDate(General.convertStringToTimestamp(object.getString("data")));
+            suggestion.setDate(General.convertStringToTimestamp(object.getString("new_date")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -363,26 +363,26 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         Area area = new Area();
         try {
             area.setId(object.getString("area_id"));
-            area.setRadius(object.getDouble("redius"));
-            area.setImageURL(object.getString("image"));
-
+            area.setRadius(object.getDouble("radius"));
+            //area.setImageURL(object.getString("image"));
+            JSONObject loc = object.getJSONObject("location");
             Location location = new Location();
-            location.setId(object.getString("location_id"));
-            location.setLongitude(object.getDouble("longitude"));
-            location.setLatitude(object.getDouble("latitude"));
-            location.setName(object.getString("name"));
+            location.setId(loc.getString("location_id"));
+            location.setLongitude(loc.getDouble("longitude"));
+            location.setLatitude(loc.getDouble("latitude"));
+            location.setName(loc.getString("name"));
 
             JSONArray usersArray = object.getJSONArray("users");
             ArrayList<Profile> users = new ArrayList<>();
             for (int i = 0; i < usersArray.length(); i++) {
                 JSONObject tempObject = usersArray.getJSONObject(i);
                 Profile profile = new Profile();
-                profile.setUserId(tempObject.getInt("user_Id"));
+                profile.setUserId(tempObject.getInt("id"));
                 profile.setFirstName(tempObject.getString("firstName"));
                 profile.setLastName(tempObject.getString("lastName"));
                 profile.setEmail(tempObject.getString("email"));
                 profile.setHomeTown(tempObject.getString("homeTown"));
-                profile.setName(tempObject.getString("name"));
+                profile.setName(tempObject.getString("firstName")+" "+tempObject.getString("lastName"));
                 profile.setBirthday(tempObject.getString("birthday"));
                 profile.setPictureURL(tempObject.getString("pictureURL"));
                 users.add(profile);
@@ -401,19 +401,19 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             profile.setLastName(object.getString("lastName"));
             profile.setEmail(object.getString("email"));
             profile.setHomeTown(object.getString("homeTown"));
-            profile.setName(object.getString("name"));
+            profile.setName(object.getString("firstName")+" "+object.getString("lastName"));
             profile.setBirthday(object.getString("birthday"));
             profile.setPictureURL(object.getString("pictureURL"));
-            profile.setUserId(object.getInt("userId"));
+            profile.setUserId(object.getInt("id"));
 
-            String state = object.getString("state");
-            if (state.equals("FRIEND"))
+            String state = object.getString("friendState");
+            if (state.equals("1"))
                 profile.setState(Profile.FriendShipState.FRIEND);
-            else if (state.equals("NOT_FRIEND"))
+            else if (state.equals("4"))
                 profile.setState(Profile.FriendShipState.NOT_FRIEND);
-            else if (state.equals("PENDING_REQUEST"))
+            else if (state.equals("2"))
                 profile.setState(Profile.FriendShipState.PENDING_REQUEST);
-            else if (state.equals("ADD_REQUEST"))
+            else if (state.equals("3"))
                 profile.setState(Profile.FriendShipState.ADD_REQUEST);
             else
                 profile.setState(Profile.FriendShipState.NONE);
