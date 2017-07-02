@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -75,6 +76,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
     private AtomicBoolean isCurrentlyUpdating;
     private UpdateState updateState;
     private boolean isLoaded;
+    private int lastFirstItemFromTop;
     @BindView(R.id.fragment_notification_list_view)
     ListView listView;
     @BindView(R.id.fragment_notification_swipe_refresh_layout)
@@ -95,7 +97,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         isCurrentlyUpdating = new AtomicBoolean(false);
         updateState = UpdateState.NOT_STARTED;
         isLoaded = false;
-
+        lastFirstItemFromTop = 0;
 
         firstNotification = -1;
         lastNotification = -1;
@@ -221,7 +223,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_notification, null);
+                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_notification, parent, false);
                 convertView.setTag(new ViewHolder(convertView));
             }
             notifications.get(position).setViewListener((ViewHolder) convertView.getTag(), context);
@@ -267,19 +269,19 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
                     ((FriendRequest) notification).setSenderProfile(profileParser(targetObject));
                 } else if (type.equals(NotificationType.AREA_ENTERED.toString())) {
                     notification = new EnterArea();
-                    ((EnterArea) notification).setPersonName(targetObject.getString("personName"));
+                    ((EnterArea) notification).setPersonName(targetObject.getJSONArray("users").getJSONObject(0).getString("firstName"));
                     ((EnterArea) notification).setArea(areaParser(targetObject));
                 } else if (type.equals(NotificationType.AREA_LEFT.toString())) {
                     notification = new LeaveArea();
-                    ((LeaveArea) notification).setPersonName(targetObject.getString("personName"));
+                    ((LeaveArea) notification).setPersonName(targetObject.getJSONArray("users").getJSONObject(0).getString("firstName"));
                     ((LeaveArea) notification).setArea(areaParser(targetObject));
                 } else if (type.equals(NotificationType.EVENT_DELETION.toString())) {
                     notification = new EventDeletion();
-                    ((EventDeletion) notification).setEventName(targetObject.getString("eventName"));
+                    ((EventDeletion) notification).setEventName(targetObject.getString("name"));
                 } else if (type.equals(NotificationType.EVENT_EDITING.toString())) {
                     notification = new EventEditing();
                     ((EventEditing) notification).setEvent(eventParser(targetObject, notification, EVENT_EDITING));
-                    ((EventEditing) notification).setSuggestion(suggestionParser(targetObject));
+                    ((EventEditing) notification).setSuggestion(suggestionParser(targetObject.getJSONObject("suggestion")));
                 } else { // event invitation
                     notification = new EventInvitation();
                     ((EventInvitation) notification).setEvent(eventParser(targetObject, notification, EVENT_INVITATION));
@@ -309,7 +311,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             JSONObject tempObject = object.getJSONObject("area");
             area.setId(tempObject.getString("area_id"));
             area.setRadius(tempObject.getDouble("radius"));
-            area.setImageURL(tempObject.getString("image"));
+            //area.setImageURL(tempObject.getString("image"));
 
             tempObject = tempObject.getJSONObject("location");
             Location location = new Location();
@@ -349,7 +351,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
     private Suggestion suggestionParser(JSONObject object) {
         Suggestion suggestion = new Suggestion();
         try {
-            suggestion.setDate(General.convertStringToTimestamp(object.getString("data")));
+            suggestion.setDate(General.convertStringToTimestamp(object.getString("new_date")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -361,13 +363,14 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         try {
             area.setId(object.getString("area_id"));
             area.setRadius(object.getDouble("radius"));
-            area.setImageURL(object.getString("image"));
 
+//            area.setImageURL(object.getString("image"));
+            JSONObject loc = object.getJSONObject("location");
             Location location = new Location();
-            location.setId(object.getString("location_id"));
-            location.setLongitude(object.getDouble("longitude"));
-            location.setLatitude(object.getDouble("latitude"));
-            location.setName(object.getString("name"));
+            location.setId(loc.getString("location_id"));
+            location.setLongitude(loc.getDouble("longitude"));
+            location.setLatitude(loc.getDouble("latitude"));
+            location.setName(loc.getString("name"));
 
             JSONArray usersArray = object.getJSONArray("users");
             ArrayList<Profile> users = new ArrayList<>();
@@ -379,7 +382,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
                 profile.setLastName(tempObject.getString("lastName"));
                 profile.setEmail(tempObject.getString("email"));
                 profile.setHomeTown(tempObject.getString("homeTown"));
-                profile.setName(tempObject.getString("name"));
+                profile.setName(tempObject.getString("firstName")+" "+tempObject.getString("lastName"));
                 profile.setBirthday(tempObject.getString("birthday"));
                 profile.setPictureURL(tempObject.getString("pictureURL"));
                 users.add(profile);
@@ -398,7 +401,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             profile.setLastName(object.getString("lastName"));
             profile.setEmail(object.getString("email"));
             profile.setHomeTown(object.getString("homeTown"));
-            profile.setName(profile.getFirstName() + " " + profile.getLastName());
+            profile.setName(object.getString("firstName")+" "+object.getString("lastName"));
             profile.setBirthday(object.getString("birthday"));
             profile.setPictureURL(object.getString("pictureURL"));
             profile.setUserId(object.getInt("id"));
@@ -406,11 +409,11 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             String state = object.getString("friendState");
             if (state.equals("1"))
                 profile.setState(Profile.FriendShipState.FRIEND);
-            else if (state.equals("2"))
-                profile.setState(Profile.FriendShipState.NOT_FRIEND);
-            else if (state.equals("3"))
-                profile.setState(Profile.FriendShipState.PENDING_REQUEST);
             else if (state.equals("4"))
+                profile.setState(Profile.FriendShipState.NOT_FRIEND);
+            else if (state.equals("2"))
+                profile.setState(Profile.FriendShipState.PENDING_REQUEST);
+            else if (state.equals("3"))
                 profile.setState(Profile.FriendShipState.ADD_REQUEST);
             else
                 profile.setState(Profile.FriendShipState.NONE);
@@ -427,7 +430,8 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (firstVisibleItem + visibleItemCount >= totalItemCount - 3) {
+        if (firstVisibleItem > lastFirstItemFromTop && firstVisibleItem + visibleItemCount >= totalItemCount - 3) {
+            lastFirstItemFromTop = firstVisibleItem;
             updateState = UpdateState.LOADING_OLD;
             updateNotifications();
         }

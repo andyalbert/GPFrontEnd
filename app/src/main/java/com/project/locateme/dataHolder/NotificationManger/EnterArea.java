@@ -45,7 +45,7 @@ public class EnterArea extends Notification {
     @Override
     public void setViewListener(NotificationFragment.ViewHolder viewHolder, final Context context) {
         viewHolder.time.setText(General.convertTimeatampToString(getTimestamp()));
-        Glide.with(context).load(area.getImageURL()).into(viewHolder.image);
+        Glide.with(context).load(area.getImageURL()).placeholder(context.getResources().getDrawable(R.drawable.image_event_large)).into(viewHolder.image);
         SpannableStringBuilder str = new SpannableStringBuilder(personName + " " + context.getString(R.string.enter_area));
         str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, personName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolder.text.setText(str);
