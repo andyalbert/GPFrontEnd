@@ -103,7 +103,6 @@ public class EventChatFragment extends Fragment {
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View internalView) {
-                //TODO : get username from shared Pref
                 EditText input = (EditText) view.findViewById(R.id.fragment_event_chat_text_edit);
                 mDatabase.child(eventName)
                         .child("chat")

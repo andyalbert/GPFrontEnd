@@ -114,7 +114,7 @@ public class UserLocationFragment extends Fragment implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         View myView = LayoutInflater.from(getActivity()).inflate(R.layout.map_marker, null);
-        //// TODO: 31/01/17 uncomment this, it's only till connection with the profiles
+
 //        Glide.with(getApplicationContext())
 //                .load(imgUrl)
 //                .into((ImageView)myView.findViewById(R.id.map_marker_user_image));

@@ -60,7 +60,6 @@ public class FriendsAdapter extends ArrayAdapter<Profile> {
         } else
             holder = (ProfileViewHolder) convertView.getTag();
         holder.name.setText(profiles.get(position).getName());
-        //// TODO: 10/03/17 enable when images are ready on server
         Glide.with(context).load(profiles.get(position).getPictureURL()).into(holder.image);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

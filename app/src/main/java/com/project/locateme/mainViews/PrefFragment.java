@@ -144,7 +144,6 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
                 if(preferences.getInt(getString(R.string.provider), 0) == Constants.FACEBOOK_LOGIN)
                     LoginManager.getInstance().logOut();
                 else{
-                    //todo handle twitter logout
                     TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
                     if(session != null){
                         ClearTwitterCookies(getActivity().getApplicationContext());
@@ -229,9 +228,9 @@ public class PrefFragment extends PreferenceFragmentCompat implements SharedPref
         } else if(s.equals(getString(R.string.do_not_disturb_key))){
             boolean value = sharedPreferences.getBoolean(s, false);
             if(value){//enable don't disturb
-                //// TODO: 21/03/17 disable/enable the firebase updates
+                getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).edit().putBoolean("update_noti", false).apply();
             } else{
-
+                getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).edit().putBoolean("update_noti", true).apply();
             }
         }
     }

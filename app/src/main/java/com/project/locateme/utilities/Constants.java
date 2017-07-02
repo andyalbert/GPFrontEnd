@@ -64,6 +64,7 @@ public class Constants {
     public static final String SEARCH_USER_BY_NAME = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/searchuserbyname";
     public static final String GET_USER_DETAILS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserdetails";
     public static final String GET_USER_BY_ID = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/getuserbyid";
+    public static final String GET_NOTIFICATIONS = "http://firstapp-fciswpro.rhcloud.com/restapi/rest/notifications";
 
     public static final int STROKE_COLOR = Color.BLACK;
     public static final int STROKE_WIDTH = 5;

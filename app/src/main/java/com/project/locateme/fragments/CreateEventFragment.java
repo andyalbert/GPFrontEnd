@@ -171,7 +171,6 @@ public class CreateEventFragment extends Fragment {
         eventImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO : Open gallery for image select and save in model
                 startActivityForResult(new Intent(getActivity(), ImagePickerActivity.class), 2);
 
             }
@@ -395,7 +394,6 @@ public class CreateEventFragment extends Fragment {
             Toast.makeText(getActivity(), "Please complete all the data", Toast.LENGTH_SHORT).show();
             return false;
         }
-        //TODO : get it from the add zone
         eventLocationObject = new Location(longitude, latitude, eventLocationName.getText().toString());
         model.setName(eventName.getText().toString());
         model.setDescription(eventDescription.getText().toString());

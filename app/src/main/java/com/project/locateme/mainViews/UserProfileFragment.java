@@ -40,7 +40,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserProfileFragment extends Fragment {
     private SharedPreferences preferences;
     private HashMap<String, Object> parameters;
-//    private Account account = new Account(); // TODO : get an account from intent
     private ImageView profile_pic;
     private TextView username_in_profile;
     private Button FriendState;
@@ -83,7 +82,6 @@ public class UserProfileFragment extends Fragment {
         home_town_in_profile.setText(profile.getHomeTown());
 
         birthdate = (TextView) view.findViewById(R.id.birthdate);
-        // TODO: 17/03/17 edit this shit
         birthdate.setText(profile.getBirthday().toString());
         this.view = view;
         setUpProfileState();

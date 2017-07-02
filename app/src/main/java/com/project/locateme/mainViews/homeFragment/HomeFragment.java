@@ -103,7 +103,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.0f));
         else
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(sharedPreferences.getFloat("lat", 30.045915f), sharedPreferences.getFloat("long", 31.2220958f)), 16.0f)); // get the last, default is cairo tower
-        //// TODO: 24/02/17 ask the user when signing in to get his position
 
 
         googleMap.getUiSettings().setMapToolbarEnabled(false);
@@ -171,7 +170,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
                     Glide.with(getActivity().getApplicationContext())
                             .load(profile.getPictureURL())
-                            .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image)); //// TODO: 31/01/17  this may cause an error, the image may be loaded after the view has been rendered, must check this
+                            .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image));
 
                         bitmap = General.loadBitmapFromView(myView);
                         map.addMarker(new MarkerOptions()
@@ -198,7 +197,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        //// TODO: 25/02/17 uncomment when the account is done
 //        String id = (String) marker.getTag();
 //        Intent intent = new Intent(getActivity(), UserProfileFragment.class);
 //        intent.putExtra(getString(R.string.fragment_name, Constants.));
@@ -222,7 +220,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 return mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_UPDATE_REQUEST);
-        return null;//// TODO: 24/02/17 change
+        return null;
 
     }
 
@@ -241,7 +239,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 }
             }
         }
-    } //todo this is useless till now
+    }
 
     @Override
     public void onStart() {

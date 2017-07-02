@@ -14,8 +14,12 @@ import com.project.locateme.dataHolder.userManagement.Account;
 import com.project.locateme.utilities.Constants;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import io.fabric.sdk.android.Fabric;
+
+import static com.project.locateme.mainViews.PrefFragment.ClearTwitterCookies;
 
 /**
  * @author Andrew
@@ -35,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements ProviderLoginFra
         FacebookSdk.sdkInitialize(getApplicationContext());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(getString(R.string.twitter_key), getString(R.string.twitter_secret));
         //// TODO: 08/05/17 uncomment this
-//        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig));
         Log.i("Fab" , String.valueOf(Fabric.isInitialized()));
         setContentView(R.layout.activity_login);
         if(savedInstanceState == null){
@@ -72,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements ProviderLoginFra
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Fragment fragment = getFragmentManager().findFragmentByTag("ProviderFragment");
-        if (fragment != null) { //todo what do you mean by calling onactiviyresult explicitly ??? its something in TWitter API
+        if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -85,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements ProviderLoginFra
 //            if(preferences.getInt(getString(R.string.provider), -1) == Constants.FACEBOOK_LOGIN)
 //                LoginManager.getInstance().logOut();
 //            else if(preferences.getInt((getString(R.string.provider)), -1) == Constants.TWITTER_LOGIN) {
-//                //// TODO: 08/05/17 handle twitter logout
+//
 //            }
 //        }
 //        finishAffinity();
@@ -100,7 +104,12 @@ public class LoginActivity extends AppCompatActivity implements ProviderLoginFra
             if(preferences.getInt(getString(R.string.provider), -1) == Constants.FACEBOOK_LOGIN)
                 LoginManager.getInstance().logOut();
             else if(preferences.getInt((getString(R.string.provider)), -1) == Constants.TWITTER_LOGIN) {
-                //// TODO: 08/05/17 handle twitter logout
+                TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+                if(session != null){
+                    ClearTwitterCookies(getApplicationContext());
+                    Twitter.getSessionManager().clearActiveSession();
+                    Twitter.logOut();
+                }
             }
         }
         finishAffinity();

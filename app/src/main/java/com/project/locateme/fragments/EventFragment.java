@@ -227,7 +227,6 @@ public class EventFragment extends Fragment {
             }
         });
     }
-    //TODO : Accept and decline Event Invitation ? ?
 
     public static void suggestionNetworkCall(final Context context) {
         suggestion = new Suggestion();
@@ -381,7 +380,6 @@ public class EventFragment extends Fragment {
                 .appendQueryParameter("eventid", String.valueOf(event.getId())).build();
 
 
-        //TODO : Update list from backend
         StringRequest usersRequest = new StringRequest(Request.Method.POST, usersUri.toString(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

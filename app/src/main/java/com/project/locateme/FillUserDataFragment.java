@@ -105,7 +105,6 @@ public class FillUserDataFragment extends Fragment {
         account = (Account) getArguments().getSerializable("account");
         profile = account.getProfile();
         Glide.with(getActivity()).load(profile.getPictureURL()).into(profileImage);
-        //// TODO: 08/05/17 fix
 //        profileImage.setImageBitmap();
         userName.setText(profile.getName());
         lastName.setText(profile.getLastName());
@@ -204,11 +203,9 @@ public class FillUserDataFragment extends Fragment {
                 .appendQueryParameter("hometown", homeTown.getText().toString())
                 .appendQueryParameter("name", userName.getText().toString())
                 .appendQueryParameter("pass", password.getText().toString())
-                //// TODO: 08/05/17 fix this shit
                 .appendQueryParameter("pictureURL", profile.getPictureURL())
                 .appendQueryParameter("loginid", account.getId())
                 .appendQueryParameter("provider", account.getType())
-                //// TODO: 08/05/17 fix this
                 .appendQueryParameter("birthday", profile.getBirthday())
                 .build();
 

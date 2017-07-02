@@ -219,7 +219,7 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
         }
 
         //finally, set the map for the user
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(circleLatLong, 12.0f)); //// TODO: 08/03/17 may be changed to match the circle zone, it there is time
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(circleLatLong, 12.0f));
         map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setMapToolbarEnabled(false);
         map.getUiSettings().setCompassEnabled(true);

@@ -136,8 +136,6 @@ public class CreatePlaceFragment extends Fragment {
                     selected.add(selectedProfiles.valueAt(i));
                 }
                 area.setAccounts(selected);
-                //// TODO: 14/03/17 set this after we fix it first
-                //area.setImageURL("2.img");
 
                 Uri.Builder builder = Uri.parse(Constants.CREATE_ZONE).buildUpon()
                         .appendQueryParameter("ownerid", preferences.getString(getString(R.string.user_id), ""))

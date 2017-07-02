@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.project.locateme.fragments.ViewSuggestions">
 
-    <!-- TODO: Update blank fragment layout -->
     <ListView
         android:padding="16dp"
         android:layout_width="match_parent"

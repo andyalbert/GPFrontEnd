@@ -57,7 +57,6 @@ public class ZonesAdapter extends ArrayAdapter<Event> {
         else
             holder = (ViewHolder) convertView.getTag();
         holder.zoneName.setText(areas.get(position).getLocation().getName());
-        //// TODO: 10/03/17 allow this when the images are uploaded
         if(!areas.get(position).getImageURL().equals("null"))
             Glide.with(context).load(areas.get(position).getImageURL()).into(holder.image);
         else

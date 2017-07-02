@@ -59,7 +59,7 @@ public class FriendsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case FRIEND:
                 ProfileViewHolder profileViewHolder = (ProfileViewHolder) holder;
                 profileViewHolder.name.setText(profiles.get(position).getName());
-                // holder.time.setText(profiles.get(position).get); // TODO: 1/26/2017 please fix this as soon as possible
+                // holder.time.setText(profiles.get(position).get);
                 Glide.with(context).load(profiles.get(position).getPictureURL()).into(profileViewHolder.image);
                 break;
             default:

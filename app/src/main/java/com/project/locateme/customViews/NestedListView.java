@@ -17,7 +17,7 @@ import android.widget.ListView;
 public class NestedListView extends ListView implements View.OnTouchListener, AbsListView.OnScrollListener {
 
     private int listViewTouchAction;
-    private static final int MAXIMUM_LIST_ITEMS_VIEWABLE = 99; //// TODO: 1/29/2017 careful with this
+    private static final int MAXIMUM_LIST_ITEMS_VIEWABLE = 99;
 
     public NestedListView(Context context, AttributeSet attrs) {
         super(context, attrs);

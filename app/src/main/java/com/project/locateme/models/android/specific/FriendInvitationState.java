@@ -3,7 +3,9 @@ package com.project.locateme.models.android.specific;
 import com.project.locateme.dataHolder.userManagement.Profile;
 
 /**
- * Created by andrew on 10/04/17.
+ * @version 1.0
+ * @since 10/4/2017
+ * @author andrew
  */
 
 public class FriendInvitationState {

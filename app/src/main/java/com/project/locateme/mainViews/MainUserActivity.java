@@ -65,7 +65,10 @@ public class MainUserActivity extends AppCompatActivity implements
             ((HomeFragment) mainViewsAdapter.getFragment(0)).updateMarkers();
             ((PlaceFragment) mainViewsAdapter.getFragment(1)).updateEventListViewItems();
             ((PlaceFragment) mainViewsAdapter.getFragment(1)).updatePlaceListViewItems();
-            //((Notification) mainViewsAdapter.getFragment(2)).;
+            if(preferences.getBoolean("update_noti", true)){ //only update if the don't disturb mode is not active
+                ((NotificationFragment) mainViewsAdapter.getFragment(2)).setUpdateState(NotificationFragment.UpdateState.LOADING_NEW);
+                ((NotificationFragment) mainViewsAdapter.getFragment(2)).updateNotifications();
+            }
             Log.e(MainUserActivity.this.getLocalClassName(), "update initiated");
         }
     };
@@ -167,7 +170,7 @@ public class MainUserActivity extends AppCompatActivity implements
 
     private void setViewPagerTabs() {
         viewPager.setAdapter(mainViewsAdapter);
-        viewPager.setOffscreenPageLimit(3);//// TODO: 20/03/17 make this 3 back again
+        viewPager.setOffscreenPageLimit(3);
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.mipmap.ic_home);
@@ -232,7 +235,6 @@ public class MainUserActivity extends AppCompatActivity implements
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == USER_LOCATION_REQUEST_CODE){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                //// TODO: 20/03/17 check if this can be enabled, just disabled as the 22<= apis is not invoked
 //                PackageManager pm  = MainUserActivity.this.getPackageManager();
 //                ComponentName componentName = new ComponentName(MainUserActivity.this, ProviderNetworkStateBroadcastReceiver.class);
 //                pm.setComponentEnabledSetting(componentName,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,

@@ -19,7 +19,6 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     public void updateTokenOnServer(){
-        //TODO : Send request to update the token in backend;
     }
 
 

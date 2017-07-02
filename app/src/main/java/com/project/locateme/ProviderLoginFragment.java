@@ -81,7 +81,7 @@ public class ProviderLoginFragment extends Fragment {
         Log.i("Activity rest" , "provider");
         callbackManager.onActivityResult(requestCode, resultCode, data);
         //// TODO: 08/05/17 uncomment this
-//        twitterLoginButton.onActivityResult(requestCode , resultCode , data);
+        twitterLoginButton.onActivityResult(requestCode , resultCode , data);
     }
     @Override
     public void onActivityCreated(Bundle bundle){
@@ -221,7 +221,7 @@ public class ProviderLoginFragment extends Fragment {
                         account = new Account();
                         account.setId(user.idStr);
                         account.setType("twitter");
-                        ///No Birthdate attribute //// TODO: 09/05/17 fill
+                        ///No Birthdate attribute ////
                         // Twitter API doesnt return a birthday Attr
                         //profile.setBirthday(result.data.???);
                         profile.setEmail(user.email);
@@ -268,9 +268,7 @@ public class ProviderLoginFragment extends Fragment {
                 userCall.enqueue(new Callback<User>() {
                     @Override
                     public void success(Result<User> result) {
-                        //// TODO: 08/05/17 what is the use of the following line ? , Kh : is it not clear ?
                         twitterLoginButton.setVisibility(View.GONE);
-                        //// TODO: 12/11/2016 khaled, i had to comment this cuz it break the app with the loading logo running , Kh: Its ok
 //                        Toast.makeText(getActivity(), "Successfully logged in !", Toast.LENGTH_SHORT).show();
                         checkRegistration(result.data, result.data.idStr);
                     }

@@ -28,7 +28,7 @@ public class ProviderNetworkStateBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //will only continue execution if permission is granted
-        if(!isPermissionGranted(context)) //// TODO: 20/03/17 not tested, careful !
+        if(!isPermissionGranted(context)) //// TODO: careful !
             return;
 
 

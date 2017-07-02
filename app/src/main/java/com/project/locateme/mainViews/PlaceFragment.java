@@ -142,7 +142,6 @@ public class PlaceFragment extends Fragment {
 
                             area.setId(currentObject.getString("area_id"));
                             Log.i("zone_id", area.getId());
-                            //// TODO: 10/03/17 uncomment when fixed
                             area.setImageURL(currentObject.getString("image"));
                             area.setRadius(currentObject.getDouble("redius"));
 
@@ -156,8 +155,7 @@ public class PlaceFragment extends Fragment {
                                 currentProfile = currentProfile.getJSONObject("profile");
                                 profile = new Profile();
 
-                                profile.setUserId(currentProfile.getInt("user_Id"));//// TODO: 08/03/17 string not int
-                                //// TODO: 10/03/17 uncomment
+                                profile.setUserId(currentProfile.getInt("user_Id"));
                                 profile.setPictureURL(currentProfile.getString("pictureURL"));
                                 profile.setName(currentProfile.getString("name"));
                                 profile.setFirstName(currentProfile.getString("firstName"));
@@ -213,7 +211,7 @@ public class PlaceFragment extends Fragment {
                     JSONObject mainObj = new JSONObject(response);
                     int moreExist = mainObj.getInt("moreExist"), state;
                     JSONArray array;
-                    if(mainObj.has("object"))//// TODO: 15/06/17 test this
+                    if(mainObj.has("object"))
                      array = mainObj.getJSONArray("object");
                     else
                         array = new JSONArray();

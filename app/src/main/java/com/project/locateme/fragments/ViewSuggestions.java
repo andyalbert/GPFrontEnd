@@ -94,7 +94,7 @@ public class ViewSuggestions extends Fragment {
 
     public void acceptSuggestion(String userId, String eventId , String suggId , final int index ){
         Uri uri = Uri.parse(Constants.ACCEPT_SUGGESTION).buildUpon()
-                .appendQueryParameter("userid" , sharedPreferences.getString(getString(R.string.user_id),""))//TODO : replace with userID : Admin of event(Shared Pref)
+                .appendQueryParameter("userid" , sharedPreferences.getString(getString(R.string.user_id),""))
                 .appendQueryParameter("eventid" , eventId)
                 .appendQueryParameter("suggestionid" , suggId)
                 .build();
@@ -129,7 +129,7 @@ public class ViewSuggestions extends Fragment {
     }
     public void declineSuggestion(String userId, String eventId , String suggId , final int index){
         Uri uri = Uri.parse(Constants.DECLINE_SUGGESTION).buildUpon()
-                .appendQueryParameter("userid" , sharedPreferences.getString(getString(R.string.user_id),""))//TODO : replace with userID : Admin of event(Shared Pref)
+                .appendQueryParameter("userid" , sharedPreferences.getString(getString(R.string.user_id),""))
                 .appendQueryParameter("eventid" , eventId)
                 .appendQueryParameter("suggestionid" , suggId)
                 .build();
@@ -164,7 +164,6 @@ public class ViewSuggestions extends Fragment {
     }
     public ArrayList<Suggestion> getSuggestions() {
         final ArrayList<Suggestion> list = new ArrayList<>();
-        //TODO : get suggestions from backend
         // suggestion object : User name , Date
         Uri getSuggestionsUri = Uri.parse(Constants.GET_ALL_SUGGESTION).buildUpon()
                 .appendQueryParameter("eventid", String.valueOf(eventId))
@@ -174,7 +173,6 @@ public class ViewSuggestions extends Fragment {
             @Override
             public void onResponse(String response) {
 
-                //todo :Parse Json
                 JSONArray array = null;
                 JSONObject arrayItem = null, profileJson = null;
                 Suggestion suggestionItem;

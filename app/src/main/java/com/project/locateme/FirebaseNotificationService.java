@@ -72,7 +72,6 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
 
     }
     public void handleData(JSONObject notificationData){
-        //TODO : This differs from one notification to another
         try {
             JSONObject data = notificationData.getJSONObject("data");
             String title = data.getString("title");

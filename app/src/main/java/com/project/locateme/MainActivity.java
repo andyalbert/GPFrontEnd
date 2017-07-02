@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         printHashKey(this);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         //// TODO: 08/05/17 uncomment this
-//        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
         SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_preferences_name), MODE_PRIVATE);
         if(preferences.getBoolean(getString(R.string.is_signed_in), false))
