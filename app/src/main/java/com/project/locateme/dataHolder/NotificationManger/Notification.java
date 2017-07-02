@@ -2,10 +2,12 @@ package com.project.locateme.dataHolder.NotificationManger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.project.locateme.mainViews.NotificationFragment;
+import com.project.locateme.utilities.Constants;
 
 import java.sql.Timestamp;
 
@@ -49,4 +51,5 @@ public abstract class Notification {
     }
 
     public abstract void setViewListener(NotificationFragment.ViewHolder viewHolder, Context context);
+
 }

@@ -1,12 +1,15 @@
 package com.project.locateme.dataHolder.NotificationManger;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 
+import com.android.volley.toolbox.StringRequest;
 import com.project.locateme.R;
 import com.project.locateme.mainViews.NotificationFragment;
+import com.project.locateme.utilities.Constants;
 
 /**
  * @author andrew
@@ -33,11 +36,6 @@ public class EventDeletion extends Notification {
         viewHolder.text.setText(str);
         viewHolder.time.setText(getTimestamp().toString());
         viewHolder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.image_event_large));
-        viewHolder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
     }
 }

@@ -74,6 +74,7 @@ public class NotificationFragment extends Fragment {
     private SharedPreferences preferences;
     private AtomicBoolean isCurrentlyUpdating;
     private UpdateState updateState;
+    private boolean isLoaded;
     @BindView(R.id.fragment_notification_list_view)
     ListView listView;
     @BindView(R.id.fragment_notification_swipe_refresh_layout)
@@ -92,6 +93,7 @@ public class NotificationFragment extends Fragment {
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         isCurrentlyUpdating = new AtomicBoolean(false);
         updateState = UpdateState.NOT_STARTED;
+        isLoaded = false;
 
         queue = Volley.newRequestQueue(getActivity());
         firstNotification = -1;
@@ -135,12 +137,13 @@ public class NotificationFragment extends Fragment {
     }
 
     public void updateNotifications() {
-        if(isCurrentlyUpdating.get()){
-            Toast.makeText(getActivity(), "An update is already underway, please wait", Toast.LENGTH_SHORT).show();
+        if(isCurrentlyUpdating.get() || !isLoaded){
+       //     Toast.makeText(getActivity(), "An update is already underway, please wait", Toast.LENGTH_SHORT).show();
             refreshLayout.setRefreshing(false); //in case it is the requested one
             return;
         }
 
+        isLoaded = true;
         isCurrentlyUpdating.set(true);
         final int notificationId, age;
         switch (updateState){
