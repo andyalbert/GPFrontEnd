@@ -58,10 +58,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Andrew
- * @since 25/1/2017
  * @version 2.0
+ * @since 25/1/2017
  */
-public class NotificationFragment extends Fragment {
+public class NotificationFragment extends Fragment implements AbsListView.OnScrollListener {
     private View view;
     private Unbinder unbinder;
     private int firstNotification;
@@ -79,6 +79,7 @@ public class NotificationFragment extends Fragment {
     ListView listView;
     @BindView(R.id.fragment_notification_swipe_refresh_layout)
     SwipeRefreshLayout refreshLayout;
+
 
     public enum UpdateState {
         LOADING_NEW, NOT_STARTED, LOADING_OLD
@@ -99,6 +100,7 @@ public class NotificationFragment extends Fragment {
         firstNotification = -1;
         lastNotification = -1;
 
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -107,25 +109,12 @@ public class NotificationFragment extends Fragment {
             }
         });
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if(firstVisibleItem + visibleItemCount >= totalItemCount - 3){
-                    updateState = UpdateState.LOADING_OLD;
-                    updateNotifications();
-                }
-            }
-        });
+        listView.setOnScrollListener(null);
 
         return view;
     }
 
-    public void setUpdateState(UpdateState updateState){
+    public void setUpdateState(UpdateState updateState) {
         this.updateState = updateState;
     }
 
@@ -137,16 +126,15 @@ public class NotificationFragment extends Fragment {
     }
 
     public void updateNotifications() {
-        if(isCurrentlyUpdating.get() || !isLoaded){
-       //     Toast.makeText(getActivity(), "An update is already underway, please wait", Toast.LENGTH_SHORT).show();
+        if (isCurrentlyUpdating.get()) {
+            //     Toast.makeText(getActivity(), "An update is already underway, please wait", Toast.LENGTH_SHORT).show();
             refreshLayout.setRefreshing(false); //in case it is the requested one
             return;
         }
 
-        isLoaded = true;
         isCurrentlyUpdating.set(true);
         final int notificationId, age;
-        switch (updateState){
+        switch (updateState) {
             case NOT_STARTED:
                 notificationId = -1;
                 age = 1;
@@ -166,30 +154,32 @@ public class NotificationFragment extends Fragment {
                 .appendQueryParameter("age", String.valueOf(age))
                 .build();
 
-        StringRequest request = new StringRequest(Request.Method.POST, uri.toString(), new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, uri.toString(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 ArrayList<Notification> notifications = getNotifications(response);
-                switch (updateState){
+                switch (updateState) {
                     case NOT_STARTED:
                         adapter = new NotificationAdapter(getActivity(), R.id.fragment_notification_list_view, notifications);
-                        if(notifications.size() > 0){
+                        listView.setAdapter(adapter);
+                        if (notifications.size() > 0) {
                             firstNotification = notifications.get(0).getId();
                             lastNotification = notifications.get(notifications.size() - 1).getId();
+                            listView.setOnScrollListener(NotificationFragment.this);
                         }
                         break;
                     case LOADING_OLD: // checking if there are old ones
                         adapter.addAll(notifications);
                         adapter.notifyDataSetInvalidated();
-                        if(notifications.size() > 0)
+                        if (notifications.size() > 0)
                             lastNotification = notifications.get(notifications.size() - 1).getId();
                         break;
                     default:
                         int firstItemFromTop = listView.getFirstVisiblePosition() + notifications.size();
-                        for(int i = notifications.size() - 1; i >= 0;i--)
+                        for (int i = notifications.size() - 1; i >= 0; i--)
                             adapter.insert(notifications.get(i), 0);
                         listView.setSelectionFromTop(firstItemFromTop, 0);
-                        if(notifications.size() > 0)
+                        if (notifications.size() > 0)
                             firstNotification = notifications.get(0).getId();
                 }
 
@@ -211,12 +201,12 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(queue != null)
+        if (queue != null)
             queue.cancelAll(VOLLEY_TAG);
         unbinder.unbind();
     }
 
-    private class NotificationAdapter extends ArrayAdapter<Notification>{
+    private class NotificationAdapter extends ArrayAdapter<Notification> {
         private ArrayList<Notification> notifications;
         private Context context;
 
@@ -233,8 +223,8 @@ public class NotificationFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
-                convertView = ((Activity)context).getLayoutInflater().inflate(R.layout.list_item_notification, null);
+            if (convertView == null) {
+                convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_item_notification, null);
                 convertView.setTag(new ViewHolder(convertView));
             }
             notifications.get(position).setViewListener((ViewHolder) convertView.getTag(), context);
@@ -243,7 +233,8 @@ public class NotificationFragment extends Fragment {
         }
 
     }
-    public class ViewHolder{
+
+    public class ViewHolder {
         @BindView(R.id.list_item_notification)
         public LinearLayout layout;
         @BindView(R.id.list_item_notification_image)
@@ -253,42 +244,42 @@ public class NotificationFragment extends Fragment {
         @BindView(R.id.list_item_notification_time)
         public TextView time;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
 
-    private ArrayList<Notification> getNotifications(String response){
+    private ArrayList<Notification> getNotifications(String response) {
         ArrayList<Notification> notifications = new ArrayList<>();
-        try{
+        try {
             JSONObject mainObject = new JSONObject(response);
             JSONArray array = mainObject.getJSONArray("notifications");
 
             /*{owner_id, timestamp, target = {}, read}*/
-            for(int i = 0;array != null && array.length() < i;i++){
+            for (int i = 0;i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
                 JSONObject targetObject = object.getJSONObject("target");
                 Notification notification;
                 String type = object.getString("type");
 
-                if(type.equals(NotificationType.ACCEPTED_FRIEND_REQUEST.toString())){
+                if (type.equals(NotificationType.ACCEPTED_FRIEND_REQUEST.toString())) {
                     notification = new AcceptFriend();
                     ((AcceptFriend) notification).setSenderProfile(profileParser(targetObject));
-                } else if(type.equals(NotificationType.FRIEND_REQUEST.toString())){
+                } else if (type.equals(NotificationType.FRIEND_REQUEST.toString())) {
                     notification = new FriendRequest();
                     ((FriendRequest) notification).setSenderProfile(profileParser(targetObject));
-                } else if(type.equals(NotificationType.AREA_ENTERED.toString())){
+                } else if (type.equals(NotificationType.AREA_ENTERED.toString())) {
                     notification = new EnterArea();
                     ((EnterArea) notification).setPersonName(targetObject.getString("personName"));
                     ((EnterArea) notification).setArea(areaParser(targetObject));
-                } else if(type.equals(NotificationType.AREA_LEFT.toString())) {
+                } else if (type.equals(NotificationType.AREA_LEFT.toString())) {
                     notification = new LeaveArea();
                     ((LeaveArea) notification).setPersonName(targetObject.getString("personName"));
                     ((LeaveArea) notification).setArea(areaParser(targetObject));
-                } else if(type.equals(NotificationType.EVENT_DELETION.toString())){
+                } else if (type.equals(NotificationType.EVENT_DELETION.toString())) {
                     notification = new EventDeletion();
                     ((EventDeletion) notification).setEventName(targetObject.getString("eventName"));
-                } else if(type.equals(NotificationType.EVENT_EDITING.toString())) {
+                } else if (type.equals(NotificationType.EVENT_EDITING.toString())) {
                     notification = new EventEditing();
                     ((EventEditing) notification).setEvent(eventParser(targetObject, notification, EVENT_EDITING));
                     ((EventEditing) notification).setSuggestion(suggestionParser(targetObject));
@@ -297,11 +288,11 @@ public class NotificationFragment extends Fragment {
                     ((EventInvitation) notification).setEvent(eventParser(targetObject, notification, EVENT_INVITATION));
                 }
                 notification.setId(object.getInt("id"));
-                notification.setRead(targetObject.getBoolean("read"));
+                notification.setRead(object.getBoolean("read"));
                 notification.setTimestamp(new Timestamp(object.getLong("timestamp")));
                 notifications.add(notification);
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return notifications;
@@ -309,7 +300,7 @@ public class NotificationFragment extends Fragment {
 
     private Event eventParser(JSONObject object, Notification notification, int type) {
         Event event = new Event();
-        try{
+        try {
             event.setId(object.getString("event_id"));
             event.setName(object.getString("name"));
             event.setDescription(object.getString("description"));
@@ -320,7 +311,7 @@ public class NotificationFragment extends Fragment {
             Area area = new Area();
             JSONObject tempObject = object.getJSONObject("area");
             area.setId(tempObject.getString("area_id"));
-            area.setRadius(tempObject.getDouble("redius"));
+            area.setRadius(tempObject.getDouble("radius"));
             area.setImageURL(tempObject.getString("image"));
 
             tempObject = tempObject.getJSONObject("location");
@@ -333,18 +324,18 @@ public class NotificationFragment extends Fragment {
             area.setLocation(location);
             event.setArea(area);
 
-            int userState = object.getInt("userStatus");
-            if(userState == 1){
-                if(type == EVENT_EDITING)
+            int userState = object.getInt("eventStatus");
+            if (userState == 1) {
+                if (type == EVENT_EDITING)
                     ((EventEditing) notification).setUserState(EventFragment.UserState.INVITED);
                 else
                     ((EventInvitation) notification).setUserState(EventFragment.UserState.INVITED);
-            } else if(userState == 2){
-                if(type == EVENT_EDITING)
+            } else if (userState == 2) {
+                if (type == EVENT_EDITING)
                     ((EventEditing) notification).setUserState(EventFragment.UserState.PARTICIPANT);
                 else
                     ((EventInvitation) notification).setUserState(EventFragment.UserState.PARTICIPANT);
-            } else{
+            } else {
 //                if(type == EVENT_EDITING)
 //                    ((EventEditing) notification).setUserState(EventFragment.UserState.OWNER);
 //                else
@@ -352,7 +343,7 @@ public class NotificationFragment extends Fragment {
             }
 
 
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return event;
@@ -360,9 +351,9 @@ public class NotificationFragment extends Fragment {
 
     private Suggestion suggestionParser(JSONObject object) {
         Suggestion suggestion = new Suggestion();
-        try{
+        try {
             suggestion.setDate(General.convertStringToTimestamp(object.getString("data")));
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return suggestion;
@@ -370,7 +361,7 @@ public class NotificationFragment extends Fragment {
 
     private Area areaParser(JSONObject object) {
         Area area = new Area();
-        try{
+        try {
             area.setId(object.getString("area_id"));
             area.setRadius(object.getDouble("redius"));
             area.setImageURL(object.getString("image"));
@@ -383,7 +374,7 @@ public class NotificationFragment extends Fragment {
 
             JSONArray usersArray = object.getJSONArray("users");
             ArrayList<Profile> users = new ArrayList<>();
-            for(int i = 0;i < usersArray.length();i++){
+            for (int i = 0; i < usersArray.length(); i++) {
                 JSONObject tempObject = usersArray.getJSONObject(i);
                 Profile profile = new Profile();
                 profile.setUserId(tempObject.getInt("user_Id"));
@@ -397,7 +388,7 @@ public class NotificationFragment extends Fragment {
                 users.add(profile);
             }
             area.setAccounts(users);
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return area;
@@ -405,7 +396,7 @@ public class NotificationFragment extends Fragment {
 
     private Profile profileParser(JSONObject object) {
         Profile profile = new Profile();
-        try{
+        try {
             profile.setFirstName(object.getString("firstName"));
             profile.setLastName(object.getString("lastName"));
             profile.setEmail(object.getString("email"));
@@ -416,19 +407,33 @@ public class NotificationFragment extends Fragment {
             profile.setUserId(object.getInt("userId"));
 
             String state = object.getString("state");
-            if(state.equals("FRIEND"))
+            if (state.equals("FRIEND"))
                 profile.setState(Profile.FriendShipState.FRIEND);
-            else if(state.equals("NOT_FRIEND"))
+            else if (state.equals("NOT_FRIEND"))
                 profile.setState(Profile.FriendShipState.NOT_FRIEND);
-            else if(state.equals("PENDING_REQUEST"))
+            else if (state.equals("PENDING_REQUEST"))
                 profile.setState(Profile.FriendShipState.PENDING_REQUEST);
-            else if(state.equals("ADD_REQUEST"))
+            else if (state.equals("ADD_REQUEST"))
                 profile.setState(Profile.FriendShipState.ADD_REQUEST);
             else
                 profile.setState(Profile.FriendShipState.NONE);
-        } catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return profile;
     }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (firstVisibleItem + visibleItemCount >= totalItemCount - 3) {
+            updateState = UpdateState.LOADING_OLD;
+            updateNotifications();
+        }
+    }
+
 }
