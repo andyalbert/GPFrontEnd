@@ -148,18 +148,27 @@ public class EventParticipantsLocationFragment extends Fragment implements OnMap
                         Glide.with(getActivity())
                                 .load(profile.getPictureURL())
                                 .placeholder(getContext().getResources().getDrawable(R.mipmap.ic_profile_original))
-                                .into(new GlideDrawableImageViewTarget(userProfileImageView){
-                                    @Override
-                                    protected void setResource(GlideDrawable resource) {
-                                        super.setResource(resource);
-                                        Bitmap bitmap = General.loadBitmapFromView(myView);
+                                .into((ImageView) myView.findViewById(R.id.map_marker_user_image));
+//                                .into(new GlideDrawableImageViewTarget(userProfileImageView){
+//                                    @Override
+//                                    protected void setResource(GlideDrawable resource) {
+//                                        super.setResource(resource);
+//                                        Bitmap bitmap = General.loadBitmapFromView(myView);
+//
+//                                        map.addMarker(new MarkerOptions()
+//                                                .position(new LatLng(lat, lon))
+//                                                .title(profile.getName())
+//                                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))).setTag(profile);
+//                                    }
+//                                });
 
-                                        map.addMarker(new MarkerOptions()
-                                                .position(new LatLng(lat, lon))
-                                                .title(profile.getName())
-                                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))).setTag(profile);
-                                    }
-                                });
+                        Bitmap bitmap = General.loadBitmapFromView(myView);
+
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(lat, lon))
+                                .title(profile.getName())
+                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))).setTag(profile);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -202,19 +202,25 @@ public class ViewZoneFragment extends Fragment implements OnMapReadyCallback, Go
 
             Glide.with(getActivity())
                     .load(profile.getPictureURL())
-
-                    .into(new GlideDrawableImageViewTarget(userProfileImageView) {
-                        @Override
-                        protected void setResource(GlideDrawable resource) {
-                            super.setResource(resource);
-
-                            Bitmap bitmap = General.loadBitmapFromView(myView);
-                            map.addMarker(new MarkerOptions()
-                                    .position(latLng)
-                                    .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                            ).setTag(profile);
-                        }
-                    });
+                    .placeholder(getContext().getResources().getDrawable(R.mipmap.ic_profile_original))
+                    .into((ImageView)myView.findViewById(R.id.map_marker_user_image));
+//                    .into(new GlideDrawableImageViewTarget(userProfileImageView) {
+//                        @Override
+//                        protected void setResource(GlideDrawable resource) {
+//                            super.setResource(resource);
+//
+//                            Bitmap bitmap = General.loadBitmapFromView(myView);
+//                            map.addMarker(new MarkerOptions()
+//                                    .position(latLng)
+//                                    .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+//                            ).setTag(profile);
+//                        }
+//                    });
+            Bitmap bitmap = General.loadBitmapFromView(myView);
+            map.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+            ).setTag(profile);
 
         }
 
