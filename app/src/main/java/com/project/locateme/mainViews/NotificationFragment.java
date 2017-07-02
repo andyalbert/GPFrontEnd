@@ -96,9 +96,12 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         updateState = UpdateState.NOT_STARTED;
         isLoaded = false;
 
-        queue = Volley.newRequestQueue(getActivity());
+
         firstNotification = -1;
         lastNotification = -1;
+        queue = Volley.newRequestQueue(getActivity());
+        updateState = UpdateState.NOT_STARTED;
+        updateNotifications();
 
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -118,12 +121,6 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         this.updateState = updateState;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateState = UpdateState.NOT_STARTED;
-        updateNotifications();
-    }
 
     public void updateNotifications() {
         if (isCurrentlyUpdating.get()) {
@@ -363,7 +360,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         Area area = new Area();
         try {
             area.setId(object.getString("area_id"));
-            area.setRadius(object.getDouble("redius"));
+            area.setRadius(object.getDouble("radius"));
             area.setImageURL(object.getString("image"));
 
             Location location = new Location();
@@ -377,7 +374,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             for (int i = 0; i < usersArray.length(); i++) {
                 JSONObject tempObject = usersArray.getJSONObject(i);
                 Profile profile = new Profile();
-                profile.setUserId(tempObject.getInt("user_Id"));
+                profile.setUserId(tempObject.getInt("id"));
                 profile.setFirstName(tempObject.getString("firstName"));
                 profile.setLastName(tempObject.getString("lastName"));
                 profile.setEmail(tempObject.getString("email"));
@@ -401,19 +398,19 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             profile.setLastName(object.getString("lastName"));
             profile.setEmail(object.getString("email"));
             profile.setHomeTown(object.getString("homeTown"));
-            profile.setName(object.getString("name"));
+            profile.setName(profile.getFirstName() + " " + profile.getLastName());
             profile.setBirthday(object.getString("birthday"));
             profile.setPictureURL(object.getString("pictureURL"));
-            profile.setUserId(object.getInt("userId"));
+            profile.setUserId(object.getInt("id"));
 
-            String state = object.getString("state");
-            if (state.equals("FRIEND"))
+            String state = object.getString("friendState");
+            if (state.equals("1"))
                 profile.setState(Profile.FriendShipState.FRIEND);
-            else if (state.equals("NOT_FRIEND"))
+            else if (state.equals("2"))
                 profile.setState(Profile.FriendShipState.NOT_FRIEND);
-            else if (state.equals("PENDING_REQUEST"))
+            else if (state.equals("3"))
                 profile.setState(Profile.FriendShipState.PENDING_REQUEST);
-            else if (state.equals("ADD_REQUEST"))
+            else if (state.equals("4"))
                 profile.setState(Profile.FriendShipState.ADD_REQUEST);
             else
                 profile.setState(Profile.FriendShipState.NONE);
