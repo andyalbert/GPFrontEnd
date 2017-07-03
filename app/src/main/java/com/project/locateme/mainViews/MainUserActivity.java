@@ -62,6 +62,8 @@ public class MainUserActivity extends AppCompatActivity implements
     private BroadcastReceiver Updater = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if(mainViewsAdapter.getCount() <= 0)
+                return;
             ((HomeFragment) mainViewsAdapter.getFragment(0)).updateMarkers();
             ((PlaceFragment) mainViewsAdapter.getFragment(1)).updateEventListViewItems();
             ((PlaceFragment) mainViewsAdapter.getFragment(1)).updatePlaceListViewItems();

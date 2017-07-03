@@ -296,7 +296,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
                 }
                 notification.setId(object.getInt("id"));
                 notification.setRead(object.getBoolean("read"));
-                notification.setTimestamp(new Timestamp(object.getLong("timestamp")));
+                notification.setTimestamp(new Timestamp(object.getLong("timestamp") + 64800000));
                 notifications.add(notification);
             }
         } catch (JSONException e) {
