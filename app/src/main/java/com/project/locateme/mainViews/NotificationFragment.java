@@ -75,8 +75,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
     private SharedPreferences preferences;
     private AtomicBoolean isCurrentlyUpdating;
     private UpdateState updateState;
-    private boolean isLoaded;
-    private int lastFirstItemFromTop;
+    private boolean isOldAvailable;
     @BindView(R.id.fragment_notification_list_view)
     ListView listView;
     @BindView(R.id.fragment_notification_swipe_refresh_layout)
@@ -96,8 +95,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
         preferences = getActivity().getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         isCurrentlyUpdating = new AtomicBoolean(false);
         updateState = UpdateState.NOT_STARTED;
-        isLoaded = false;
-        lastFirstItemFromTop = 0;
+        isOldAvailable = true;
 
         firstNotification = -1;
         lastNotification = -1;
@@ -169,14 +167,18 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
                         break;
                     case LOADING_OLD: // checking if there are old ones
                         adapter.addAll(notifications);
-                        adapter.notifyDataSetInvalidated();
+                        adapter.notifyDataSetChanged();
                         if (notifications.size() > 0)
                             lastNotification = notifications.get(notifications.size() - 1).getId();
+                        if(notifications.size() < 10)
+                            isOldAvailable = false;
                         break;
                     default:
                         int firstItemFromTop = listView.getFirstVisiblePosition() + notifications.size();
-                        for (int i = notifications.size() - 1; i >= 0; i--)
-                            adapter.insert(notifications.get(i), 0);
+//                        for (int i = notifications.size() - 1; i >= 0; i--)
+//                            adapter.insert(notifications.get(i), 0);
+                        adapter.addToTop(notifications);
+                        adapter.notifyDataSetChanged();
                         listView.setSelectionFromTop(firstItemFromTop, 0);
                         if (notifications.size() > 0)
                             firstNotification = notifications.get(0).getId();
@@ -230,7 +232,13 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
 
             return convertView;
         }
-
+        void addAll(ArrayList<Notification> notifications){
+            this.notifications.addAll(notifications);
+        }
+        void addToTop(ArrayList<Notification> notifications) {
+            for(int i = notifications.size() - 1;i >= 0;i--)
+                this.notifications.add(0, notifications.get(i));
+        }
     }
 
     public class ViewHolder {
@@ -372,6 +380,8 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
             location.setLatitude(loc.getDouble("latitude"));
             location.setName(loc.getString("name"));
 
+            area.setLocation(location);
+
             JSONArray usersArray = object.getJSONArray("users");
             ArrayList<Profile> users = new ArrayList<>();
             for (int i = 0; i < usersArray.length(); i++) {
@@ -411,9 +421,9 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
                 profile.setState(Profile.FriendShipState.FRIEND);
             else if (state.equals("4"))
                 profile.setState(Profile.FriendShipState.NOT_FRIEND);
-            else if (state.equals("2"))
-                profile.setState(Profile.FriendShipState.PENDING_REQUEST);
             else if (state.equals("3"))
+                profile.setState(Profile.FriendShipState.PENDING_REQUEST);
+            else if (state.equals("2"))
                 profile.setState(Profile.FriendShipState.ADD_REQUEST);
             else
                 profile.setState(Profile.FriendShipState.NONE);
@@ -430,8 +440,7 @@ public class NotificationFragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (firstVisibleItem > lastFirstItemFromTop && firstVisibleItem + visibleItemCount >= totalItemCount - 3) {
-            lastFirstItemFromTop = firstVisibleItem;
+        if (isOldAvailable && firstVisibleItem + visibleItemCount >= totalItemCount - 3) {
             updateState = UpdateState.LOADING_OLD;
             updateNotifications();
         }

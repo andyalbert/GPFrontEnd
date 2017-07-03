@@ -170,6 +170,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
                     Glide.with(getActivity().getApplicationContext())
                             .load(profile.getPictureURL())
+                            .placeholder(getActivity().getResources().getDrawable(R.mipmap.ic_profile_original))
                             .into((ImageView)ButterKnife.findById(myView, R.id.map_marker_user_image));
 
                         bitmap = General.loadBitmapFromView(myView);
